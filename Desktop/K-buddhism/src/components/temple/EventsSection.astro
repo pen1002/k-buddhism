@@ -1,51 +1,51 @@
 ---
-// src/components/temple/EventsSection.astro — 법회·행사 (사찰소개 위)
+// src/components/temple/EventsSection.astro — 공지사항 (법회·행사)
 import type { TempleData } from '../../content/config';
 interface Props { d: TempleData; }
 const { d } = Astro.props;
 const evs = d.events ?? [];
-const cats = ['all','monthly','seasonal','special'] as const;
 ---
 
-<section id="events" style="background:var(--bg,#FDFAF4);padding:5rem 0 5.5rem;scroll-margin-top:64px;" aria-labelledby="ev-ttl">
+<section id="events" class="ev-sec" aria-labelledby="ev-ttl">
 
   <!-- 단청 빨강 헤더 -->
-  <div style="background:linear-gradient(135deg,#C8372D 0%,#9C1F18 100%);padding:3rem 1.4rem 2.5rem;text-align:center;margin-bottom:3rem;position:relative;overflow:hidden;">
-    <div aria-hidden="true" style="position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(255,255,255,.08) 0%,transparent 60%),radial-gradient(circle at 80% 50%,rgba(240,168,48,.15) 0%,transparent 50%);"></div>
-    <div style="position:relative;z-index:1;">
-      <span style="font-family:var(--font,serif);font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;font-style:italic;color:rgba(255,255,255,.6);">ceremony &amp; events</span>
-      <h2 id="ev-ttl" style="font-family:var(--font,serif);font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;color:#fff;letter-spacing:.08em;margin-top:.3rem;">법회 · 주요 행사 안내</h2>
-      <p style="font-family:var(--font,serif);font-size:.82rem;letter-spacing:.08em;color:rgba(255,255,255,.75);margin-top:.5rem;">매달 최신 법회 및 행사 일정을 안내드립니다</p>
+  <div class="ev-header">
+    <div class="ev-inner">
+      <span class="ev-en">notice &amp; events</span>
+      <h2 id="ev-ttl" class="ev-title">공지사항 · 법회 행사</h2>
+      <p class="ev-desc">법회 및 주요 행사 일정을 안내드립니다</p>
     </div>
   </div>
 
   <!-- 티커 바 -->
-  <div style="background:#C8372D;padding:.55rem 0;overflow:hidden;margin-bottom:2.5rem;">
-    <div style="display:flex;align-items:center;gap:1.25rem;padding:0 1.4rem;">
-      <span style="flex-shrink:0;font-family:var(--font,serif);font-size:.68rem;letter-spacing:.2em;color:#fff;padding-right:1rem;border-right:1px solid rgba(255,255,255,.4);white-space:nowrap;">📅 주요 행사</span>
-      <div style="overflow:hidden;flex:1;min-width:0;">
-        <div class="ticker-t" style="display:inline-flex;gap:3.5rem;white-space:nowrap;animation:tick 38s linear infinite;">
-          {[...evs,...evs].map(ev=>(
-            <span style="display:inline-flex;align-items:center;gap:.55rem;font-family:var(--font,serif);font-size:.78rem;color:rgba(255,255,255,.85);">
-              {(ev.schedule||ev.time) && <span style="font-style:italic;color:rgba(255,255,255,.55);">{ev.schedule??ev.time}</span>}
-              <span>{ev.name}</span>
-            </span>
-          ))}
+  {evs.length > 0 && (
+    <div class="ticker-wrap">
+      <div class="ticker-inner">
+        <span class="ticker-lbl">📅 최신 공지</span>
+        <div class="ticker-scroll">
+          <div class="ticker-t">
+            {[...evs,...evs].map(ev=>(
+              <span class="ticker-item">
+                {(ev.schedule||ev.time) && <span class="ticker-dt">{ev.schedule??ev.time}</span>}
+                <span>{ev.name}</span>
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  )}
 
   <div class="w">
-    <!-- 탭 -->
-    <div style="display:flex;gap:.5rem;margin-bottom:2rem;flex-wrap:wrap;">
+    <!-- 탭 필터 -->
+    <div class="ev-tabs">
       <button class="ev-tab on" onclick="filterEv(this,'all')">전체</button>
       <button class="ev-tab" onclick="filterEv(this,'monthly')">월정기</button>
       <button class="ev-tab" onclick="filterEv(this,'seasonal')">계절·기도</button>
       <button class="ev-tab" onclick="filterEv(this,'special')">특별행사</button>
     </div>
 
-    <!-- 카드 그리드 -->
+    <!-- 공지사항 카드 그리드 -->
     <div class="ev-grid">
       {evs.length > 0 ? evs.map((ev, i) => (
         <div class="ev-card" data-cat={ev.category ?? 'monthly'}>
@@ -55,54 +55,70 @@ const cats = ['all','monthly','seasonal','special'] as const;
           {ev.location && <p class="ev-loc">📍 {ev.location}</p>}
         </div>
       )) : (
-        <p style="font-family:var(--font,serif);font-size:.9rem;color:var(--ink-3,#6B5340);grid-column:1/-1;">
-          법회 일정을 등록하시면 이곳에 표시됩니다.
-        </p>
+        <p class="ev-empty">공지사항을 등록하시면 이곳에 표시됩니다.</p>
       )}
     </div>
   </div>
 </section>
 
 <style>
-  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .ticker-t:hover { animation-play-state:paused; }
+  .ev-sec { background:var(--bg,#FDFAF4);padding:5rem 0 5.5rem;scroll-margin-top:64px; }
 
-  .ev-grid {
-    display:grid;gap:1rem;grid-template-columns:1fr;
+  .ev-header {
+    background:linear-gradient(135deg,#C8372D 0%,#9C1F18 100%);
+    padding:2.5rem 1.4rem 2rem;text-align:center;margin-bottom:2.5rem;
+    position:relative;overflow:hidden;
   }
-  @media(min-width:640px)  { .ev-grid { grid-template-columns:repeat(2,1fr); } }
-  @media(min-width:1024px) { .ev-grid { grid-template-columns:repeat(4,1fr); } }
+  .ev-header::before {
+    content:'';position:absolute;inset:0;
+    background-image:radial-gradient(circle at 20% 50%,rgba(255,255,255,.08) 0%,transparent 60%),
+                     radial-gradient(circle at 80% 50%,rgba(240,168,48,.15) 0%,transparent 50%);
+  }
+  .ev-inner { position:relative;z-index:1; }
+  .ev-en    { font-family:var(--font,serif);font-size:.62rem;letter-spacing:.32em;text-transform:uppercase;font-style:italic;color:rgba(255,255,255,.6); }
+  .ev-title { font-family:var(--font,serif);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#fff;letter-spacing:.08em;margin-top:.3rem; }
+  .ev-desc  { font-family:var(--font,serif);font-size:.8rem;letter-spacing:.08em;color:rgba(255,255,255,.7);margin-top:.4rem; }
+
+  /* 티커 */
+  .ticker-wrap  { background:#C8372D;padding:.5rem 0;overflow:hidden;margin-bottom:2rem; }
+  .ticker-inner { display:flex;align-items:center;gap:1rem;padding:0 1.4rem; }
+  .ticker-lbl   { flex-shrink:0;font-family:var(--font,serif);font-size:.68rem;letter-spacing:.2em;color:#fff;padding-right:1rem;border-right:1px solid rgba(255,255,255,.35);white-space:nowrap; }
+  .ticker-scroll{ overflow:hidden;flex:1;min-width:0; }
+  .ticker-t     { display:inline-flex;gap:3rem;white-space:nowrap;animation:tick 40s linear infinite; }
+  .ticker-t:hover{ animation-play-state:paused; }
+  .ticker-item  { display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font,serif);font-size:.76rem;color:rgba(255,255,255,.85); }
+  .ticker-dt    { font-style:italic;color:rgba(255,255,255,.5); }
+  @keyframes tick { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* 탭 */
+  .ev-tabs { display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap; }
+  .ev-tab  { padding:.4rem 1rem;font-family:var(--font,serif);font-size:.72rem;letter-spacing:.1em;border:1.5px solid rgba(200,55,45,.25);color:var(--ink-3,#6B5340);cursor:pointer;transition:all .2s;background:#fff; }
+  .ev-tab:hover,.ev-tab.on { background:#C8372D;color:#fff;border-color:#C8372D; }
+
+  /* 카드 그리드 */
+  .ev-grid { display:grid;gap:1rem;grid-template-columns:1fr; }
+  @media(min-width:540px)  { .ev-grid{grid-template-columns:repeat(2,1fr)} }
+  @media(min-width:1024px) { .ev-grid{grid-template-columns:repeat(4,1fr)} }
 
   .ev-card {
-    background:#fff;border-top:4px solid var(--dan,#C8372D);
-    padding:1.5rem 1.4rem;box-shadow:0 2px 12px rgba(26,18,10,.07);
+    background:#fff;border-top:4px solid #C8372D;
+    padding:1.4rem 1.3rem;box-shadow:0 2px 12px rgba(26,18,10,.07);
     transition:transform .2s,box-shadow .2s;
   }
   .ev-card:hover { transform:translateY(-3px);box-shadow:0 8px 24px rgba(26,18,10,.12); }
-  .ev-card:nth-child(4n+2) { border-top-color:var(--chung,#2B5BA8); }
-  .ev-card:nth-child(4n+3) { border-top-color:var(--nok,#3A7D44); }
-  .ev-card:nth-child(4n+4) { border-top-color:var(--hwang,#D4820A); }
+  .ev-card:nth-child(4n+2){border-top-color:#2B5BA8}
+  .ev-card:nth-child(4n+3){border-top-color:#3A7D44}
+  .ev-card:nth-child(4n+4){border-top-color:#D4820A}
 
-  .ev-date {
-    display:inline-block;padding:.15rem .6rem;
-    font-family:var(--font,serif);font-size:.65rem;letter-spacing:.14em;
-    background:var(--dan-bg,#FDE8E6);color:var(--dan,#C8372D);margin-bottom:.7rem;
-  }
-  .ev-date.c2 { background:var(--chung-bg,#E6EEF8);color:var(--chung,#2B5BA8); }
-  .ev-date.c3 { background:var(--nok-bg,#E6F3E8);color:var(--nok,#3A7D44); }
-  .ev-date.c4 { background:var(--hwang-bg,#FEF3DC);color:var(--hwang,#D4820A); }
+  .ev-date { display:inline-block;padding:.13rem .55rem;font-family:var(--font,serif);font-size:.64rem;letter-spacing:.12em;background:#FDE8E6;color:#C8372D;margin-bottom:.65rem; }
+  .ev-date.c2{background:#E6EEF8;color:#2B5BA8}
+  .ev-date.c3{background:#E6F3E8;color:#3A7D44}
+  .ev-date.c4{background:#FEF3DC;color:#D4820A}
 
-  .ev-name { font-family:var(--font,serif);font-size:1.05rem;font-weight:700;color:var(--ink,#1A120A);line-height:1.5;letter-spacing:.04em;margin-bottom:.5rem; }
-  .ev-note { font-family:var(--font,serif);font-size:.76rem;color:var(--ink-3,#6B5340);line-height:1.8;letter-spacing:.03em; }
-  .ev-loc  { font-family:var(--font,serif);font-size:.72rem;color:var(--ink-4,#9C7E65);margin-top:.3rem; }
-
-  .ev-tab {
-    padding:.42rem 1.15rem;
-    font-family:var(--font,serif);font-size:.72rem;letter-spacing:.1em;
-    border:1.5px solid rgba(200,55,45,.25);color:var(--ink-3,#6B5340);
-    cursor:pointer;transition:all .2s;background:#fff;
-  }
-  .ev-tab:hover,.ev-tab.on { background:var(--dan,#C8372D);color:#fff;border-color:var(--dan,#C8372D); }
+  .ev-name  { font-family:var(--font,serif);font-size:1rem;font-weight:700;color:var(--ink,#1A120A);line-height:1.55;letter-spacing:.04em;margin-bottom:.45rem; }
+  .ev-note  { font-family:var(--font,serif);font-size:.75rem;color:var(--ink-3,#6B5340);line-height:1.8;letter-spacing:.03em; }
+  .ev-loc   { font-family:var(--font,serif);font-size:.7rem;color:var(--ink-4,#9C7E65);margin-top:.3rem; }
+  .ev-empty { font-family:var(--font,serif);font-size:.9rem;color:var(--ink-3,#6B5340);grid-column:1/-1; }
 </style>
 
 <script>

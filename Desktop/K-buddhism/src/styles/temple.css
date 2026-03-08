@@ -89,3 +89,17 @@ p   { word-break: keep-all; overflow-wrap: break-word; }
   height: 4px;
   background: linear-gradient(to right, var(--dan), var(--hwang-lt), var(--nok), var(--chung), var(--dan));
 }
+
+/* ── 모바일 전역 overflow 방지 ── */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+section, header, footer, main, div {
+  max-width: 100%;
+}
+/* 모바일 폰트 가독성 */
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  .w   { padding: 0 1rem; }
+}

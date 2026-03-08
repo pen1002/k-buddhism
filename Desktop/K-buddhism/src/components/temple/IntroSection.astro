@@ -1,57 +1,59 @@
 ---
-// src/components/temple/IntroSection.astro — 사찰소개 v2
+// src/components/temple/IntroSection.astro — 모바일 완전 대응 v3
 import type { TempleData } from '../../content/config';
 interface Props { d: TempleData; Content: any; }
 const { d, Content } = Astro.props;
 const hasHistory = Array.isArray(d.history) && d.history.length > 0;
 ---
 
-<section id="intro" style="background:var(--bg2,#F5EFE0);padding:5.5rem 0 6rem;scroll-margin-top:64px;" aria-labelledby="intro-ttl">
+<section id="intro" class="intro-sec" aria-labelledby="intro-ttl">
   <div class="w">
-    <span class="sec-en" style="color:var(--chung,#2B5BA8);">about the temple</span>
-    <h2 id="intro-ttl" class="sec-h2" style="font-size:clamp(2rem,4.5vw,3rem);margin-top:.3rem;">사찰소개</h2>
+    <span class="sec-en" style="color:#2B5BA8;">about the temple</span>
+    <h2 id="intro-ttl" class="sec-h2 intro-h2">사찰소개</h2>
     <div class="dc-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span></div>
 
     <div class="i-grid">
-      <!-- 좌 -->
-      <div>
-        <!-- 주지스님 인사말 -->
+
+      <!-- 좌: 인사말 + 소개 -->
+      <div class="i-left">
+
         {d.greeting && (
-          <div style="margin-bottom:2rem;">
-            <h3 class="sub-h3" style="color:var(--dan,#C8372D);">주지스님 인사말</h3>
+          <div class="block-wrap">
+            <h3 class="sub-h3" style="color:#C8372D;">주지스님 인사말</h3>
             <div class="greeting">
-              <p>{d.greeting}</p>
+              <p class="greeting-txt">{d.greeting}</p>
               {d.greeting_sig && <div class="g-sig">— {d.greeting_sig}</div>}
             </div>
           </div>
         )}
 
-        <!-- 사찰 소개 본문 -->
-        <h3 class="sub-h3" style="color:var(--ink,#1A120A);">천관사 소개</h3>
-        {d.description && <p class="desc-p">{d.description}</p>}
-        <div class="prose-p"><Content /></div>
+        <div class="block-wrap">
+          <h3 class="sub-h3" style="color:#1A120A;">사찰 소개</h3>
+          {d.description && <p class="desc-p">{d.description}</p>}
+          <div class="prose-p"><Content /></div>
+        </div>
 
         {d.buildings && (
-          <div style="overflow-x:auto;scrollbar-width:none;margin-top:2rem;">
-            <span style="display:inline-flex;align-items:center;padding:.6rem 1.2rem;background:#fff;border:1.5px solid rgba(200,55,45,.25);font-family:var(--font,serif);font-size:.78rem;letter-spacing:.08em;color:var(--dan,#C8372D);white-space:nowrap;">
-              {d.buildings}
-            </span>
+          <div class="buildings-wrap">
+            <span class="buildings-txt">{d.buildings}</span>
           </div>
         )}
       </div>
 
       <!-- 우: 연혁 -->
       {hasHistory && (
-        <div class="hist-box">
-          <h3 class="sub-h3 hist-ttl">연혁</h3>
-          <ul style="list-style:none;">
-            {d.history!.map(h => (
-              <li class="hist-li">
-                <span class="hist-yr">{h.year}</span>
-                <span class="hist-ev">{h.event}</span>
-              </li>
-            ))}
-          </ul>
+        <div class="i-right">
+          <div class="hist-box">
+            <h3 class="sub-h3 hist-ttl">연혁</h3>
+            <ul class="hist-list">
+              {d.history!.map(h => (
+                <li class="hist-li">
+                  <span class="hist-yr">{h.year}</span>
+                  <span class="hist-ev">{h.event}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>
@@ -59,55 +61,94 @@ const hasHistory = Array.isArray(d.history) && d.history.length > 0;
 </section>
 
 <style>
-  .i-grid { display:grid;gap:3rem;grid-template-columns:1fr; }
-  @media(min-width:1024px) { .i-grid { grid-template-columns:1fr 420px;gap:4rem;align-items:start; } }
+  .intro-sec { background:var(--bg2,#F5EFE0);padding:5.5rem 0 6rem;scroll-margin-top:64px; }
+  .intro-h2  { font-size:clamp(2rem,4.5vw,3rem);margin-top:.3rem; }
+
+  .i-grid {
+    display:grid;gap:3rem;grid-template-columns:1fr;
+  }
+  @media(min-width:1024px) {
+    .i-grid { grid-template-columns:1fr 380px;gap:4rem;align-items:start; }
+  }
+
+  /* ── 모바일 텍스트 넘침 방지 ── */
+  .i-left, .i-right {
+    min-width:0;        /* flexbox/grid 자식 overflow 방지 핵심! */
+    overflow:hidden;
+  }
+  .block-wrap { margin-bottom:2rem; }
 
   .sub-h3 {
-    font-family:var(--font,serif);font-size:1.4rem;font-weight:800;
-    letter-spacing:.08em;margin-bottom:1rem;
+    font-family:var(--font,serif);
+    font-size:clamp(1.15rem,3.5vw,1.4rem);
+    font-weight:800;letter-spacing:.08em;margin-bottom:.9rem;
+    word-break:keep-all;
   }
 
   .greeting {
-    position:relative;padding:1.4rem 1.5rem 1.4rem 2rem;
-    background:#fff;border-left:4px solid var(--dan,#C8372D);
+    padding:1.2rem 1.4rem 1.2rem 1.8rem;
+    background:#fff;border-left:4px solid #C8372D;
     box-shadow:0 2px 12px rgba(26,18,10,.06);
   }
-  .greeting p {
-    font-family:var(--font,serif);font-size:.95rem;line-height:2.2;
-    letter-spacing:.05em;color:var(--ink-2,#3D2B1A);font-style:italic;
+  .greeting-txt {
+    font-family:var(--font,serif);
+    font-size:clamp(.82rem,2.2vw,.95rem);
+    line-height:2.2;letter-spacing:.04em;color:#3D2B1A;
+    font-style:italic;
+    white-space:pre-line;
+    word-break:keep-all;overflow-wrap:break-word;
   }
   .g-sig {
-    font-family:var(--font,serif);font-size:.75rem;letter-spacing:.18em;
-    color:var(--dan,#C8372D);margin-top:.75rem;
+    font-family:var(--font,serif);font-size:.74rem;letter-spacing:.18em;
+    color:#C8372D;margin-top:.7rem;
   }
 
   .desc-p {
-    font-family:var(--font,serif);font-size:.93rem;line-height:2.2;
-    letter-spacing:.04em;color:var(--ink-2,#3D2B1A);margin-bottom:1.2rem;white-space:pre-line;
+    font-family:var(--font,serif);font-size:clamp(.82rem,2.2vw,.93rem);
+    line-height:2.2;letter-spacing:.04em;color:#3D2B1A;
+    margin-bottom:1.1rem;white-space:pre-line;
+    word-break:keep-all;overflow-wrap:break-word;
   }
   .prose-p {
-    font-family:var(--font,serif);font-size:.83rem;line-height:2.1;
-    letter-spacing:.03em;color:var(--ink-3,#6B5340);
+    font-family:var(--font,serif);font-size:clamp(.78rem,2vw,.83rem);
+    line-height:2.1;letter-spacing:.03em;color:#6B5340;
+    word-break:keep-all;overflow-wrap:break-word;
   }
-  .prose-p p { margin-bottom:.75rem; }
-  .prose-p strong { color:var(--dan,#C8372D); }
+  .prose-p p        { margin-bottom:.75rem; }
+  .prose-p strong   { color:#C8372D; }
 
-  .hist-box {
-    background:#fff;border-top:4px solid var(--chung,#2B5BA8);
-    padding:2rem 1.75rem;box-shadow:0 2px 16px rgba(26,18,10,.07);
+  .buildings-wrap {
+    overflow-x:auto;scrollbar-width:none;margin-top:1.5rem;
   }
-  .hist-ttl { color:var(--chung,#2B5BA8); }
+  .buildings-wrap::-webkit-scrollbar { display:none; }
+  .buildings-txt {
+    display:inline-block;padding:.55rem 1.1rem;
+    background:#fff;border:1.5px solid rgba(200,55,45,.25);
+    font-family:var(--font,serif);font-size:.76rem;
+    letter-spacing:.08em;color:#C8372D;
+    white-space:nowrap;
+  }
+
+  /* 연혁 */
+  .hist-box {
+    background:#fff;border-top:4px solid #2B5BA8;
+    padding:1.8rem 1.6rem;box-shadow:0 2px 16px rgba(26,18,10,.07);
+  }
+  .hist-ttl { color:#2B5BA8; }
+  .hist-list { list-style:none; }
   .hist-li {
-    display:grid;grid-template-columns:9rem 1fr;gap:.75rem;
-    padding:.7rem 0;border-bottom:1px solid rgba(26,18,10,.07);
+    display:grid;grid-template-columns:minmax(0,8rem) 1fr;gap:.6rem;
+    padding:.65rem 0;border-bottom:1px solid rgba(26,18,10,.07);
   }
   .hist-li:last-child { border-bottom:none; }
   .hist-yr {
-    font-family:var(--font,serif);font-size:.72rem;font-weight:600;
-    color:var(--chung,#2B5BA8);letter-spacing:.04em;line-height:1.7;
+    font-family:var(--font,serif);font-size:.7rem;font-weight:600;
+    color:#2B5BA8;letter-spacing:.03em;line-height:1.7;
+    word-break:keep-all;
   }
   .hist-ev {
-    font-family:var(--font,serif);font-size:.85rem;line-height:1.85;
-    letter-spacing:.04em;color:var(--ink-2,#3D2B1A);
+    font-family:var(--font,serif);font-size:clamp(.78rem,2vw,.85rem);
+    line-height:1.85;letter-spacing:.03em;color:#3D2B1A;
+    word-break:keep-all;overflow-wrap:break-word;
   }
 </style>
