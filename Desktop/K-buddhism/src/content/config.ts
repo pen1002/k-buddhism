@@ -18,7 +18,7 @@ const eventItem = z.object({
   time:     z.string().optional(),
   location: z.string().optional(),
   note:     z.string().optional(),
-  category: z.enum(['monthly','seasonal','special','prayer','service','festival','templestay']).optional(),
+  category: z.string().optional(),
   emoji:    z.string().optional(),
 });
 
