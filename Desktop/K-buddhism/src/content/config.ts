@@ -18,7 +18,7 @@ const eventItem = z.object({
   time:     z.string().optional(),
   location: z.string().optional(),
   note:     z.string().optional(),
-  category: z.enum(['monthly','seasonal','special']).optional(),
+  category: z.enum(['monthly','seasonal','special','prayer','service','festival','templestay']).optional(),
   emoji:    z.string().optional(),
 });
 
@@ -61,6 +61,7 @@ const temples = defineCollection({
     monk_title:  z.string().optional(),
     founded:     z.string().optional(),
     main_buddha: z.string().optional(),
+    heritage:    z.string().optional(),
     buildings:   z.string().optional(),
 
     /* ── 미디어 ── */
