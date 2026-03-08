@@ -1,0 +1,59 @@
+---
+// src/components/temple/HeroSection.astro — 단청 v2
+import { hero as heroUrl, blur as blurUrl } from '../../lib/cloudinary';
+import type { TempleData } from '../../content/config';
+interface Props { d: TempleData; }
+const { d } = Astro.props;
+const heroFull = d.hero_image ? heroUrl(d.hero_image) : '';
+const heroBlur = d.hero_image ? blurUrl(d.hero_image) : '';
+---
+
+<section id="hero" style="position:relative;width:100%;height:100svh;min-height:580px;max-height:920px;overflow:hidden;display:flex;align-items:flex-end;background:#1A0A06;">
+
+  <!-- 단청 상단 컬러 바 -->
+  <div aria-hidden="true" style="position:absolute;top:0;left:0;right:0;z-index:5;height:6px;background:linear-gradient(to right,#C8372D,#F0A830,#56A863,#4A7DC4,#F0A830,#C8372D);"></div>
+
+  <!-- 히어로 이미지 -->
+  {heroBlur && <img src={heroBlur} alt="" aria-hidden="true" style="position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;transform:scale(1.08);" onerror="this.style.display='none'" />}
+  {heroFull && <img src={heroFull} alt={`${d.name} 전경`} fetchpriority="high" loading="eager" decoding="async" style="position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;transition:transform 10s ease;" onerror="this.style.display='none'" />}
+
+  <!-- 단청 컬러 오버레이 -->
+  <div aria-hidden="true" style="position:absolute;inset:0;z-index:2;background:linear-gradient(170deg,rgba(200,55,45,.12) 0%,rgba(43,91,168,.06) 25%,rgba(10,8,6,.2) 55%,rgba(10,8,6,.92) 100%);"></div>
+  <div aria-hidden="true" style="position:absolute;bottom:0;left:0;right:0;z-index:2;height:50%;background:linear-gradient(to top,rgba(10,8,6,1) 0%,transparent 100%);"></div>
+
+  <!-- 단청 코너 장식 -->
+  <div aria-hidden="true" style="position:absolute;top:20px;right:20px;z-index:5;width:72px;height:72px;opacity:.55;">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <rect x="0" y="0" width="100" height="100" fill="none" stroke="rgba(240,168,48,.7)" stroke-width="2.5"/>
+      <rect x="8" y="8" width="84" height="84" fill="none" stroke="rgba(200,55,45,.5)" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="28" fill="none" stroke="rgba(58,125,68,.6)" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="14" fill="rgba(240,168,48,.15)" stroke="rgba(240,168,48,.4)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- 텍스트 z:10 -->
+  <div style="position:relative;z-index:10;width:100%;max-width:1280px;margin:0 auto;padding:0 1.4rem 5rem;">
+    <div style="max-width:760px;">
+      <span style="display:inline-block;margin-bottom:.9rem;padding:.18rem .85rem;background:rgba(200,55,45,.9);font-family:var(--font,serif);font-size:.68rem;letter-spacing:.2em;color:#fff;animation:hfd .6s .1s both;">{d.sect}</span>
+      <h1 style="font-family:var(--font,serif);font-size:clamp(3.5rem,10vw,8rem);font-weight:900;color:#fff;line-height:.9;letter-spacing:.04em;text-shadow:0 2px 0 rgba(0,0,0,.9),0 4px 20px rgba(0,0,0,.8);animation:hfd .9s .2s both;">{d.name}</h1>
+      {d.name_hanja && <p style="font-family:var(--font,serif);font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:.5em;color:#F0A830;margin-top:.6rem;animation:hfd .9s .35s both;">{d.name_hanja}</p>}
+      <p style="font-family:var(--font,serif);font-size:clamp(.85rem,1.8vw,1.05rem);color:rgba(255,255,255,.82);margin-top:1.1rem;letter-spacing:.06em;font-style:italic;line-height:2;animation:hfd .9s .5s both;">"{d.slogan}"</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.3rem;animation:hfd .9s .65s both;">
+        {d.founded     && <span style="padding:.22rem .85rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);font-family:var(--font,serif);font-size:.68rem;letter-spacing:.1em;color:rgba(255,255,255,.9);">{d.founded}</span>}
+        {d.main_buddha && <span style="padding:.22rem .85rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);font-family:var(--font,serif);font-size:.68rem;letter-spacing:.1em;color:rgba(255,255,255,.9);">주불 · {d.main_buddha}</span>}
+        {d.monk        && <span style="padding:.22rem .85rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);font-family:var(--font,serif);font-size:.68rem;letter-spacing:.1em;color:rgba(255,255,255,.9);">{d.monk_title ?? '주지'} · {d.monk}</span>}
+      </div>
+    </div>
+  </div>
+
+  <!-- 스크롤 힌트 -->
+  <div style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:5px;animation:bob 2.2s ease-in-out infinite;pointer-events:none;" aria-hidden="true">
+    <div style="width:1px;height:44px;background:linear-gradient(to bottom,transparent,rgba(240,168,48,.7));"></div>
+    <span style="font-family:var(--font,serif);font-size:8px;letter-spacing:.3em;color:rgba(240,168,48,.6);text-transform:uppercase;">Scroll</span>
+  </div>
+</section>
+
+<style>
+  @keyframes hfd { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:none} }
+  @keyframes bob  { 0%,100%{transform:translateX(-50%) translateY(0);opacity:.7} 50%{transform:translateX(-50%) translateY(8px);opacity:1} }
+</style>
