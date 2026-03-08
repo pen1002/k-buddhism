@@ -3,7 +3,7 @@ title: "천관산의 정기, 천관보살의 가르침 – 장흥 천관사"
 name: "천관사 (天冠寺)"
 name_hanja: "天冠寺"
 sect: "대한불교조계종 제21교구 송광사 말사"
-monk: "주지 연등스님"
+monk: "연등스님"
 slogan: "국내 유일의 천관신앙 도량, 천관보살 3천인등공양으로 소원성취하소서"
 hero_image: "chuntower1_hqwxuj"
 description: |
