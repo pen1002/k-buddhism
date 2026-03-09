@@ -9,21 +9,35 @@ slogan: "부산 남구 도심 속 문수보살의 지혜가 머무는 자비의 
 hero_image: "KakaoTalk_Photo_2026-02-01-21-57-02_002_pucm7v"
 ui_type: 5
 active: true
+
 description: |
   부산광역시 남구 대연동에 위치한 문수사는 대한불교조계종 제14교구 범어사 말사입니다.
   지원 주지스님의 원력으로 사회복지법인 문수복지재단과 사단법인 위드아시아를
   운영하며, 지역사회 노인복지와 국제 구호 활동의 핵심 허브로서
   부산 남구 지역의 자비 실천을 이끌고 있는 도심 포교 도량입니다.
 
-contact: "051-621-0700"
-address: "부산광역시 남구 대연동"
-postcode: "48516"
-naver_map: "https://map.naver.com/p/search/부산 문수사"
-kakao_map: "https://map.kakao.com/?q=부산+문수사"
+greeting: |
+  문수보살의 지혜와 자비가 머무는 도량, 문수사에 오신 것을 환영합니다.
+  지원 주지스님의 원력으로 30년을 이어온 자비의 나눔 정신은
+  사회복지법인 문수복지재단과 사단법인 위드아시아를 통해
+  오늘도 지역사회와 세계 속에서 꽃피고 있습니다.
+greeting_sig: "주지 지원 합장"
 
-bank_name: "농협은행"
-bank_account: "351-XXXX-XXXX-XX (문수사)"
-bank_holder: "문수사"
+founded: "창건 연대 미상 (범어사 말사로 등록)"
+main_buddha: "문수보살"
+heritage: "범어사 말사 / 문수복지재단 / 위드아시아"
+region: "부산"
+district: "남구"
+
+contact:
+  phone: "051-621-0700"
+  kakao: "문수사 카카오채널"
+
+address:
+  full: "부산광역시 남구 대연동"
+  road: "부산광역시 남구 대연동"
+  postal: "48516"
+  map_url: "https://map.naver.com/p/search/부산 문수사"
 
 gallery:
   - id: "KakaoTalk_Photo_2026-02-01-21-57-02_002_pucm7v"
@@ -67,124 +81,84 @@ gallery:
     sub: "부산 남구를 품은 자비의 도량"
     tag: "파노라마"
 
+history:
+  - year: "창건"
+    event: "범어사 말사로 창건, 문수보살 도량으로 시작"
+  - year: "1990년대"
+    event: "지원스님 주지 부임, 지역 포교 및 복지 사업 원력 세움"
+  - year: "2000년대"
+    event: "사회복지법인 문수복지재단 설립, 부산 남구 노인복지 사업 시작"
+  - year: "2010년대"
+    event: "사단법인 위드아시아 설립, 국제 구호 활동 시작"
+  - year: "현재"
+    event: "6개 복지 시설 운영, 캄보디아 등 해외 구호 활동 지속"
+
 events:
-  - title: "초하루·보름 법회"
-    date: "매월 음력 1일·15일"
+  - name: "초하루·보름 법회"
+    schedule: "매월 음력 1일·15일"
     time: "오전 10:00"
-    desc: "지장보살 공덕 기도 및 법문"
-    tag: "정기법회"
-    price: "무료"
-  - title: "부처님 오신 날 행사"
-    date: "음력 4월 8일"
+    category: "정기법회"
+    emoji: "🌕"
+    note: "지장보살 공덕 기도 및 법문"
+  - name: "부처님 오신 날 행사"
+    schedule: "음력 4월 8일"
     time: "오전 10:00"
-    desc: "연등 점등식, 거리 행진, 공양 나눔"
-    tag: "대법회"
-    price: "무료"
-  - title: "도심 템플스테이"
-    date: "매주 토~일"
-    time: "토 14:00 입소"
-    desc: "부산 바다와 산사가 어우러진 1박 2일 힐링"
-    tag: "템플스테이"
-    price: "80,000"
-  - title: "일요 법회 · 명상 강좌"
-    date: "매주 일요일"
+    category: "대법회"
+    emoji: "🪔"
+    note: "연등 점등식, 거리 행진, 공양 나눔"
+  - name: "도심 템플스테이"
+    schedule: "매주 토~일"
+    time: "토요일 14:00 입소"
+    category: "템플스테이"
+    emoji: "🌊"
+    note: "부산 바다와 산사가 어우러진 1박 2일 힐링 (₩80,000)"
+  - name: "일요 법회 · 명상 강좌"
+    schedule: "매주 일요일"
     time: "오전 11:00"
-    desc: "불교 기초 교리 및 생활 명상 수련"
-    tag: "주간법회"
-    price: "무료"
-  - title: "문수복지재단 의료 봉사"
-    date: "매월 첫째 주 토요일"
+    category: "주간법회"
+    emoji: "📿"
+    note: "불교 기초 교리 및 생활 명상 수련"
+  - name: "문수복지재단 의료 봉사"
+    schedule: "매월 첫째 주 토요일"
     time: "오전 10:00"
-    desc: "취약계층 무료 건강검진 및 의료 지원"
-    tag: "복지봉사"
-    price: "무료"
-  - title: "위드아시아 후원 모금"
-    date: "매주 일요일 법회 후"
+    category: "복지봉사"
+    emoji: "🏥"
+    note: "취약계층 무료 건강검진 및 의료 지원"
+  - name: "위드아시아 해외 구호 모금"
+    schedule: "매주 일요일 법회 후"
     time: "정오 이후"
-    desc: "캄보디아 등 해외 소외계층 지원 모금"
-    tag: "해외구호"
-    price: "자유 후원"
+    category: "해외구호"
+    emoji: "🌏"
+    note: "캄보디아 등 해외 소외계층 지원 모금"
 
-intro_title: "문수보살의 지혜와 자비가 머무는 도심 도량"
-intro_body: |
-  문수사(文殊寺)는 부산광역시 남구 대연동에 위치한 대한불교조계종 제14교구
-  범어사의 말사입니다. 문수보살의 지혜와 자비를 근본으로 삼아,
-  지원 주지스님의 30년 원력 아래 지역사회와 깊이 연결된 불교 공동체를 이루고 있습니다.
+indung:
+  title: "문수사 인등공양"
+  subtitle: "문수보살의 지혜 빛으로 소원을 밝히세요"
+  types:
+    - label: "기본 인등"
+      amount: "30,000원"
+      period: "월"
+    - label: "삼구 인등"
+      amount: "80,000원"
+      period: "월"
+    - label: "특별 인등 (49재·천도재)"
+      amount: "별도 문의"
+    - label: "연간 인등 (2개월 무료)"
+      amount: "300,000원"
+      period: "년"
+  bank: "농협은행"
+  account: "351-XXXX-XXXX-XX"
+  holder: "문수사"
+  note: "입금 후 051-621-0700으로 연락주시면 접수해드립니다"
 
-  단순한 기도 도량을 넘어, 사회복지법인 문수복지재단과 사단법인 위드아시아를 통해
-  노인 복지, 국제 구호, 지역 포교의 핵심 허브로 자리매김하고 있으며,
-  부산 남구 지역의 자비 실천과 불교 문화 확산에 앞장서고 있습니다.
-
-indung_title: "문수사 인등공양"
-indung_desc: "문수보살의 지혜 빛으로 소원을 밝히세요. 가족의 건강, 사업 번창, 학업 성취를 기원합니다."
-indung_price1: 30000
-indung_price3: 80000
-indung_bank: "농협은행 351-XXXX-XXXX-XX (문수사)"
-
-# 자비나눔 — 산하기관 링크
-welfare_orgs:
-  - name: "문수복지재단"
-    hanja: "文殊福祉財團"
-    type: "사회복지법인"
-    desc: "부산 남구 지역을 중심으로 노인 복지 및 전문 요양 서비스를 제공하는 복지 법인 본부"
-    url: "https://munsu.or.kr"
-    icon: "🏛️"
-    category: "munsu"
-  - name: "부산광역시남구노인복지관"
-    type: "지역 노인 복지"
-    desc: "남구 지역 어르신을 위한 종합 복지관. 건강 증진, 여가, 사회 참여 프로그램 운영"
-    url: "https://bsnamgu.or.kr"
-    icon: "👴"
-    category: "munsu"
-  - name: "용호노인복지관"
-    type: "지역 노인 복지"
-    desc: "용호동 지역 어르신 전담 복지관. 재가복지, 주간 보호, 생활 지원 서비스"
-    url: "https://ygsenior.or.kr"
-    icon: "🏡"
-    category: "munsu"
-  - name: "문수실버케어요양원"
-    type: "전문 요양"
-    desc: "전문 요양 서비스를 제공하는 노인 요양 시설. 불교 정신으로 운영하는 어르신 케어"
-    url: "https://blog.naver.com/munsusilver"
-    icon: "🏥"
-    category: "munsu"
-  - name: "문수노인복지센터"
-    type: "재가복지/주간보호"
-    desc: "재가복지 및 주간보호 서비스. 가정에서 어르신을 돌보는 전문 케어 서비스"
-    url: "https://munsucare.or.kr"
-    icon: "🤝"
-    category: "munsu"
-  - name: "문수시니어클럽"
-    type: "노인 일자리"
-    desc: "어르신 일자리 창출 및 사회 참여 지원. 노인 맞춤형 취업 연계 프로그램"
-    url: "https://munsuseniors.or.kr"
-    icon: "💼"
-    category: "munsu"
-  - name: "사단법인 위드아시아"
-    hanja: "with Asia"
-    type: "국제 구호 NGO"
-    desc: "국내외 소외계층 지원 및 인도주의 사업을 수행하는 국제구호 법인 본부"
-    url: "https://withasia.or.kr"
-    icon: "🌏"
-    category: "withasia"
-  - name: "위드아시아 공식 블로그"
-    type: "활동 소식/공지"
-    desc: "현장 활동 소식, 구호 활동 사진, 후원 안내 등 최신 활동 공유"
-    url: "https://blog.naver.com/withasia02"
-    icon: "📰"
-    category: "withasia"
-  - name: "위드아시아 대구경북지부"
-    type: "지역 지부"
-    desc: "대구·경북 지역 소외계층 지원 및 봉사 활동 지역 거점"
-    url: "https://cafe.daum.net/withasiadg"
-    icon: "🏙️"
-    category: "withasia"
-
-directions:
-  subway: "부산지하철 2호선 경성대·부경대역 하차 → 도보 약 10분"
-  bus: "남구 방향 시내버스 이용 → 문수사 정류장 하차"
-  car: "부산 남구 대연동 방향 → 내비게이션 '문수사' 검색"
-  parking: "사찰 내 주차 가능 (주말 법회 시 인근 공영주차장 이용)"
+tags:
+  - "부산"
+  - "남구"
+  - "도심사찰"
+  - "복지"
+  - "위드아시아"
+  - "문수복지재단"
+  - "범어사말사"
 ---
 
 ## 문수보살의 지혜와 자비
@@ -197,4 +171,15 @@ directions:
 
 문수복지재단을 통해 부산 남구 지역의 어르신들을 돌보고,
 위드아시아를 통해 국경을 넘어 세계의 소외된 이웃들과 함께합니다.
-이것이 문수사가 추구하는 '생활 불교'의 참모습입니다.
+
+### 산하기관 안내
+
+| 기관명 | 구분 | 웹사이트 |
+|---|---|---|
+| 문수복지재단 | 법인 본부 | munsu.or.kr |
+| 부산광역시남구노인복지관 | 노인 복지 | bsnamgu.or.kr |
+| 용호노인복지관 | 노인 복지 | ygsenior.or.kr |
+| 문수실버케어요양원 | 전문 요양 | blog.naver.com/munsusilver |
+| 문수노인복지센터 | 재가복지 | munsucare.or.kr |
+| 문수시니어클럽 | 노인 일자리 | munsuseniors.or.kr |
+| 사단법인 위드아시아 | 국제 구호 NGO | withasia.or.kr |
