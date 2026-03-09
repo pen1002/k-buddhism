@@ -36,7 +36,7 @@ gallery:
 
 blog_url: "https://blog.naver.com/chungwansa"
 contact: "010-8230-7070, 061-867-2954"
-address: "전남 장흥군 관산읍 칠관로 1272-473 우)59351 (네이버 지도: https://naver.me/GVEGVtKj)"
+address: "전남 장흥군 관산읍 칠관로 1272-473 우)59351 (네이버 지도: https://naver.me/x4Ff2ZUr)"
 
 events:
   - name: "정초기도"
