@@ -103,3 +103,85 @@ section, header, footer, main, div {
   body { font-size: 15px; }
   .w   { padding: 0 1rem; }
 }
+
+/* ══════════════════════════════════════════
+   📱 50~70대 불자 모바일 가독성 최적화
+   원칙: 기존 구조 유지, 글자만 확대
+   ══════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+  /* 기본 body 폰트 크기 상향 */
+  body { font-size: 17px; }
+
+  /* 섹션 제목 */
+  .sec-h2 { font-size: clamp(1.9rem, 6vw, 2.6rem) !important; }
+
+  /* NAV 사찰명 */
+  .nav-name { font-size: 1.1rem !important; }
+
+  /* 행사안내 티커 */
+  .nb-item { font-size: .9rem !important; }
+  .nb-lbl  { font-size: .82rem !important; }
+
+  /* 주요행사 제목 */
+  .fw-title { font-size: 2rem !important; }
+
+  /* 공지 카드 */
+  .ev-date { font-size: .78rem !important; }
+  .ev-name { font-size: 1.1rem !important; }
+  .ev-note { font-size: .88rem !important; line-height: 1.95 !important; }
+
+  /* 사찰소개 */
+  .sub-h3       { font-size: 1.3rem !important; }
+  .greeting-txt { font-size: 1rem !important; line-height: 2.3 !important; }
+  .desc-p       { font-size: 1rem !important; line-height: 2.3 !important; }
+  .prose-p      { font-size: .92rem !important; line-height: 2.2 !important; }
+  .hist-yr      { font-size: .88rem !important; }
+  .hist-ev      { font-size: .95rem !important; }
+
+  /* 갤러리 캡션 */
+  .gc-t { font-size: 1rem !important; }
+
+  /* 법회일정 카드 */
+  .ev-time { font-size: .78rem !important; }
+
+  /* 인등불사 */
+  .t-lbl    { font-size: .82rem !important; }
+  .t-amt    { font-size: 1.5rem !important; }
+  .t-period { font-size: .8rem !important; }
+  .pay-h3   { font-size: 1.15rem !important; }
+  .acct-bank   { font-size: .92rem !important; }
+  .acct-num    { font-size: 1.4rem !important; }
+  .acct-holder { font-size: .92rem !important; }
+  .ind-note p  { font-size: .9rem !important; line-height: 2 !important; }
+
+  /* 오시는 길 */
+  .dir-addr { font-size: 1rem !important; }
+
+  /* 푸터 링크 */
+  .ft-a { font-size: .9rem !important; }
+
+  /* 모바일 모달 */
+  .pm-title { font-size: 1.25rem !important; }
+  .pm-line1 { font-size: 1.15rem !important; }
+  .pm-line2 { font-size: 1rem !important; }
+
+  /* Hero 슬로건 */
+  #hero p[style] { font-size: 1rem !important; }
+
+  /* 배너 이미지 — 모바일에서 세로로 확대 */
+  .fw-banner { max-height: 460px !important; object-fit: contain !important; background: #FDFAF4; }
+
+  /* 버튼류 (결제, 복사) */
+  .btn-kakao, .btn-naver, .btn-toss {
+    font-size: 1rem !important;
+    padding: 1.1rem 1.4rem !important;
+  }
+  .copy-btn { font-size: .85rem !important; padding: .65rem 1.3rem !important; }
+}
+
+/* 태블릿 보정 */
+@media (min-width: 481px) and (max-width: 767px) {
+  body { font-size: 16px; }
+  .ev-name { font-size: 1.05rem !important; }
+}
