@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480">
+  <defs>
+    <!-- 단청 그라디언트 배경 -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#FDFAF4"/>
+      <stop offset="40%"  stop-color="#F5EFE0"/>
+      <stop offset="100%" stop-color="#FEF3DC"/>
+    </linearGradient>
+    <!-- 왼쪽 패널 그라디언트 -->
+    <linearGradient id="leftGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#1A120A"/>
+      <stop offset="100%" stop-color="#2D1C10"/>
+    </linearGradient>
+    <!-- 오른쪽 카드 그라디언트 -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F5EFE0"/>
+    </linearGradient>
+    <!-- 단청 5색 바 그라디언트 -->
+    <linearGradient id="danBar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"    stop-color="#C8372D"/>
+      <stop offset="25%"   stop-color="#D4820A"/>
+      <stop offset="50%"   stop-color="#3A7D44"/>
+      <stop offset="75%"   stop-color="#2B5BA8"/>
+      <stop offset="100%"  stop-color="#C8372D"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(26,18,10,0.18)"/>
+    </filter>
+    <filter id="cardShadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="rgba(26,18,10,0.12)"/>
+    </filter>
+    <!-- 단청 패턴 -->
+    <pattern id="danPat" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <circle cx="20" cy="20" r="1.5" fill="rgba(200,55,45,0.08)"/>
+      <circle cx="0"  cy="0"  r="1"   fill="rgba(43,91,168,0.06)"/>
+      <circle cx="40" cy="40" r="1"   fill="rgba(43,91,168,0.06)"/>
+    </pattern>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="1200" height="480" fill="url(#bgGrad)"/>
+  <rect width="1200" height="480" fill="url(#danPat)"/>
+
+  <!-- 단청 상단 바 -->
+  <rect x="0" y="0" width="1200" height="6" fill="url(#danBar)"/>
+
+  <!-- 왼쪽 어두운 패널 (텍스트) -->
+  <rect x="0" y="6" width="420" height="474" fill="url(#leftGrad)"/>
+
+  <!-- 왼쪽 패널 장식 원 -->
+  <circle cx="60" cy="240" r="280" fill="rgba(200,55,45,0.06)"/>
+  <circle cx="420" cy="100" r="120" fill="rgba(212,130,10,0.08)"/>
+
+  <!-- 왼쪽: 연꽃 아이콘 -->
+  <text x="60" y="80" font-family="serif" font-size="42" fill="rgba(240,168,48,0.85)">🪷</text>
+
+  <!-- 왼쪽: 영문 서브타이틀 -->
+  <text x="60" y="125" font-family="Georgia, serif" font-size="11" fill="rgba(212,130,10,0.75)" letter-spacing="4">TEMPLE STAY · 천관사</text>
+
+  <!-- 왼쪽: 메인 제목 -->
+  <text x="60" y="190" font-family="'Noto Serif KR', Georgia, serif" font-size="46" font-weight="900" fill="#FFFFFF" letter-spacing="2">천관사</text>
+  <text x="60" y="250" font-family="'Noto Serif KR', Georgia, serif" font-size="46" font-weight="900" fill="#FFFFFF" letter-spacing="2">템플스테이</text>
+
+  <!-- 단청 구분선 -->
+  <rect x="60" y="270" width="60" height="3" fill="#C8372D"/>
+  <rect x="126" y="270" width="20" height="3" fill="#D4820A"/>
+  <rect x="150" y="270" width="40" height="3" fill="#3A7D44"/>
+
+  <!-- 왼쪽: 부제목 -->
+  <text x="60" y="312" font-family="Georgia, serif" font-size="14" font-style="italic" fill="rgba(255,255,255,0.72)" letter-spacing="1">천관산의 고요함 속에서</text>
+  <text x="60" y="334" font-family="Georgia, serif" font-size="14" font-style="italic" fill="rgba(255,255,255,0.72)" letter-spacing="1">나를 만나는 시간</text>
+
+  <!-- 왼쪽: 기간 배지 -->
+  <rect x="60" y="360" width="160" height="32" fill="rgba(200,55,45,0.85)" rx="1"/>
+  <text x="140" y="381" font-family="'Noto Serif KR', Georgia, serif" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">연중 상시 운영</text>
+
+  <!-- 왼쪽: 연락처 -->
+  <text x="60" y="440" font-family="Georgia, serif" font-size="11" fill="rgba(255,255,255,0.5)" letter-spacing="1">📞 010-8230-7070 · 예약 필수</text>
+
+  <!-- 오른쪽: 카드 3개 그리드 -->
+  <!-- 카드1 - 휴식형 -->
+  <rect x="455" y="40" width="230" height="290" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="455" y="40" width="230" height="4" fill="#C8372D"/>
+  <text x="570" y="90" font-family="serif" font-size="36" text-anchor="middle">🏡</text>
+  <text x="570" y="128" font-family="'Noto Serif KR', Georgia, serif" font-size="17" font-weight="900" fill="#1A120A" text-anchor="middle" letter-spacing="2">휴식형</text>
+  <text x="570" y="152" font-family="'Noto Serif KR', Georgia, serif" font-size="11" fill="#C8372D" text-anchor="middle" letter-spacing="1">REST &amp; HEALING</text>
+  <!-- 구분선 -->
+  <line x1="490" y1="168" x2="650" y2="168" stroke="#E8E0D5" stroke-width="1"/>
+  <!-- 내용 -->
+  <text x="490" y="196" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 1박 2일 자유 일정</text>
+  <text x="490" y="218" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 새벽 예불 참여</text>
+  <text x="490" y="240" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 사찰 공양 체험</text>
+  <text x="490" y="262" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 천관산 산책</text>
+  <text x="490" y="284" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 연중 상시 운영</text>
+  <!-- 태그 -->
+  <rect x="480" y="302" width="60" height="18" fill="#FDE8E6" rx="1"/>
+  <text x="510" y="315" font-family="Georgia, serif" font-size="9" fill="#C8372D" text-anchor="middle" letter-spacing="1">개인/가족</text>
+
+  <!-- 카드2 - 전통형 -->
+  <rect x="703" y="40" width="230" height="290" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="703" y="40" width="230" height="4" fill="#2B5BA8"/>
+  <text x="818" y="90" font-family="serif" font-size="36" text-anchor="middle">⛩</text>
+  <text x="818" y="128" font-family="'Noto Serif KR', Georgia, serif" font-size="17" font-weight="900" fill="#1A120A" text-anchor="middle" letter-spacing="2">전통형</text>
+  <text x="818" y="152" font-family="'Noto Serif KR', Georgia, serif" font-size="11" fill="#2B5BA8" text-anchor="middle" letter-spacing="1">TRADITIONAL</text>
+  <line x1="738" y1="168" x2="898" y2="168" stroke="#E8E0D5" stroke-width="1"/>
+  <text x="738" y="196" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 예불·공양·포행 체험</text>
+  <text x="738" y="218" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 발우공양 (사찰 식사)</text>
+  <text x="738" y="240" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 108배 수행</text>
+  <text x="738" y="262" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 다도 체험</text>
+  <text x="738" y="284" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 스님과의 대화</text>
+  <rect x="728" y="302" width="60" height="18" fill="#E6EEF8" rx="1"/>
+  <text x="758" y="315" font-family="Georgia, serif" font-size="9" fill="#2B5BA8" text-anchor="middle" letter-spacing="1">소그룹</text>
+
+  <!-- 카드3 - 단체형 -->
+  <rect x="951" y="40" width="230" height="290" fill="url(#cardGrad)" filter="url(#cardShadow)"/>
+  <rect x="951" y="40" width="230" height="4" fill="#3A7D44"/>
+  <text x="1066" y="90" font-family="serif" font-size="36" text-anchor="middle">👥</text>
+  <text x="1066" y="128" font-family="'Noto Serif KR', Georgia, serif" font-size="17" font-weight="900" fill="#1A120A" text-anchor="middle" letter-spacing="2">단체형</text>
+  <text x="1066" y="152" font-family="'Noto Serif KR', Georgia, serif" font-size="11" fill="#3A7D44" text-anchor="middle" letter-spacing="1">GROUP PROGRAM</text>
+  <line x1="986" y1="168" x2="1146" y2="168" stroke="#E8E0D5" stroke-width="1"/>
+  <text x="986" y="196" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 학교·기업·단체 맞춤</text>
+  <text x="986" y="218" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 리더십 명상 프로그램</text>
+  <text x="986" y="240" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 힐링 캠프 운영</text>
+  <text x="986" y="262" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 천관산 트레킹</text>
+  <text x="986" y="284" font-family="'Noto Serif KR', Georgia, serif" font-size="12" fill="#3D2B1A">• 사전 예약 필수</text>
+  <rect x="976" y="302" width="60" height="18" fill="#E6F3E8" rx="1"/>
+  <text x="1006" y="315" font-family="Georgia, serif" font-size="9" fill="#3A7D44" text-anchor="middle" letter-spacing="1">10인 이상</text>
+
+  <!-- 하단 CTA 바 -->
+  <rect x="455" y="360" width="726" height="90" fill="#1A120A"/>
+  <!-- 하단 장식 라인 -->
+  <rect x="455" y="360" width="726" height="3" fill="url(#danBar)"/>
+
+  <!-- CTA 텍스트 -->
+  <text x="570" y="400" font-family="'Noto Serif KR', Georgia, serif" font-size="13" fill="rgba(255,255,255,0.65)" text-anchor="middle" letter-spacing="1">예약 문의</text>
+  <text x="570" y="425" font-family="'Noto Serif KR', Georgia, serif" font-size="18" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">010-8230-7070</text>
+
+  <text x="818" y="395" font-family="'Noto Serif KR', Georgia, serif" font-size="13" fill="rgba(212,130,10,0.9)" text-anchor="middle" letter-spacing="3">천관산 도립공원</text>
+  <text x="818" y="422" font-family="'Noto Serif KR', Georgia, serif" font-size="13" fill="rgba(255,255,255,0.7)" text-anchor="middle" letter-spacing="1">전남 장흥군 관산읍 칠관로 1272-473</text>
+  <text x="818" y="442" font-family="Georgia, serif" font-size="11" fill="rgba(255,255,255,0.45)" text-anchor="middle" letter-spacing="1">천관사 템플스테이 · 연중 상시</text>
+
+  <!-- QR 자리 -->
+  <rect x="1070" y="370" width="72" height="72" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  <text x="1106" y="406" font-family="serif" font-size="11" fill="rgba(255,255,255,0.4)" text-anchor="middle">QR</text>
+  <text x="1106" y="422" font-family="Georgia, serif" font-size="8" fill="rgba(255,255,255,0.3)" text-anchor="middle">예약하기</text>
+
+  <!-- 단청 하단 바 -->
+  <rect x="0" y="474" width="1200" height="6" fill="url(#danBar)"/>
+</svg>

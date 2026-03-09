@@ -38,29 +38,38 @@ const catColor: Record<string,string> = {
   </div>
 )}
 
-<!-- ② 이달의 주요행사 — 최신 소식 하이라이트 박스 -->
-{featured.length > 0 && (
-  <div class="featured-wrap" aria-label="이달의 주요행사">
-    <div class="fw-inner w">
+<!-- ② 주요행사 — 단청 밝은 배경 + 배너 이미지 -->
+<div class="featured-wrap" aria-label="주요행사">
+  <div class="w">
+    <div class="fw-header">
       <div class="fw-label">
-        <span class="fw-en">this month</span>
-        <h2 class="fw-title">이달의 주요행사</h2>
+        <span class="fw-en">featured events</span>
+        <h2 class="fw-title">주요행사</h2>
+        <div class="fw-bar"><span class="fb1"></span><span class="fb2"></span><span class="fb3"></span><span class="fb4"></span></div>
       </div>
-      <div class="fw-cards">
-        {featured.map((ev, i) => (
-          <div class="fw-card" style={`border-left-color:${catColor[ev.category??'prayer']??'#C8372D'}`}>
-            <span class="fw-emoji">{ev.emoji ?? '📅'}</span>
-            <div>
-              <p class="fw-name">{ev.name}</p>
-              <p class="fw-date">{ev.schedule ?? ev.time ?? '상시'}</p>
-              {ev.note && <p class="fw-note">{ev.note}</p>}
+      {featured.length > 0 && (
+        <div class="fw-pills">
+          {featured.map((ev, i) => (
+            <div class="fw-pill" style={`border-left-color:${catColor[ev.category??'prayer']??'#C8372D'};`}>
+              <span class="fw-pemoji">{ev.emoji ?? '📅'}</span>
+              <div>
+                <p class="fw-pname">{ev.name}</p>
+                <p class="fw-pdate">{ev.schedule ?? ev.time ?? '상시'}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      )}
+    </div>
+    <div class="fw-banner-wrap">
+      <img src="/templestay-banner.svg" alt="천관사 템플스테이 안내" class="fw-banner" loading="lazy" />
+      <div class="fw-banner-cap">
+        <span>📌 이달의 특집 — 천관사 템플스테이 (연중 상시)</span>
+        <span class="fw-cap-sub">매달 새로운 프로그램으로 업데이트됩니다</span>
       </div>
     </div>
   </div>
-)}
+</div>
 
 <!-- ③ 공지사항·기도·법회·행사 — 탭 + 카드 그리드 -->
 <section id="events" class="ev-sec" aria-labelledby="ev-ttl">
@@ -126,36 +135,71 @@ const catColor: Record<string,string> = {
 .nb-name { font-weight:600; }
 @keyframes nbscroll { from{transform:translateX(0)} to{transform:translateX(-33.333%)} }
 
-/* ── ② 이달의 주요행사 ── */
+/* ── ② 주요행사 — 단청 밝은 배경 ── */
 .featured-wrap {
-  background:linear-gradient(135deg,#1A120A 0%,#2D1C10 50%,#1A120A 100%);
-  padding:2.2rem 0;
+  background: var(--bg2, #F5EFE0);
+  border-top: 4px solid transparent;
+  border-image: linear-gradient(to right,#C8372D,#D4820A,#3A7D44,#2B5BA8) 1;
+  padding: 3rem 0 3.5rem;
 }
-.fw-inner {
-  display:grid;
-  grid-template-columns:max-content 1fr;
-  gap:2.5rem;align-items:center;
+.fw-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
-@media(max-width:767px) { .fw-inner{grid-template-columns:1fr;gap:1.2rem;} }
 .fw-label {}
-.fw-en    { font-family:var(--font,serif);font-size:.6rem;letter-spacing:.3em;color:#D4820A;text-transform:uppercase;font-style:italic; }
-.fw-title { font-family:var(--font,serif);font-size:clamp(1.2rem,3vw,1.7rem);font-weight:900;color:#fff;letter-spacing:.08em;margin-top:.2rem;white-space:nowrap; }
+.fw-en    { font-family:var(--font,serif);font-size:.6rem;letter-spacing:.3em;color:#C8372D;text-transform:uppercase;font-style:italic; }
+.fw-title { font-family:var(--font,serif);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#1A120A;letter-spacing:.08em;margin-top:.25rem; }
+.fw-bar   { display:flex;gap:4px;margin-top:.5rem; }
+.fb1,.fb2,.fb3,.fb4 { display:inline-block;height:3px; }
+.fb1{width:36px;background:#C8372D} .fb2{width:18px;background:#D4820A}
+.fb3{width:24px;background:#3A7D44} .fb4{width:14px;background:#2B5BA8}
 
-.fw-cards { display:flex;gap:1rem;flex-wrap:wrap; }
-.fw-card  {
-  flex:1;min-width:200px;
-  display:flex;align-items:flex-start;gap:.8rem;
-  padding:1rem 1.2rem;
-  background:rgba(255,255,255,.06);
+.fw-pills { display:flex;gap:.7rem;flex-wrap:wrap;align-items:flex-start; }
+.fw-pill {
+  display:flex;align-items:center;gap:.6rem;
+  padding:.7rem 1rem;
+  background:#fff;
   border-left:3px solid #C8372D;
-  backdrop-filter:blur(4px);
-  transition:background .2s;
+  box-shadow:0 2px 8px rgba(26,18,10,.07);
+  min-width:160px;
 }
-.fw-card:hover { background:rgba(255,255,255,.1); }
-.fw-emoji { font-size:1.5rem;flex-shrink:0;margin-top:.1rem; }
-.fw-name  { font-family:var(--font,serif);font-size:.92rem;font-weight:700;color:#fff;letter-spacing:.05em;word-break:keep-all; }
-.fw-date  { font-family:var(--font,serif);font-size:.68rem;color:#D4820A;margin-top:.2rem;letter-spacing:.08em; }
-.fw-note  { font-family:var(--font,serif);font-size:.68rem;color:rgba(255,255,255,.55);margin-top:.25rem;word-break:keep-all;line-height:1.7; }
+.fw-pemoji { font-size:1.3rem;flex-shrink:0; }
+.fw-pname  { font-family:var(--font,serif);font-size:.88rem;font-weight:700;color:#1A120A;letter-spacing:.04em;word-break:keep-all; }
+.fw-pdate  { font-family:var(--font,serif);font-size:.68rem;color:#C8372D;margin-top:.15rem;letter-spacing:.06em; }
+
+/* 배너 이미지 */
+.fw-banner-wrap {
+  border: 1.5px solid rgba(200,55,45,.18);
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(26,18,10,.1);
+}
+.fw-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 360px;
+  object-fit: cover;
+}
+.fw-banner-cap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: .7rem 1.2rem;
+  background: var(--bg2, #F5EFE0);
+  border-top: 1px solid rgba(200,55,45,.15);
+  font-family: var(--font, serif);
+  font-size: .78rem;
+  color: #3D2B1A;
+  letter-spacing: .04em;
+}
+.fw-cap-sub { font-size:.7rem;color:#9C7E65;font-style:italic; }
 
 /* ── ③ 공지사항 섹션 ── */
 .ev-sec { background:var(--bg,#FDFAF4);padding:4.5rem 0 5.5rem;scroll-margin-top:64px; }
