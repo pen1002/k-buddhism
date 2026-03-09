@@ -169,8 +169,7 @@ section, header, footer, main, div {
   /* Hero 슬로건 */
   #hero p[style] { font-size: 1rem !important; }
 
-  /* 배너 이미지 — 모바일에서 세로로 확대 */
-  .fw-banner { max-height: 460px !important; object-fit: contain !important; background: #FDFAF4; }
+  /* 배너: 모바일에선 fw-mobile-only가 표시되므로 fw-banner 불필요 */
 
   /* 버튼류 (결제, 복사) */
   .btn-kakao, .btn-naver, .btn-toss {
@@ -185,3 +184,251 @@ section, header, footer, main, div {
   body { font-size: 16px; }
   .ev-name { font-size: 1.05rem !important; }
 }
+
+/* ════════════════════════════════════════════════════════
+   🎨 5가지 사찰 홈피 테마 시스템
+   data-theme="t1~t5" 에 따라 자동 전환
+   ════════════════════════════════════════════════════════ */
+
+/* ──────────────────────────────────────────────
+   T1: 禪 젠·럭셔리형 (기본 — 천관사)
+   단청 빨강·크림·먹색 / 고급스럽고 차분한 느낌
+   ────────────────────────────────────────────── */
+[data-theme="t1"] {
+  --theme-primary:   #C8372D;
+  --theme-secondary: #D4820A;
+  --theme-accent:    #2B5BA8;
+  --theme-bg:        #FDFAF4;
+  --theme-bg2:       #F5EFE0;
+  --theme-bg3:       #FEF3DC;
+  --theme-ink:       #1A120A;
+  --theme-ink2:      #5C4033;
+  --theme-ink3:      #9C7E65;
+  --theme-hero-overlay: rgba(26,18,10,0.38);
+  --theme-nav-bg:    #1A120A;
+  --theme-nav-text:  #FFFFFF;
+  --theme-sec-bg:    #C8372D;
+  --theme-card-bg:   #FFFFFF;
+  --theme-border:    rgba(200,55,45,0.15);
+  --theme-font-display: 'Noto Serif KR', Georgia, serif;
+  --theme-font-body:    'Noto Serif KR', Georgia, serif;
+  --theme-radius: 0px;
+  --theme-shadow: 0 4px 20px rgba(26,18,10,0.10);
+}
+
+/* ──────────────────────────────────────────────
+   T2: 🌿 생태·치유형 (선운사)
+   초록·흙색·자연광 / 힐링·명상·자연 분위기
+   ────────────────────────────────────────────── */
+[data-theme="t2"] {
+  --theme-primary:   #2E7D52;   /* 숲 초록 */
+  --theme-secondary: #8B6914;   /* 황토 */
+  --theme-accent:    #5B8A3C;   /* 연한 초록 */
+  --theme-bg:        #F4F8F0;   /* 연한 민트 크림 */
+  --theme-bg2:       #E8F2E0;   /* 연한 초록 크림 */
+  --theme-bg3:       #F0EAD6;   /* 흙색 크림 */
+  --theme-ink:       #1C2B18;   /* 진한 초록 먹색 */
+  --theme-ink2:      #3D5235;
+  --theme-ink3:      #7A9B6E;
+  --theme-hero-overlay: rgba(20,40,15,0.32);
+  --theme-nav-bg:    #1C3320;   /* 진한 숲색 */
+  --theme-nav-text:  #E8F5E0;
+  --theme-sec-bg:    #2E7D52;
+  --theme-card-bg:   #FFFFFF;
+  --theme-border:    rgba(46,125,82,0.15);
+  --theme-font-display: 'Noto Serif KR', Georgia, serif;
+  --theme-font-body:    'Noto Sans KR', sans-serif;
+  --theme-radius: 8px;
+  --theme-shadow: 0 4px 24px rgba(20,40,15,0.10);
+}
+
+/* T2 섹션 색상 오버라이드 */
+[data-theme="t2"] .notice-bar          { background: #2E7D52; }
+[data-theme="t2"] .mnav                { background: #1C3320; }
+[data-theme="t2"] .ev-header           { background: #2E7D52; }
+[data-theme="t2"] .ev-tab.on           { border-bottom-color: #2E7D52; color: #2E7D52; }
+[data-theme="t2"] .ev-tab.on::after    { background: #2E7D52; }
+[data-theme="t2"] .featured-wrap       { background: #E8F2E0; border-top-color: #2E7D52; }
+[data-theme="t2"] .fw-title            { color: #1C3320; }
+[data-theme="t2"] .fw-en               { color: #2E7D52; }
+[data-theme="t2"] .fb1                 { background: #2E7D52; }
+[data-theme="t2"] .fb2                 { background: #8B6914; }
+[data-theme="t2"] .fb3                 { background: #5B8A3C; }
+[data-theme="t2"] .fb4                 { background: #A0C080; }
+[data-theme="t2"] .intro-wrap          { background: #E8F2E0; }
+[data-theme="t2"] .sec-h2              { color: #1C3320; }
+[data-theme="t2"] .sec-en              { color: #2E7D52; }
+[data-theme="t2"] .sec-div             { background: linear-gradient(to right,#2E7D52,#8B6914,#5B8A3C); }
+[data-theme="t2"] .gal-wrap            { background: #F4F8F0; }
+[data-theme="t2"] .gal-filter-btn.on   { background: #2E7D52; color:#fff; }
+[data-theme="t2"] .ind-hdr             { background: #1C3320; }
+[data-theme="t2"] .t-card:hover        { border-color: #2E7D52; }
+[data-theme="t2"] .t-amt               { color: #2E7D52; }
+[data-theme="t2"] .pay-h3              { color: #1C3320; }
+[data-theme="t2"] .dir-map-btn         { background: #2E7D52; }
+[data-theme="t2"] .ft-wrap             { background: #1C3320; border-top-color: #2E7D52; }
+[data-theme="t2"] .nav-a:hover         { color: #7AC88A; }
+[data-theme="t2"] .nav-call            { background: #2E7D52 !important; }
+[data-theme="t2"] .copy-btn            { color: #2E7D52; border-color: #2E7D52; }
+[data-theme="t2"] .copy-btn:hover      { background: #2E7D52; color:#fff; }
+[data-theme="t2"] .ev-card             { border-radius: 8px; }
+[data-theme="t2"] .t-card              { border-radius: 8px; }
+[data-theme="t2"] .fmb-header          { background: linear-gradient(135deg,#2E7D52,#1C3320); }
+[data-theme="t2"] .fmb-header::before  { background: linear-gradient(to right,#2E7D52,#8B6914,#5B8A3C,#A0C080); }
+[data-theme="t2"] .fmb-red  .fmb-cen  { color: #2E7D52; }
+[data-theme="t2"] .fmb-red  .fmb-tag  { background:#E8F2E0; color:#2E7D52; }
+[data-theme="t2"] .fw-banner-wrap      { border-color: rgba(46,125,82,0.2); }
+[data-theme="t2"] .fw-banner-cap       { background:#E8F2E0; border-top-color:rgba(46,125,82,0.15); }
+[data-theme="t2"] .hdr-bar-dan         { background: linear-gradient(to right,#2E7D52,#8B6914,#5B8A3C,#A0C080,#2E7D52); }
+[data-theme="t2"] .ev-sec              { background: #F4F8F0; }
+[data-theme="t2"] .dir-wrap            { background: #F4F8F0; }
+
+/* ──────────────────────────────────────────────
+   T3: 🏛️ 관광·체험형 (불국사)
+   따뜻한 황금·청기와·활기 / 관광객·외국인 친화
+   ────────────────────────────────────────────── */
+[data-theme="t3"] {
+  --theme-primary:   #B8860B;   /* 황금색 */
+  --theme-secondary: #1565C0;   /* 청기와 파랑 */
+  --theme-accent:    #C62828;   /* 단청 빨강 */
+  --theme-bg:        #FFFDF5;   /* 아이보리 */
+  --theme-bg2:       #FFF8E1;   /* 연한 황금 */
+  --theme-bg3:       #E3F2FD;   /* 연한 파랑 */
+  --theme-ink:       #1A1200;
+  --theme-ink2:      #4A3800;
+  --theme-ink3:      #8A7040;
+  --theme-hero-overlay: rgba(20,10,0,0.30);
+  --theme-nav-bg:    #1A1200;
+  --theme-nav-text:  #FFF8E1;
+  --theme-sec-bg:    #B8860B;
+  --theme-card-bg:   #FFFFFF;
+  --theme-border:    rgba(184,134,11,0.18);
+  --theme-font-display: 'Noto Serif KR', Georgia, serif;
+  --theme-font-body:    'Noto Sans KR', sans-serif;
+  --theme-radius: 4px;
+  --theme-shadow: 0 4px 20px rgba(20,10,0,0.10);
+}
+
+[data-theme="t3"] .notice-bar          { background: #B8860B; }
+[data-theme="t3"] .mnav                { background: #1A1200; }
+[data-theme="t3"] .ev-header           { background: #B8860B; }
+[data-theme="t3"] .ev-tab.on           { border-bottom-color: #B8860B; color: #B8860B; }
+[data-theme="t3"] .featured-wrap       { background: #FFF8E1; }
+[data-theme="t3"] .fw-title            { color: #1A1200; }
+[data-theme="t3"] .fw-en               { color: #B8860B; }
+[data-theme="t3"] .fb1                 { background: #B8860B; }
+[data-theme="t3"] .fb2                 { background: #1565C0; }
+[data-theme="t3"] .fb3                 { background: #C62828; }
+[data-theme="t3"] .fb4                 { background: #2E7D32; }
+[data-theme="t3"] .intro-wrap          { background: #FFF8E1; }
+[data-theme="t3"] .sec-h2              { color: #1A1200; }
+[data-theme="t3"] .sec-en              { color: #B8860B; }
+[data-theme="t3"] .sec-div             { background: linear-gradient(to right,#B8860B,#1565C0,#C62828,#2E7D32); }
+[data-theme="t3"] .ind-hdr             { background: #1A1200; }
+[data-theme="t3"] .t-amt               { color: #B8860B; }
+[data-theme="t3"] .dir-map-btn         { background: #B8860B; }
+[data-theme="t3"] .ft-wrap             { background: #1A1200; }
+[data-theme="t3"] .nav-call            { background: #B8860B !important; }
+[data-theme="t3"] .fmb-header          { background: linear-gradient(135deg,#B8860B,#8B6400); }
+[data-theme="t3"] .fmb-header::before  { background: linear-gradient(to right,#B8860B,#1565C0,#C62828,#2E7D32); }
+
+/* ──────────────────────────────────────────────
+   T4: 📜 문화유산형 (해인사)
+   깊은 먹색·갈색·고풍 / 학술·전통·보물 강조
+   ────────────────────────────────────────────── */
+[data-theme="t4"] {
+  --theme-primary:   #5C3A1E;   /* 진한 나무갈색 */
+  --theme-secondary: #8B4513;   /* 팔만대장경 나무색 */
+  --theme-accent:    #C8372D;   /* 단청 빨강 포인트 */
+  --theme-bg:        #FAF6F0;   /* 한지 느낌 */
+  --theme-bg2:       #F0E8D8;   /* 노란 한지 */
+  --theme-bg3:       #E8DCC8;   /* 진한 한지 */
+  --theme-ink:       #1A0E00;
+  --theme-ink2:      #3D2010;
+  --theme-ink3:      #8B6040;
+  --theme-hero-overlay: rgba(15,8,0,0.45);
+  --theme-nav-bg:    #1A0E00;
+  --theme-nav-text:  #F0E8D8;
+  --theme-sec-bg:    #5C3A1E;
+  --theme-card-bg:   #FAF6F0;
+  --theme-border:    rgba(92,58,30,0.18);
+  --theme-font-display: 'Noto Serif KR', Georgia, serif;
+  --theme-font-body:    'Noto Serif KR', Georgia, serif;
+  --theme-radius: 0px;
+  --theme-shadow: 0 4px 16px rgba(15,8,0,0.12);
+}
+
+[data-theme="t4"] .notice-bar          { background: #5C3A1E; }
+[data-theme="t4"] .mnav                { background: #1A0E00; }
+[data-theme="t4"] .ev-header           { background: #5C3A1E; }
+[data-theme="t4"] .ev-tab.on           { border-bottom-color: #5C3A1E; color: #5C3A1E; }
+[data-theme="t4"] .featured-wrap       { background: #F0E8D8; }
+[data-theme="t4"] .fw-title            { color: #1A0E00; }
+[data-theme="t4"] .fw-en               { color: #8B4513; }
+[data-theme="t4"] .fb1                 { background: #5C3A1E; }
+[data-theme="t4"] .fb2                 { background: #C8372D; }
+[data-theme="t4"] .fb3                 { background: #8B4513; }
+[data-theme="t4"] .fb4                 { background: #D4820A; }
+[data-theme="t4"] .intro-wrap          { background: #F0E8D8; }
+[data-theme="t4"] .sec-div             { background: linear-gradient(to right,#5C3A1E,#C8372D,#8B4513,#D4820A); }
+[data-theme="t4"] .ind-hdr             { background: #1A0E00; }
+[data-theme="t4"] .t-amt               { color: #5C3A1E; }
+[data-theme="t4"] .dir-map-btn         { background: #5C3A1E; }
+[data-theme="t4"] .ft-wrap             { background: #1A0E00; }
+[data-theme="t4"] .nav-call            { background: #5C3A1E !important; }
+[data-theme="t4"] .fmb-header          { background: linear-gradient(135deg,#5C3A1E,#2D1A08); }
+[data-theme="t4"] .fmb-header::before  { background: linear-gradient(to right,#5C3A1E,#C8372D,#8B4513,#D4820A); }
+[data-theme="t4"] .ev-sec              { background: #FAF6F0; }
+[data-theme="t4"] .gal-wrap            { background: #FAF6F0; }
+
+/* ──────────────────────────────────────────────
+   T5: 🏙️ 커뮤니티형 (조계사)
+   모던 다크·하얀·세련 / 도심·현대·소통 강조
+   ────────────────────────────────────────────── */
+[data-theme="t5"] {
+  --theme-primary:   #1976D2;   /* 모던 블루 */
+  --theme-secondary: #C8372D;   /* 단청 빨강 포인트 */
+  --theme-accent:    #388E3C;   /* 초록 */
+  --theme-bg:        #FAFAFA;   /* 거의 흰색 */
+  --theme-bg2:       #F0F4F8;   /* 연한 회색 파랑 */
+  --theme-bg3:       #E3F2FD;   /* 연한 파랑 */
+  --theme-ink:       #0D1117;   /* 진한 검정 */
+  --theme-ink2:      #37474F;
+  --theme-ink3:      #78909C;
+  --theme-hero-overlay: rgba(13,17,23,0.42);
+  --theme-nav-bg:    #0D1117;
+  --theme-nav-text:  #FFFFFF;
+  --theme-sec-bg:    #1976D2;
+  --theme-card-bg:   #FFFFFF;
+  --theme-border:    rgba(25,118,210,0.15);
+  --theme-font-display: 'Noto Sans KR', sans-serif;
+  --theme-font-body:    'Noto Sans KR', sans-serif;
+  --theme-radius: 12px;
+  --theme-shadow: 0 4px 24px rgba(13,17,23,0.09);
+}
+
+[data-theme="t5"] .notice-bar          { background: #1976D2; }
+[data-theme="t5"] .mnav                { background: #0D1117; }
+[data-theme="t5"] .ev-header           { background: #1976D2; }
+[data-theme="t5"] .ev-tab.on           { border-bottom-color: #1976D2; color: #1976D2; }
+[data-theme="t5"] .featured-wrap       { background: #F0F4F8; }
+[data-theme="t5"] .fw-title            { color: #0D1117; }
+[data-theme="t5"] .fw-en               { color: #1976D2; }
+[data-theme="t5"] .fb1                 { background: #1976D2; }
+[data-theme="t5"] .fb2                 { background: #C8372D; }
+[data-theme="t5"] .fb3                 { background: #388E3C; }
+[data-theme="t5"] .fb4                 { background: #F57C00; }
+[data-theme="t5"] .intro-wrap          { background: #F0F4F8; }
+[data-theme="t5"] .sec-div             { background: linear-gradient(to right,#1976D2,#C8372D,#388E3C,#F57C00); }
+[data-theme="t5"] .ind-hdr             { background: #0D1117; }
+[data-theme="t5"] .t-amt               { color: #1976D2; }
+[data-theme="t5"] .dir-map-btn         { background: #1976D2; }
+[data-theme="t5"] .ft-wrap             { background: #0D1117; }
+[data-theme="t5"] .nav-call            { background: #1976D2 !important; }
+[data-theme="t5"] .fmb-header          { background: linear-gradient(135deg,#1976D2,#0D47A1); }
+[data-theme="t5"] .fmb-header::before  { background: linear-gradient(to right,#1976D2,#C8372D,#388E3C,#F57C00); }
+[data-theme="t5"] .ev-card             { border-radius: 12px; }
+[data-theme="t5"] .t-card              { border-radius: 12px; }
+[data-theme="t5"] .ev-sec              { background: #FAFAFA; }
+[data-theme="t5"] .gal-wrap            { background: #FAFAFA; }
+
