@@ -45,7 +45,8 @@ const d = entry.data as any;
     }
   </style>
 </head>
-<body>
+<body data-theme={`t${d.ui_type ?? 1}`}>
+```
 
   <!-- ── 고정 NAV ── -->
   <nav id="main-nav" class="mnav">
