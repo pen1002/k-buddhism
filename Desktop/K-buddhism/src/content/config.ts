@@ -86,7 +86,7 @@ const templeSchema = z.object({
   active:    z.boolean().optional().default(true),
   updated:   z.string().optional(),
   ui_type:   z.number().optional().default(1),
-  layout:    z.enum(['template', 'custom']).optional().default('template'),
+  page_type: z.enum(['template', 'custom']).optional().default('template'),
 });
 
 const temples = defineCollection({ type: 'content', schema: templeSchema });

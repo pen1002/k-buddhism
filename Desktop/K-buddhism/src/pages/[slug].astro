@@ -17,7 +17,7 @@ const { Content } = await entry.render();
 const d = entry.data as any;
 ---
 
-{d.layout === 'custom'
+{d.page_type === 'custom'
   ? <CustomLayout   data={d} Content={Content} />
   : <TemplateLayout data={d} Content={Content} />
 }
