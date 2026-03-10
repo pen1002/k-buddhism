@@ -112,7 +112,3 @@ const temples = defineCollection({
   }),
 });
 
-export const collections = { temples };
-const templeSchema = z.object({...})
-const temples = defineCollection({ schema: templeSchema })
-export type TempleData = z.infer<typeof templeSchema> ...
