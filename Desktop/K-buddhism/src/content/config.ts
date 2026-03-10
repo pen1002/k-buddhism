@@ -112,3 +112,4 @@ const temples = defineCollection({
   }),
 });
 
+export const collections = { temples };
