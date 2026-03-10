@@ -123,16 +123,16 @@ p{word-break:keep-all;overflow-wrap:break-word}
   background:#1A0A06;
   margin-top:60px;
 }
-.hero-img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover}
-/* 단청풍 오버레이 — 밝은 컬러 */
+.hero-img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+/* 단청풍 오버레이 — 밝게 */
 .hero-ov{position:absolute;inset:0;z-index:2;
   background:linear-gradient(170deg,
-    rgba(200,55,45,.12) 0%,
-    rgba(43,91,168,.06) 25%,
-    rgba(10,8,6,.2) 55%,
-    rgba(10,8,6,.92) 100%)}
+    rgba(200,55,45,.08) 0%,
+    rgba(43,91,168,.04) 25%,
+    rgba(10,8,6,.10) 55%,
+    rgba(10,8,6,.72) 100%)}
 .hero-ov2{position:absolute;bottom:0;left:0;right:0;z-index:2;
-  height:50%;background:linear-gradient(to top,rgba(10,8,6,1) 0%,transparent 100%)}
+  height:35%;background:linear-gradient(to top,rgba(10,8,6,.65) 0%,transparent 100%)}
 /* 단청 상단 테두리 */
 .hero-top-bar{
   position:absolute;top:0;left:0;right:0;z-index:5;
@@ -300,7 +300,7 @@ p{word-break:keep-all;overflow-wrap:break-word}
   padding-right:1rem;border-right:1px solid rgba(255,255,255,.4);white-space:nowrap;
 }
 .ticker-scroll{overflow:hidden;flex:1;min-width:0}
-.ticker-track{display:inline-flex;gap:3.5rem;white-space:nowrap;animation:tick 38s linear infinite}
+.ticker-track{display:inline-flex;gap:5.5rem;white-space:nowrap;animation:tick 18s linear infinite}
 .ticker-track:hover{animation-play-state:paused}
 .ticker-item{display:inline-flex;align-items:center;gap:.55rem;
   font-family:var(--font);font-size:.78rem;color:rgba(255,255,255,.85)}
@@ -312,7 +312,7 @@ p{word-break:keep-all;overflow-wrap:break-word}
 ════════════════════════════════════════════════════ */
 .intro-sec{background:var(--bg2);padding:5.5rem 0 6rem;scroll-margin-top:64px}
 .intro-grid{display:grid;gap:3rem;grid-template-columns:1fr}
-@media(min-width:1024px){.intro-grid{grid-template-columns:1fr 420px;gap:4rem;align-items:start}}
+@media(min-width:1024px){.intro-grid{grid-template-columns:1fr 1fr;gap:4rem;align-items:start}}
 
 /* 인사말 */
 .greeting{
@@ -387,7 +387,7 @@ p{word-break:keep-all;overflow-wrap:break-word}
 .gi img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1)}
 .gi:hover img{transform:scale(1.06)}
 .gi-ov{
-  position:absolute;inset:0;
+  position:absolute;top:0;right:0;bottom:0;left:0;
   background:linear-gradient(to top,rgba(26,18,10,.8) 0%,transparent 55%);
   opacity:0;transition:opacity .3s;
 }
@@ -417,32 +417,107 @@ p{word-break:keep-all;overflow-wrap:break-word}
 .tag-hwang{background:var(--hwang)}
 
 /* ════════════════════════════════════════════════════
-   법회 일정 (카드)
+   법회 일정 (카드) — CSS 유지 (사용 안 함)
 ════════════════════════════════════════════════════ */
 .sch-sec{background:var(--bg2);padding:5.5rem 0 6rem;scroll-margin-top:64px}
 .sch-grid{display:grid;gap:1rem;grid-template-columns:1fr}
 @media(min-width:640px){.sch-grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1024px){.sch-grid{grid-template-columns:repeat(4,1fr)}}
-.sch-card{
-  background:#fff;padding:1.6rem 1.5rem;
-  border-bottom:3px solid var(--dan);
-  box-shadow:0 2px 10px rgba(26,18,10,.06);
-  transition:transform .2s,box-shadow .2s;
-}
+.sch-card{background:#fff;padding:1.6rem 1.5rem;border-bottom:3px solid var(--dan);box-shadow:0 2px 10px rgba(26,18,10,.06);transition:transform .2s,box-shadow .2s}
 .sch-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(26,18,10,.1)}
-.sch-card:nth-child(2){border-bottom-color:var(--chung)}
-.sch-card:nth-child(3){border-bottom-color:var(--nok)}
-.sch-card:nth-child(4){border-bottom-color:var(--hwang)}
 .sch-ico{font-size:1.6rem;margin-bottom:.75rem}
-.sch-h3{font-family:var(--font);font-size:1.05rem;font-weight:700;
-  letter-spacing:.05em;color:var(--ink);margin-bottom:.6rem;line-height:1.5}
-.sch-meta{font-family:var(--font);font-size:.77rem;color:var(--ink-3);
-  line-height:1.85;letter-spacing:.04em}
-.sch-note{
-  margin-top:.65rem;padding-top:.6rem;
-  border-top:1px solid rgba(26,18,10,.07);
-  font-family:var(--font);font-size:.72rem;color:var(--dan);line-height:1.75;
+.sch-h3{font-family:var(--font);font-size:1.05rem;font-weight:700;letter-spacing:.05em;color:var(--ink);margin-bottom:.6rem;line-height:1.5}
+.sch-meta{font-family:var(--font);font-size:.77rem;color:var(--ink-3);line-height:1.85;letter-spacing:.04em}
+.sch-note{margin-top:.65rem;padding-top:.6rem;border-top:1px solid rgba(26,18,10,.07);font-family:var(--font);font-size:.72rem;color:var(--dan);line-height:1.75}
+
+/* ════════════════════════════════════════════════════
+   템플스테이
+════════════════════════════════════════════════════ */
+.ts-sec{background:var(--bg2);padding:5.5rem 0 6rem;scroll-margin-top:64px}
+.ts-wrap{
+  display:grid;grid-template-columns:1fr;gap:0;
+  background:#fff;box-shadow:0 4px 24px rgba(26,18,10,.1);
+  overflow:hidden;
 }
+@media(min-width:1024px){.ts-wrap{grid-template-columns:360px 1fr}}
+/* 좌: 붉은 배경 패널 */
+.ts-left{
+  background:linear-gradient(160deg,#B52A22 0%,#8A1A14 100%);
+  padding:3rem 2.2rem;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.ts-left::before{
+  content:'';position:absolute;top:-40px;right:-40px;
+  width:200px;height:200px;border-radius:50%;
+  background:rgba(255,255,255,.05);
+}
+.ts-en{font-family:var(--font);font-size:.62rem;letter-spacing:.32em;color:rgba(255,255,255,.55);font-style:italic;margin-bottom:.6rem}
+.ts-title{font-family:var(--font);font-size:clamp(2.2rem,5vw,3.4rem);font-weight:900;color:#fff;line-height:1.05;letter-spacing:.06em;margin-bottom:.8rem}
+.ts-slogan{font-family:var(--font);font-size:.88rem;color:rgba(255,255,255,.75);line-height:1.9;letter-spacing:.05em;font-style:italic;margin-bottom:1.8rem}
+.ts-btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.7rem 1.4rem;
+  border:1.5px solid rgba(255,255,255,.5);color:#fff;
+  font-family:var(--font);font-size:.75rem;letter-spacing:.12em;
+  transition:background .2s;width:fit-content;margin-bottom:1.2rem;
+}
+.ts-btn:hover{background:rgba(255,255,255,.15)}
+.ts-phone{font-family:var(--font);font-size:.88rem;color:rgba(255,255,255,.8);letter-spacing:.06em}
+/* 우: 카드 + 연락바 */
+.ts-right{display:flex;flex-direction:column}
+.ts-cards{display:grid;grid-template-columns:1fr;gap:0;flex:1}
+@media(min-width:640px){.ts-cards{grid-template-columns:repeat(3,1fr)}}
+.ts-card{
+  padding:2rem 1.6rem;border-right:1px solid rgba(26,18,10,.07);
+  border-bottom:1px solid rgba(26,18,10,.07);
+}
+.ts-card:last-child{border-right:none}
+.ts-card-ico{font-size:1.8rem;margin-bottom:.7rem}
+.ts-card-name{font-family:var(--font);font-size:1.35rem;font-weight:800;letter-spacing:.06em;color:var(--ink);margin-bottom:.2rem}
+.ts-card-en{font-family:var(--font);font-size:.63rem;letter-spacing:.2em;font-style:italic;margin-bottom:.9rem}
+.ts-card:nth-child(1) .ts-card-en{color:var(--dan)}
+.ts-card:nth-child(2) .ts-card-en{color:var(--chung)}
+.ts-card:nth-child(3) .ts-card-en{color:var(--nok)}
+.ts-card-list{list-style:none}
+.ts-card-list li{
+  font-family:var(--font);font-size:.78rem;letter-spacing:.04em;
+  color:var(--ink-2);line-height:1.85;
+  padding-left:.9rem;position:relative;
+}
+.ts-card-list li::before{content:'•';position:absolute;left:0;color:var(--dan)}
+.ts-card:nth-child(2) .ts-card-list li::before{color:var(--chung)}
+.ts-card:nth-child(3) .ts-card-list li::before{color:var(--nok)}
+.ts-card-badge{
+  display:inline-block;margin-top:.9rem;
+  padding:.18rem .7rem;font-family:var(--font);font-size:.63rem;letter-spacing:.12em;
+  border:1px solid var(--dan);color:var(--dan);
+}
+.ts-card:nth-child(2) .ts-card-badge{border-color:var(--chung);color:var(--chung)}
+.ts-card:nth-child(3) .ts-card-badge{border-color:var(--nok);color:var(--nok)}
+/* 연락 바 */
+.ts-contact-bar{
+  background:var(--dan);
+  display:grid;grid-template-columns:1fr;
+  gap:0;
+}
+@media(min-width:640px){.ts-contact-bar{grid-template-columns:1fr 1fr auto}}
+.ts-cb{padding:1.4rem 1.8rem;border-right:1px solid rgba(255,255,255,.15)}
+.ts-cb:last-child{border-right:none}
+.ts-cb-lbl{font-family:var(--font);font-size:.62rem;letter-spacing:.2em;color:rgba(255,255,255,.6);margin-bottom:.3rem}
+.ts-cb-val{font-family:var(--font);font-size:clamp(1rem,2.5vw,1.3rem);font-weight:900;color:#fff;letter-spacing:.04em}
+.ts-cb-sub{font-family:var(--font);font-size:.68rem;color:rgba(255,255,255,.65);margin-top:.15rem}
+.ts-qr{
+  padding:1.2rem 1.4rem;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.4rem;
+  background:rgba(0,0,0,.15);
+}
+.ts-qr-box{
+  width:52px;height:52px;background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;
+}
+.ts-qr-txt{font-family:var(--font);font-size:.58rem;letter-spacing:.12em;color:rgba(255,255,255,.7)}
 
 /* ════════════════════════════════════════════════════
    인등불사 + 스마트페이
@@ -633,7 +708,7 @@ footer{
 .ft-grid{display:grid;gap:2.5rem;grid-template-columns:1fr;padding:3.5rem 0 2.5rem}
 @media(min-width:640px){.ft-grid{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1024px){.ft-grid{grid-template-columns:2fr 1fr 1fr}}
-.ft-wide{}
+.ft-wide{display:block}
 @media(min-width:640px){.ft-wide{grid-column:span 2}}
 @media(min-width:1024px){.ft-wide{grid-column:span 1}}
 .ft-name{font-family:var(--font);font-size:1.1rem;font-weight:700;color:#fff;letter-spacing:.07em}
@@ -711,7 +786,7 @@ footer{
     <a href="#events"   class="nav-a">행사안내</a>
     <a href="#intro"    class="nav-a">사찰소개</a>
     <a href="#gallery"  class="nav-a">사찰갤러리</a>
-    <a href="#schedule" class="nav-a">법회일정</a>
+    <a href="#templestay" class="nav-a">템플스테이</a>
     <a href="#indung"   class="nav-a">인등불사</a>
     <a href="#visit"    class="nav-a">오시는 길</a>
     <a href="tel:010-8230-7070" class="nav-cta">📞 전화 문의</a>
@@ -724,7 +799,7 @@ footer{
   <a href="#events"   onclick="closeMob()">🎏 행사안내</a>
   <a href="#intro"    onclick="closeMob()">🏯 사찰소개</a>
   <a href="#gallery"  onclick="closeMob()">🖼 사찰갤러리</a>
-  <a href="#schedule" onclick="closeMob()">📅 법회일정</a>
+  <a href="#templestay" onclick="closeMob()">🏕 템플스테이</a>
   <a href="#indung"   onclick="closeMob()">🕯 인등불사</a>
   <a href="#visit"    onclick="closeMob()">🗺 오시는 길</a>
   <a href="tel:010-8230-7070" onclick="closeMob()" style="color:var(--dan)">📞 010-8230-7070</a>
@@ -776,6 +851,83 @@ footer{
 <div class="dc-div"></div>
 
 
+<!-- ══ 템플스테이 ══ -->
+<section id="templestay" class="ts-sec" aria-labelledby="ts-ttl">
+  <div class="w">
+    <div class="ts-wrap">
+      <div class="ts-left">
+        <span class="ts-en">TEMPLE STAY · 천관사</span>
+        <h2 class="ts-title">천 관 사<br>템플스테이</h2>
+        <p class="ts-slogan">천관산의 고요함 속에서<br>나를 만나는 시간</p>
+        <a href="tel:01082307070" class="ts-btn">연중 상시 운영</a>
+        <span class="ts-phone">📞 010-8230-7070</span>
+      </div>
+      <div class="ts-right">
+        <div class="ts-cards">
+          <div class="ts-card">
+            <div class="ts-card-ico">🏡</div>
+            <div class="ts-card-name">휴식형</div>
+            <div class="ts-card-en">REST &amp; HEALING</div>
+            <ul class="ts-card-list">
+              <li>1박 2일 자유 일정</li>
+              <li>새벽 예불 참여</li>
+              <li>사찰 공양 체험</li>
+              <li>천관산 산책</li>
+              <li>연중 상시 운영</li>
+            </ul>
+            <span class="ts-card-badge">개인 · 가족</span>
+          </div>
+          <div class="ts-card">
+            <div class="ts-card-ico">⛩</div>
+            <div class="ts-card-name">전통형</div>
+            <div class="ts-card-en">TRADITIONAL</div>
+            <ul class="ts-card-list">
+              <li>예불 · 공양 · 포행 체험</li>
+              <li>발우공양 (사찰 식사)</li>
+              <li>108배 수행</li>
+              <li>다도 체험</li>
+              <li>스님과의 대화</li>
+            </ul>
+            <span class="ts-card-badge">소그룹</span>
+          </div>
+          <div class="ts-card">
+            <div class="ts-card-ico">👥</div>
+            <div class="ts-card-name">단체형</div>
+            <div class="ts-card-en">GROUP PROGRAM</div>
+            <ul class="ts-card-list">
+              <li>학교 · 기업 · 단체 맞춤</li>
+              <li>리더십 명상 프로그램</li>
+              <li>힐링 캠프 운영</li>
+              <li>천관산 트레킹</li>
+              <li>사전 예약 필수</li>
+            </ul>
+            <span class="ts-card-badge">10인 이상</span>
+          </div>
+        </div>
+        <div class="ts-contact-bar">
+          <div class="ts-cb">
+            <div class="ts-cb-lbl">예약 · 문의</div>
+            <div class="ts-cb-val">010-8230-7070</div>
+            <div class="ts-cb-sub">문자로 성명·소원 남겨주시면 기도 올려드립니다</div>
+          </div>
+          <div class="ts-cb">
+            <div class="ts-cb-lbl">천관산 도립공원</div>
+            <div class="ts-cb-val" style="font-size:.9rem">전남 장흥군 관산읍 칠관로 1272-473</div>
+            <div class="ts-cb-sub">연중 상시 · 예약제 운영</div>
+          </div>
+          <div class="ts-qr">
+            <div class="ts-qr-box">📱</div>
+            <span class="ts-qr-txt">QR<br>예약하기</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="dc-div"></div>
+
+
+
 <!-- ══ TICKER ══ -->
 <div class="ticker-wrap">
   <div class="ticker-in">
@@ -802,9 +954,9 @@ footer{
   <!-- 컬러풀 헤더 -->
   <div class="ev-header">
     <div class="ev-header-inner">
-      <span class="ev-en">ceremony &amp; events</span>
-      <h2 id="ev-ttl" class="ev-title">법회 · 주요 행사 안내</h2>
-      <p class="ev-desc">2025년 천관사 주요 법회 및 행사 일정을 안내드립니다</p>
+      <span class="ev-en">notice &amp; events</span>
+      <h2 id="ev-ttl" class="ev-title">공지사항 · 기도 · 법회 · 행사</h2>
+      <p class="ev-desc">기도법회 및 주요 행사 일정을 안내드립니다</p>
     </div>
   </div>
 
@@ -812,51 +964,81 @@ footer{
     <!-- 탭 필터 -->
     <div class="ev-tabs">
       <button class="ev-tab on" onclick="filterEv(this,'all')">전체</button>
-      <button class="ev-tab" onclick="filterEv(this,'monthly')">월정기</button>
-      <button class="ev-tab" onclick="filterEv(this,'seasonal')">계절·기도</button>
-      <button class="ev-tab" onclick="filterEv(this,'special')">특별행사</button>
+      <button class="ev-tab" onclick="filterEv(this,'gido')">기도</button>
+      <button class="ev-tab" onclick="filterEv(this,'beophoe')">법회</button>
+      <button class="ev-tab" onclick="filterEv(this,'jeolg')">불교4대명절</button>
+      <button class="ev-tab" onclick="filterEv(this,'sangsi')">상시행사</button>
     </div>
 
     <div class="ev-grid">
-      <div class="ev-card" data-cat="monthly">
-        <span class="ev-date">매월 24일</span>
-        <h3 class="ev-name">천관보살 기도법회</h3>
-        <p class="ev-note">🕯 천관보살 3천인등 기도<br>📍 대웅전</p>
+      <!-- 기도 -->
+      <div class="ev-card" data-cat="gido">
+        <span class="ev-date">매년 1월 (정초)</span>
+        <h3 class="ev-name">🙏 정초기도</h3>
+        <p class="ev-note">새해 소원 성취 기도 · 연중 행운 발원</p>
       </div>
-      <div class="ev-card" data-cat="monthly">
-        <span class="ev-date">매월 첫째 일요일 10:30</span>
-        <h3 class="ev-name">일요법회</h3>
-        <p class="ev-note">⏰ 오전 10시 30분<br>📍 대웅전 · 신도 법문</p>
-      </div>
-      <div class="ev-card" data-cat="seasonal">
-        <span class="ev-date">연중 (정초·백중·동지 등)</span>
-        <h3 class="ev-name">정기 기도법회</h3>
-        <p class="ev-note">🙏 삼재소멸·수능기도·동지팥죽<br>개별 일정 문의: 010-8230-7070</p>
-      </div>
-      <div class="ev-card" data-cat="special">
-        <span class="ev-date">7~8월 중</span>
-        <h3 class="ev-name">여름 명상 가족캠프</h3>
-        <p class="ev-note">⛺ 1박 2일 템플스테이<br>🌿 천관산 도립공원 명상 트레킹</p>
-      </div>
-      <div class="ev-card" data-cat="seasonal">
+      <div class="ev-card" data-cat="gido">
         <span class="ev-date">음력 4월 8일</span>
-        <h3 class="ev-name">부처님 오신 날 봉축법요</h3>
-        <p class="ev-note">🪷 연등행렬 · 봉축법요식<br>불기 2569년(2025) 행사 예정</p>
+        <h3 class="ev-name">🪷 부처님 오신 날 봉축기도</h3>
+        <p class="ev-note">봉축 법요식 · 연등행렬 · 인등공양</p>
       </div>
-      <div class="ev-card" data-cat="seasonal">
+      <div class="ev-card" data-cat="gido">
+        <span class="ev-date">음력 7월 15일</span>
+        <h3 class="ev-name">🍚 백중기도</h3>
+        <p class="ev-note">영가천도 · 우란분절 기도</p>
+      </div>
+      <div class="ev-card" data-cat="gido">
         <span class="ev-date">동지 (12월)</span>
-        <h3 class="ev-name">동지팥죽 기도</h3>
-        <p class="ev-note">🍲 팥죽 공양 · 동지기도<br>📿 액막이 공덕기도</p>
+        <h3 class="ev-name">🍲 동지기도</h3>
+        <p class="ev-note">팥죽 공양 · 액막이 공덕기도</p>
       </div>
-      <div class="ev-card" data-cat="special">
-        <span class="ev-date">연중 상시</span>
-        <h3 class="ev-name">개인 기도 접수</h3>
-        <p class="ev-note">📱 수능·취업·건강·가족화합<br>문자 또는 방문 접수</p>
-      </div>
-      <div class="ev-card" data-cat="monthly">
+      <!-- 법회 -->
+      <div class="ev-card" data-cat="beophoe">
         <span class="ev-date">매달 초하루·보름</span>
-        <h3 class="ev-name">삭망법회</h3>
-        <p class="ev-note">🌕 음력 1일·15일 새벽기도<br>⏰ 새벽 5시 30분</p>
+        <h3 class="ev-name">🌕 삭망법회</h3>
+        <p class="ev-note">⏰ 새벽 5시 30분</p>
+      </div>
+      <div class="ev-card" data-cat="beophoe">
+        <span class="ev-date">매월 첫째 일요일</span>
+        <h3 class="ev-name">☀️ 일요법회</h3>
+        <p class="ev-note">⏰ 오전 10:30</p>
+      </div>
+      <!-- 불교4대명절 -->
+      <div class="ev-card" data-cat="jeolg">
+        <span class="ev-date">음력 4월 8일</span>
+        <h3 class="ev-name">📖 부처님 오신 날</h3>
+        <p class="ev-note">불교 4대 명절 · 석가탄신일</p>
+      </div>
+      <div class="ev-card" data-cat="jeolg">
+        <span class="ev-date">음력 2월 8일</span>
+        <h3 class="ev-name">🌿 출가재일</h3>
+        <p class="ev-note">부처님 출가를 기리는 날</p>
+      </div>
+      <div class="ev-card" data-cat="jeolg">
+        <span class="ev-date">음력 12월 8일</span>
+        <h3 class="ev-name">☀️ 성도재일</h3>
+        <p class="ev-note">부처님 깨달음을 기리는 날</p>
+      </div>
+      <div class="ev-card" data-cat="jeolg">
+        <span class="ev-date">음력 2월 15일</span>
+        <h3 class="ev-name">🏛 열반재일</h3>
+        <p class="ev-note">부처님 열반을 기리는 날</p>
+      </div>
+      <!-- 상시행사 -->
+      <div class="ev-card" data-cat="sangsi">
+        <span class="ev-date">연중 상시</span>
+        <h3 class="ev-name">🏕 템플스테이 — 휴식형</h3>
+        <p class="ev-note">1박 2일 · 자유로운 산사 체험 · 예약제 운영</p>
+      </div>
+      <div class="ev-card" data-cat="sangsi">
+        <span class="ev-date">연중 상시</span>
+        <h3 class="ev-name">🏯 템플스테이 — 전통형</h3>
+        <p class="ev-note">예불·공양·명상 등 전통 의례 체험</p>
+      </div>
+      <div class="ev-card" data-cat="sangsi">
+        <span class="ev-date">단체 사전예약</span>
+        <h3 class="ev-name">👥 템플스테이 — 단체형</h3>
+        <p class="ev-note">학교·기업·단체 맞춤 프로그램 · 사전 협의</p>
       </div>
     </div>
   </div>
@@ -874,7 +1056,7 @@ footer{
     <div class="dc-bar"><span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span></div>
 
     <div class="intro-grid">
-      <!-- 좌 -->
+      <!-- 좌: 주지스님 인사말 + 연혁 -->
       <div>
         <!-- 주지스님 인사말 -->
         <div style="margin-bottom:2rem">
@@ -883,13 +1065,30 @@ footer{
           </h3>
           <div class="greeting">
             <p>천관산 천오백년 도량 천관사에 오신 것을 환영합니다.<br>
-            천관보살의 자비로운 원력 아래 여러분의 소원이 원만히 성취되기를<br>
-            두 손 모아 발원합니다.</p>
+            이곳은 국내 유일의 천관보살 상주처로, 복덕과 지혜로 중생을 이롭게 하시는<br>
+            천관보살의 원력이 살아 숨 쉬는 청정한 기도도량입니다.<br><br>
+            어지러운 세상 속에서 잠시 발길을 멈추고 이 도량의 고요함 안에서<br>
+            자신을 돌아보는 귀한 시간이 되시길 바랍니다.<br>
+            천관보살의 자비로운 가피로 여러분과 가정에<br>
+            소원성취와 평안이 가득하시기를 두 손 모아 발원합니다.</p>
             <div class="greeting-sig">— 주지 연등 합장</div>
           </div>
         </div>
 
-        <!-- 사찰 소개 -->
+        <!-- 사찰 연혁 -->
+        <div class="hist-box">
+          <h3 class="hist-ttl">연혁</h3>
+          <ul class="hist-list">
+            <li class="hist-li"><span class="hist-yr">759년 (신라 경덕왕)</span><span class="hist-ev">의조화상이 천관산 아래 창건</span></li>
+            <li class="hist-li"><span class="hist-yr">고려 시대</span><span class="hist-ev">수차 중창, 천관사라 명명</span></li>
+            <li class="hist-li"><span class="hist-yr">조선 후기</span><span class="hist-ev">임진·병자 양난으로 소실, 부분 복구</span></li>
+            <li class="hist-li"><span class="hist-yr">2018년</span><span class="hist-ev">대웅전·지장전 중창 불사 완성</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 우: 사찰 소개 (전체 높이) -->
+      <div>
         <h3 style="font-family:var(--font);font-size:1.35rem;font-weight:800;letter-spacing:.08em;color:var(--ink);margin-bottom:.9rem">
           천관사 소개
         </h3>
@@ -900,21 +1099,16 @@ footer{
 사찰 경내에는 <strong style="color:var(--dan)">보물 제795호 삼층석탑</strong>이 있으며,
 천관보살을 주불로 모시는 국내 유일의 도량입니다.</p>
 
-        <div class="buildings-bar">
-          <span class="buildings-inner">대웅전 · 지장전 · 삼성각(칠성·독성·산신) · 범종각 · 요사채</span>
-        </div>
-      </div>
+        <p class="prose-txt" style="margin-top:1.2rem">천관산(天冠山)은 전남 장흥에 위치한 도립공원으로, 기암괴석과 억새 군락으로 유명합니다.
+천관사는 그 산자락에 자리잡아 사계절 아름다운 자연환경과 함께
+고요한 수행 공간을 제공합니다.</p>
 
-      <!-- 우: 연혁 -->
-      <div>
-        <div class="hist-box">
-          <h3 class="hist-ttl">연혁</h3>
-          <ul class="hist-list">
-            <li class="hist-li"><span class="hist-yr">759년 (신라 경덕왕)</span><span class="hist-ev">의조화상이 천관산 아래 창건</span></li>
-            <li class="hist-li"><span class="hist-yr">고려 시대</span><span class="hist-ev">수차 중창, 천관사라 명명</span></li>
-            <li class="hist-li"><span class="hist-yr">조선 후기</span><span class="hist-ev">임진·병자 양난으로 소실, 부분 복구</span></li>
-            <li class="hist-li"><span class="hist-yr">2018년</span><span class="hist-ev">대웅전·지장전 중창 불사 완성</span></li>
-          </ul>
+        <p class="prose-txt" style="margin-top:1.2rem">특히 매월 24일 천관보살 기도법회와 삼천인등 공양을 통해
+신도들의 소원 성취를 발원하며, 연중 템플스테이를 운영하여
+도시에 지친 이들에게 쉼과 치유의 공간을 제공하고 있습니다.</p>
+
+        <div class="buildings-bar" style="margin-top:2rem">
+          <span class="buildings-inner">대웅전 · 지장전 · 삼성각(칠성·독성·산신) · 범종각 · 요사채</span>
         </div>
       </div>
     </div>
@@ -984,41 +1178,9 @@ footer{
 <div class="dc-div"></div>
 
 
-<!-- ══ 법회 일정 ══ -->
-<section id="schedule" class="sch-sec" aria-labelledby="sch-ttl">
-  <div class="w">
-    <span class="sec-en" style="color:var(--dan)">ceremony &amp; schedule</span>
-    <h2 id="sch-ttl" class="sec-h2" style="font-size:clamp(2rem,4.5vw,3rem);margin-top:.3rem">
-      법회 · 행사 일정
-    </h2>
-    <div class="dc-bar"><span class="b2"></span><span class="b1"></span><span class="b4"></span><span class="b3"></span></div>
 
-    <div class="sch-grid">
-      <div class="sch-card">
-        <div class="sch-ico">🙏</div>
-        <h3 class="sch-h3">정기 기도법회<br>부처님오신날 봉축</h3>
-        <div class="sch-meta"><p>📅 연중 (정초·삼재·백중·동지)</p></div>
-      </div>
-      <div class="sch-card">
-        <div class="sch-ico">🪷</div>
-        <h3 class="sch-h3">일요법회</h3>
-        <div class="sch-meta"><p>⏰ 매월 첫째 일요일 오전 10:30</p></div>
-      </div>
-      <div class="sch-card">
-        <div class="sch-ico">⛺</div>
-        <h3 class="sch-h3">여름 명상 가족캠프</h3>
-        <div class="sch-meta"><p>📅 7~8월 중 (1박 2일)</p></div>
-      </div>
-      <div class="sch-card">
-        <div class="sch-ico">🕯</div>
-        <h3 class="sch-h3">천관보살 기도법회</h3>
-        <div class="sch-meta"><p>📅 매월 24일</p></div>
-        <p class="sch-note">천관보살 3천인등 기도</p>
-      </div>
-    </div>
-  </div>
-</section>
-<div class="dc-div"></div>
+
+
 
 
 <!-- ══ 인등불사 + 스마트페이 ══ -->
@@ -1171,6 +1333,7 @@ footer{
           <li class="ft-li"><a href="#events">행사안내</a></li>
           <li class="ft-li"><a href="#intro">사찰소개</a></li>
           <li class="ft-li"><a href="#gallery">사찰갤러리</a></li>
+          <li class="ft-li"><a href="#templestay">템플스테이</a></li>
           <li class="ft-li"><a href="#indung">인등불사</a></li>
           <li class="ft-li"><a href="#visit">오시는 길</a></li>
         </ul>
@@ -1180,13 +1343,13 @@ footer{
         <ul class="ft-ul">
           <li class="ft-li"><a href="https://blog.naver.com/chungwansa" target="_blank">네이버 블로그 ↗</a></li>
           <li class="ft-li"><a href="https://naver.me/GVEGVtKj" target="_blank">네이버 지도 ↗</a></li>
-          <li class="ft-li"><a href="#">Temple Hub ↗</a></li>
+
         </ul>
       </div>
     </div>
     <div class="ft-copy">
       <p>© 2025 천관사 (天冠寺). All rights reserved.</p>
-      <p>Temple Hub · Powered by Astro</p>
+      <p>Powered by Astro</p>
     </div>
   </div>
 </footer>
@@ -1231,7 +1394,7 @@ function toggleMob(){document.getElementById('mob').classList.toggle('open')}
 function closeMob(){document.getElementById('mob').classList.remove('open')}
 
 /* ── 스크롤 NAV 활성 ── */
-const secs=['events','intro','gallery','schedule','indung','visit'];
+const secs=['events','intro','gallery','templestay','indung','visit'];
 const navAs=document.querySelectorAll('.nav-a');
 const obs=new IntersectionObserver(es=>{
   es.forEach(e=>{
