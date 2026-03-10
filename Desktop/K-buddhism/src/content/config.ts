@@ -108,8 +108,11 @@ const temples = defineCollection({
     active:    z.boolean().optional().default(true),
     updated:   z.string().optional(),
     ui_type:   z.number().optional().default(1),
+    layout:  z.enum(['template', 'custom']).optional().default('template'),
   }),
 });
 
 export const collections = { temples };
-export type TempleData = z.infer<typeof temples.schema> & { body?: string };
+const templeSchema = z.object({...})
+const temples = defineCollection({ schema: templeSchema })
+export type TempleData = z.infer<typeof templeSchema> ...

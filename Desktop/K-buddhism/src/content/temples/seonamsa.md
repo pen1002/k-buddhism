@@ -7,6 +7,8 @@ slogan: "조계산 깊은 숲 속 천년 고찰, 선암사"
 description: |
   전남 순천 조계산 선암사. 승선교, 홍매화, 천년의 숨결이 살아있는 한국불교 태고종 본찰.
   조계산 깊은 숲 속 천년 고찰, 승선교, 홍매화가 아름다운 아름다운 성지입니다.
+ui_type: 2
+layout: custom  
 hero_image: "seonamsa_hero_image"
 gallery_imgs:
   - "seonamsa_gallery_1"
