@@ -1,0 +1,30 @@
+---
+// src/layouts/TemplateLayout.astro
+// ✅ 기존 T1~T5 템플릿 레이아웃 (기존 [slug].astro 내용을 이쪽으로 이동)
+
+interface Props {
+  data: any
+}
+const { data: d } = Astro.props
+
+const uiType = d.ui_type ?? 1
+const title  = d.title ?? d.name ?? '사찰'
+---
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>{title}</title>
+  <!-- 기존 [slug].astro의 <head> 내용을 여기에 붙여넣기 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <!-- temple.css -->
+  <link rel="stylesheet" href="/styles/temple.css"/>
+</head>
+<body data-theme={`t${uiType}`}>
+  <!-- 기존 [slug].astro의 <body> 내용을 여기에 붙여넣기 -->
+  <!-- 예: NavBar, HeroSection, EventsSection, FooterSection 등 -->
+  <slot />
+</body>
+</html>
