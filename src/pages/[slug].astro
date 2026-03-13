@@ -4,14 +4,9 @@ import { getCollection, getEntry } from 'astro:content';
 import TemplateLayout from '../layouts/TemplateLayout.astro';
 import CustomLayout   from '../layouts/CustomLayout.astro';
 
-// borimsa는 src/pages/borimsa.html이 직접 서빙하므로 제외
-const STANDALONE_PAGES = ['borimsa'];
-
 export async function getStaticPaths() {
   const all = await getCollection('temples', e => e.data.active !== false);
-  return all
-    .filter(e => !STANDALONE_PAGES.includes(e.slug))
-    .map(e => ({ params: { slug: e.slug } }));
+  return all.map(e => ({ params: { slug: e.slug } }));
 }
 
 const { slug } = Astro.params;
