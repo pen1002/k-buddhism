@@ -6,7 +6,7 @@ import CustomLayout   from '../layouts/CustomLayout.astro';
 
 export async function getStaticPaths() {
   const all = await getCollection('temples', e => e.data.active !== false);
-  return all.map(e => ({ params: { slug: e.slug } }));
+  return all.filter(e => e.slug !== 'borimsa').map(e => ({ params: { slug: e.slug } }));
 }
 
 const { slug } = Astro.params;
