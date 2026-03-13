@@ -13,7 +13,7 @@ dist/
 .claude/
 
 # 루트 html 임시파일
-*.html
+/*.html
 
 # Astro 빌드
 dist/
