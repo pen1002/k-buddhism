@@ -1,0 +1,374 @@
+---
+// EventsSection.astro — v4: 행사안내 티커 → 이달의 주요행사 → 공지사항 탭+카드
+import type { TempleData } from '../../content/config';
+interface Props { d: TempleData; }
+const { d } = Astro.props;
+const evs = d.events ?? [];
+
+// 이달의 주요행사 — festival + prayer 중 앞 3개
+const featured = evs.filter(e => ['festival','prayer','service'].includes(e.category ?? '')).slice(0,3);
+// 전체 탭
+const tabs = [
+  { key:'all',        label:'전체' },
+  { key:'prayer',     label:'기도' },
+  { key:'service',    label:'법회' },
+  { key:'festival',   label:'불교4대명절' },
+  { key:'templestay', label:'상시행사' },
+];
+const catColor: Record<string,string> = {
+  prayer:'#C8372D', service:'#2B5BA8', festival:'#D4820A', templestay:'#3A7D44'
+};
+---
+
+<!-- ① 행사안내 — 얇은 티커 바 (공지 성격) -->
+{evs.length > 0 && (
+  <div class="notice-bar" aria-label="행사안내">
+    <span class="nb-lbl">📢 행사안내</span>
+    <div class="nb-track-wrap">
+      <div class="nb-track">
+        {[...evs,...evs,...evs].map(ev => (
+          <span class="nb-item">
+            {ev.emoji && <span>{ev.emoji}</span>}
+            {(ev.schedule || ev.time) && <em class="nb-dt">{ev.schedule ?? ev.time}</em>}
+            <span class="nb-name">{ev.name}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+)}
+
+<!-- ② 주요행사 — 단청 밝은 배경 + 배너 -->
+<div class="featured-wrap" aria-label="주요행사">
+  <div class="w">
+    <div class="fw-header-simple">
+      <div class="fw-label">
+        <span class="fw-en">featured events</span>
+        <h2 class="fw-title">주요행사</h2>
+        <div class="fw-bar"><span class="fb1"></span><span class="fb2"></span><span class="fb3"></span><span class="fb4"></span></div>
+      </div>
+    </div>
+
+    <!-- 데스크탑: SVG 배너 -->
+    <div class="fw-banner-wrap fw-desktop-only">
+      <img src="/templestay-banner.svg" alt="천관사 템플스테이 안내" class="fw-banner" loading="lazy" />
+      <div class="fw-banner-cap">
+        <span>📌 이달의 특집 — 천관사 템플스테이 (연중 상시)</span>
+        <span class="fw-cap-sub">매달 새로운 프로그램으로 업데이트됩니다</span>
+      </div>
+    </div>
+
+    <!-- 모바일: HTML 2열 카드 레이아웃 -->
+    <div class="fw-mobile-banner fw-mobile-only">
+      <!-- 상단 헤더 카드 (단청 빨강) -->
+      <div class="fmb-header">
+        <span class="fmb-lotus">🪷</span>
+        <p class="fmb-sub">TEMPLE STAY · 천관사</p>
+        <h3 class="fmb-title">천관사 템플스테이</h3>
+        <div class="fmb-divline"></div>
+        <p class="fmb-desc">천관산의 고요함 속에서 나를 만나는 시간</p>
+        <div class="fmb-badge">연중 상시 운영</div>
+        <p class="fmb-tel">📞 010-8230-7070</p>
+      </div>
+      <!-- 하단 2열 카드 그리드 -->
+      <div class="fmb-grid">
+        <div class="fmb-card fmb-red">
+          <span class="fmb-icon">🏡</span>
+          <p class="fmb-cname">휴식형</p>
+          <p class="fmb-cen">REST &amp; HEALING</p>
+          <ul class="fmb-list">
+            <li>1박 2일 자유 일정</li>
+            <li>새벽 예불 참여</li>
+            <li>사찰 공양 체험</li>
+            <li>천관산 산책</li>
+          </ul>
+          <span class="fmb-tag">개인 · 가족</span>
+        </div>
+        <div class="fmb-card fmb-blue">
+          <span class="fmb-icon">⛩</span>
+          <p class="fmb-cname">전통형</p>
+          <p class="fmb-cen">TRADITIONAL</p>
+          <ul class="fmb-list">
+            <li>예불 · 공양 · 포행</li>
+            <li>발우공양 체험</li>
+            <li>108배 수행</li>
+            <li>스님과의 대화</li>
+          </ul>
+          <span class="fmb-tag">소그룹</span>
+        </div>
+        <div class="fmb-card fmb-green">
+          <span class="fmb-icon">👥</span>
+          <p class="fmb-cname">단체형</p>
+          <p class="fmb-cen">GROUP PROGRAM</p>
+          <ul class="fmb-list">
+            <li>학교 · 기업 · 단체</li>
+            <li>리더십 명상</li>
+            <li>힐링 캠프 운영</li>
+            <li>사전 예약 필수</li>
+          </ul>
+          <span class="fmb-tag">10인 이상</span>
+        </div>
+        <div class="fmb-card fmb-gold">
+          <span class="fmb-icon">📞</span>
+          <p class="fmb-cname">예약 · 문의</p>
+          <p class="fmb-cen">RESERVATION</p>
+          <p class="fmb-tel-big">010-8230-7070</p>
+          <p class="fmb-addr">전남 장흥군 관산읍<br/>칠관로 1272-473</p>
+          <span class="fmb-tag">문자 예약 가능</span>
+        </div>
+      </div>
+      <p class="fmb-note">📌 이달의 특집 — 천관사 템플스테이 · <em>매달 새로운 프로그램으로 업데이트됩니다</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- ③ 공지사항·기도·법회·행사 — 탭 + 카드 그리드 -->
+<section id="events" class="ev-sec" aria-labelledby="ev-ttl">
+
+  <!-- 단청 헤더 -->
+  <div class="ev-header">
+    <span class="ev-en">notice &amp; events</span>
+    <h2 id="ev-ttl" class="ev-title">공지사항 · 기도 · 법회 · 행사</h2>
+    <p class="ev-desc">기도법회 및 주요 행사 일정을 안내드립니다</p>
+  </div>
+
+  <div class="w">
+    <!-- 탭 -->
+    <div class="ev-tabs">
+      {tabs.map((t,i)=>(
+        <button class={`ev-tab${i===0?' on':''}`} onclick={`filterEv(this,'${t.key}')`}>{t.label}</button>
+      ))}
+    </div>
+
+    <!-- 카드 그리드 -->
+    <div class="ev-grid">
+      {evs.length > 0 ? evs.map((ev,i) => (
+        <div class="ev-card" data-cat={ev.category ?? 'prayer'}>
+          <span class={`ev-date c${(i%4)+1}`}>{ev.schedule ?? ev.time ?? '상시'}</span>
+          {ev.time && ev.schedule && <span class="ev-time">⏰ {ev.time}</span>}
+          <h3 class="ev-name">{ev.emoji && <span>{ev.emoji} </span>}{ev.name}</h3>
+          {ev.note     && <p class="ev-note">{ev.note}</p>}
+          {ev.location && <p class="ev-loc">📍 {ev.location}</p>}
+        </div>
+      )) : (
+        <p class="ev-empty">공지사항을 등록하시면 이곳에 표시됩니다.</p>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+/* ── ① 행사안내 티커 바 ── */
+.notice-bar {
+  background:#C8372D;
+  display:flex;align-items:center;
+  padding:.45rem 0;overflow:hidden;
+  position:sticky;top:60px;z-index:70;
+  box-shadow:0 2px 8px rgba(200,55,45,.3);
+}
+.nb-lbl {
+  flex-shrink:0;
+  padding:0 1rem;
+  font-family:var(--font,serif);font-size:.65rem;
+  letter-spacing:.22em;color:#fff;font-weight:700;
+  border-right:1px solid rgba(255,255,255,.3);
+  white-space:nowrap;
+}
+.nb-track-wrap { overflow:hidden;flex:1;min-width:0; }
+.nb-track {
+  display:inline-flex;gap:2.5rem;white-space:nowrap;
+  padding:0 1rem;
+  animation:nbscroll 24s linear infinite;
+}
+.nb-track:hover { animation-play-state:paused; }
+.nb-item { display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font,serif);font-size:.72rem;color:rgba(255,255,255,.88); }
+.nb-dt   { color:rgba(255,255,255,.5);font-style:italic; }
+.nb-name { font-weight:600; }
+@keyframes nbscroll { from{transform:translateX(0)} to{transform:translateX(-33.333%)} }
+
+/* ── ② 주요행사 — 단청 밝은 배경 ── */
+.featured-wrap {
+  background: var(--bg2, #F5EFE0);
+  border-top: 4px solid transparent;
+  border-image: linear-gradient(to right,#C8372D,#D4820A,#3A7D44,#2B5BA8) 1;
+  padding: 3rem 0 3.5rem;
+}
+.fw-header-simple {
+  margin-bottom: 2rem;
+}
+.fw-label {}
+.fw-en    { font-family:var(--font,serif);font-size:.6rem;letter-spacing:.3em;color:#C8372D;text-transform:uppercase;font-style:italic; }
+.fw-title { font-family:var(--font,serif);font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:#1A120A;letter-spacing:.08em;margin-top:.25rem; }
+.fw-bar   { display:flex;gap:4px;margin-top:.5rem; }
+.fb1,.fb2,.fb3,.fb4 { display:inline-block;height:3px; }
+.fb1{width:36px;background:#C8372D} .fb2{width:18px;background:#D4820A}
+.fb3{width:24px;background:#3A7D44} .fb4{width:14px;background:#2B5BA8}
+
+
+/* 배너 — 데스크탑 SVG */
+.fw-banner-wrap {
+  border: 1.5px solid rgba(200,55,45,.18);
+  background: #FDFAF4;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(26,18,10,.1);
+}
+.fw-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* 잘림 방지: max-height 제거, aspect-ratio 고정 */
+  aspect-ratio: 1200 / 520;
+  object-fit: contain;
+  background: #FDFAF4;
+}
+.fw-banner-cap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: .7rem 1.2rem;
+  background: var(--bg2, #F5EFE0);
+  border-top: 1px solid rgba(200,55,45,.15);
+  font-family: var(--font, serif);
+  font-size: .78rem;
+  color: #3D2B1A;
+  letter-spacing: .04em;
+}
+.fw-cap-sub { font-size:.7rem;color:#9C7E65;font-style:italic; }
+
+/* 데스크탑/모바일 전환 */
+.fw-desktop-only { display: block; }
+.fw-mobile-only  { display: none;  }
+
+/* ── 모바일 배너 카드 레이아웃 ── */
+.fw-mobile-banner { width: 100%; }
+.fmb-header {
+  background: linear-gradient(135deg, #C8372D 0%, #9C1F18 100%);
+  padding: 1.8rem 1.4rem 1.6rem;
+  text-align: center;
+  border-radius: 2px 2px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+.fmb-header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(to right,#C8372D,#D4820A,#3A7D44,#2B5BA8);
+}
+.fmb-lotus  { font-size: 2rem; display: block; margin-bottom: .4rem; }
+.fmb-sub    { font-family: Georgia, serif; font-size: .75rem; letter-spacing: .25em; color: rgba(255,255,255,.6); text-transform: uppercase; margin-bottom: .5rem; }
+.fmb-title  { font-family: var(--font, serif); font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: .05em; line-height: 1.25; margin-bottom: .7rem; word-break: keep-all; }
+.fmb-divline { width: 60px; height: 3px; background: rgba(255,255,255,.5); margin: .6rem auto; }
+.fmb-desc   { font-family: var(--font, serif); font-size: 1rem; color: rgba(255,255,255,.82); font-style: italic; margin-bottom: .9rem; word-break: keep-all; }
+.fmb-badge  { display: inline-block; padding: .45rem 1.2rem; border: 1.5px solid rgba(255,255,255,.5); font-family: var(--font, serif); font-size: .9rem; font-weight: 700; color: #fff; letter-spacing: .08em; margin-bottom: .7rem; }
+.fmb-tel    { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,.88); letter-spacing: .05em; }
+
+/* 2열 카드 그리드 */
+.fmb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.fmb-card {
+  padding: 1.3rem 1rem 1rem;
+  background: #fff;
+  border: 1px solid rgba(200,55,45,.12);
+  border-top: none;
+}
+.fmb-card:nth-child(even) { border-left: none; }
+.fmb-card:nth-child(n+3)  { border-top: 1px solid rgba(200,55,45,.12); }
+.fmb-icon  { font-size: 1.6rem; display: block; margin-bottom: .5rem; }
+.fmb-cname { font-family: var(--font, serif); font-size: 1.15rem; font-weight: 900; color: #1A120A; letter-spacing: .08em; margin-bottom: .15rem; }
+.fmb-cen   { font-family: Georgia, serif; font-size: .65rem; letter-spacing: .12em; margin-bottom: .6rem; }
+.fmb-red  .fmb-cen { color: #C8372D; }
+.fmb-blue .fmb-cen { color: #2B5BA8; }
+.fmb-green .fmb-cen { color: #3A7D44; }
+.fmb-gold  .fmb-cen { color: #D4820A; }
+.fmb-list  { list-style: none; padding: 0; margin: 0 0 .7rem; }
+.fmb-list li { font-family: var(--font, serif); font-size: .9rem; color: #3D2B1A; line-height: 2; }
+.fmb-list li::before { content: "• "; color: #C8372D; }
+.fmb-tag   { display: inline-block; font-size: .72rem; padding: .2rem .55rem; border-radius: 1px; font-family: Georgia, serif; letter-spacing: .06em; }
+.fmb-red   .fmb-tag { background: #FDE8E6; color: #C8372D; }
+.fmb-blue  .fmb-tag { background: #E6EEF8; color: #2B5BA8; }
+.fmb-green .fmb-tag { background: #E6F3E8; color: #3A7D44; }
+.fmb-gold  .fmb-tag { background: #FEF3DC; color: #D4820A; }
+.fmb-tel-big { font-family: var(--font, serif); font-size: 1.25rem; font-weight: 900; color: #1A120A; margin: .4rem 0; letter-spacing: .04em; }
+.fmb-addr  { font-family: var(--font, serif); font-size: .82rem; color: #6B5340; line-height: 1.9; margin-bottom: .5rem; }
+.fmb-note  {
+  padding: .8rem 1rem;
+  background: var(--bg2, #F5EFE0);
+  border: 1px solid rgba(200,55,45,.12);
+  border-top: none;
+  font-family: var(--font, serif);
+  font-size: .8rem;
+  color: #3D2B1A;
+  letter-spacing: .03em;
+  word-break: keep-all;
+  line-height: 1.8;
+}
+.fmb-note em { color: #9C7E65; font-style: italic; }
+
+/* 반응형 전환 */
+@media (max-width: 767px) {
+  .fw-desktop-only { display: none !important; }
+  .fw-mobile-only  { display: block !important; }
+}
+
+/* ── ③ 공지사항 섹션 ── */
+.ev-sec { background:var(--bg,#FDFAF4);padding:4.5rem 0 5.5rem;scroll-margin-top:64px; }
+
+.ev-header {
+  background:linear-gradient(135deg,#C8372D,#9C1F18);
+  padding:2.2rem 1.4rem 1.8rem;text-align:center;margin-bottom:1.8rem;
+  position:relative;overflow:hidden;
+}
+.ev-header::before {
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80%,rgba(240,168,48,.12) 0%,transparent 50%);
+}
+.ev-en    { font-family:var(--font,serif);font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;font-style:italic;color:rgba(255,255,255,.5); }
+.ev-title { font-family:var(--font,serif);font-size:clamp(1.4rem,3.8vw,2.2rem);font-weight:900;color:#fff;letter-spacing:.08em;margin-top:.2rem;word-break:keep-all; }
+.ev-desc  { font-family:var(--font,serif);font-size:.75rem;color:rgba(255,255,255,.65);margin-top:.3rem; }
+
+/* 탭 */
+.ev-tabs { display:flex;gap:.4rem;margin-bottom:1.4rem;flex-wrap:wrap; }
+.ev-tab  { padding:.38rem .9rem;font-family:var(--font,serif);font-size:.68rem;letter-spacing:.08em;border:1.5px solid rgba(200,55,45,.2);color:#6B5340;cursor:pointer;transition:all .18s;background:#fff; }
+.ev-tab:hover,.ev-tab.on { background:#C8372D;color:#fff;border-color:#C8372D; }
+
+/* 카드 */
+.ev-grid { display:grid;gap:.8rem;grid-template-columns:1fr; }
+@media(min-width:540px)  { .ev-grid{grid-template-columns:repeat(2,1fr)} }
+@media(min-width:1024px) { .ev-grid{grid-template-columns:repeat(4,1fr)} }
+
+.ev-card {
+  background:#fff;border-top:3px solid #C8372D;
+  padding:1.2rem 1.1rem;
+  box-shadow:0 2px 8px rgba(26,18,10,.05);
+  transition:transform .2s,box-shadow .2s;
+}
+.ev-card:hover { transform:translateY(-3px);box-shadow:0 8px 20px rgba(26,18,10,.1); }
+.ev-card:nth-child(4n+2){border-top-color:#2B5BA8}
+.ev-card:nth-child(4n+3){border-top-color:#3A7D44}
+.ev-card:nth-child(4n+4){border-top-color:#D4820A}
+
+.ev-date { display:inline-block;padding:.1rem .5rem;font-family:var(--font,serif);font-size:.61rem;letter-spacing:.1em;background:#FDE8E6;color:#C8372D;margin-bottom:.5rem; }
+.ev-date.c2{background:#E6EEF8;color:#2B5BA8} .ev-date.c3{background:#E6F3E8;color:#3A7D44} .ev-date.c4{background:#FEF3DC;color:#D4820A}
+.ev-time  { display:block;font-family:var(--font,serif);font-size:.6rem;color:#9C7E65;margin-bottom:.3rem; }
+.ev-name  { font-family:var(--font,serif);font-size:.95rem;font-weight:700;color:#1A120A;line-height:1.5;letter-spacing:.04em;margin-bottom:.4rem;word-break:keep-all; }
+.ev-note  { font-family:var(--font,serif);font-size:.72rem;color:#6B5340;line-height:1.8;letter-spacing:.03em;word-break:keep-all; }
+.ev-loc   { font-family:var(--font,serif);font-size:.67rem;color:#9C7E65;margin-top:.2rem; }
+.ev-empty { font-family:var(--font,serif);font-size:.9rem;color:#6B5340;grid-column:1/-1; }
+</style>
+
+<script>
+  function filterEv(btn: HTMLElement, cat: string) {
+    document.querySelectorAll('.ev-tab').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    document.querySelectorAll<HTMLElement>('.ev-card').forEach(c => {
+      c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none';
+    });
+  }
+  (window as any).filterEv = filterEv;
+</script>

@@ -1,0 +1,23 @@
+---
+// src/pages/[slug].astro — layout 분기 버전
+import { getCollection, getEntry } from 'astro:content';
+import TemplateLayout from '../layouts/TemplateLayout.astro';
+import CustomLayout   from '../layouts/CustomLayout.astro';
+
+export async function getStaticPaths() {
+  const all = await getCollection('temples', e => e.data.active !== false);
+  return all.map(e => ({ params: { slug: e.slug } }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry('temples', slug as string);
+if (!entry) return Astro.redirect('/404');
+
+const { Content } = await entry.render();
+const d = entry.data as any;
+---
+
+{d.page_type === 'custom'
+  ? <CustomLayout   data={d} Content={Content} />
+  : <TemplateLayout data={d} Content={Content} />
+}

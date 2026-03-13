@@ -1,0 +1,16 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Claude 임시파일
+.claude/
+
+# 루트 html 임시파일
+*.html
+
+# Astro 빌드
+dist/
+.astro/
+
+# Node
+node_modules/
