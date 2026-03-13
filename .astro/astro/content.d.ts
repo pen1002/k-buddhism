@@ -146,63 +146,56 @@ declare module 'astro:content' {
   slug: "temple_template";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
-} & { render(): Render[".md"] };
-"borimsa.md": {
-	id: "borimsa.md";
-  slug: "borimsa";
-  body: string;
-  collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "bulguksa.md": {
 	id: "bulguksa.md";
   slug: "bulguksa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "chunkwansa.md": {
 	id: "chunkwansa.md";
   slug: "chunkwansa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "haeinsa.md": {
 	id: "haeinsa.md";
   slug: "haeinsa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "jogyesa.md": {
 	id: "jogyesa.md";
   slug: "jogyesa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "munsusa.md": {
 	id: "munsusa.md";
   slug: "munsusa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "seonamsa.md": {
 	id: "seonamsa.md";
   slug: "seonamsa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 "seonunsa.md": {
 	id: "seonunsa.md";
   slug: "seonunsa";
   body: string;
   collection: "temples";
-  data: InferEntrySchema<"temples">
+  data: any
 } & { render(): Render[".md"] };
 };
 
@@ -214,5 +207,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("../../src/content/config.js");
+	export type ContentConfig = never;
 }
