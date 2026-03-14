@@ -1,19 +1,28 @@
 ---
 // src/pages/[slug].astro — layout 분기 버전
+// 독립 HTML 페이지: src/pages/borimsa.html, src/pages/chunkwansa.html
 import { getCollection, getEntry } from 'astro:content';
 import TemplateLayout from '../layouts/TemplateLayout.astro';
 import CustomLayout   from '../layouts/CustomLayout.astro';
 
-// 독립 HTML 페이지 (이들은 src/pages/xxx.html로 직접 관리)
-const STANDALONE_PAGES = ['borimsa', 'chunkwansa'];
+// 독립 HTML로 관리되는 사찰 (이들은 MD 파일을 사용하지 않음)
+const STANDALONE_PAGES = new Set(['borimsa', 'chunkwansa']);
 
 export async function getStaticPaths() {
   const all = await getCollection('temples', e => e.data.active !== false);
-  return all.filter(e => !STANDALONE_PAGES.includes(e.slug)).map(e => ({ params: { slug: e.slug } }));
+  return all
+    .filter(e => !STANDALONE_PAGES.has(e.slug))
+    .map(e => ({ params: { slug: e.slug } }));
 }
 
-const { slug } = Astro.params;
-const entry = await getEntry('temples', slug as string);
+const { slug } = Astro.params as { slug: string };
+
+// 안전 체크: 독립 페이지는 여기 도달하면 안 됨
+if (STANDALONE_PAGES.has(slug)) {
+  return Astro.redirect(`/${slug}`);
+}
+
+const entry = await getEntry('temples', slug);
 if (!entry) return Astro.redirect('/404');
 
 const { Content } = await entry.render();
