@@ -6,7 +6,7 @@ sect: "대한불교조계종 제21교구 송광사 말사"
 monk: "연등스님"
 monk_title: "주지"
 slogan: "국내 유일의 천관신앙 도량, 천관보살 3천인등공양으로 소원성취하소서"
-hero_image: "chuntower1_hqwxuj"
+hero_image: "chun-night_b4k2xj"
 description: |
   전남 장흥 천관산 도립공원에 위치한 천관사는 천오백여년의 오랜 역사와 보물인
   삼층석탑 등 다수의 문화유적을 보유하고 있습니다. 복과 지혜로 장엄한 천관보살의
@@ -41,6 +41,14 @@ gallery:
     cap: "천관사 야경"
     sub: "별빛 아래 고요한 천관사의 밤"
     tag: "야경"
+  - id: "chuntower1_hqwxuj"
+    cap: "삼층석탑"
+    sub: "보물 제795호 천관사 삼층석탑"
+    tag: "석탑"
+  - id: "chun-dharmahall_tafh10"
+    cap: "고즈넉한 전경"
+    sub: "푸른 하늘 아래 천관사"
+    tag: "도량"
 
 blog_url: "https://blog.naver.com/chungwansa"
 contact: "010-8230-7070, 061-867-2954"
