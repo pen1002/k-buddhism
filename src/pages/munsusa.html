@@ -90,9 +90,10 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 .nav-links a:hover::after { width:100%; }
 .nav-cta {
   background:var(--color-accent); color:#fff; padding:8px 18px;
-  border-radius:20px; font-size:.8rem; font-weight:600; transition:var(--transition);
+  border-radius:20px; font-size:.8rem; font-weight:700; transition:var(--transition);
+  letter-spacing:.02em; text-shadow:0 1px 2px rgba(0,0,0,.15);
 }
-.nav-cta:hover { background:var(--color-accent-dark); transform:translateY(-1px); }
+.nav-cta:hover { background:var(--color-accent-dark); transform:translateY(-1px); box-shadow:0 4px 12px rgba(43,107,127,.3); }
 .nav-cta::after { display:none !important; }
 .nav-toggle { display:none; flex-direction:column; gap:5px; padding:8px; }
 .nav-toggle span { width:22px; height:2px; background:var(--color-text); transition:var(--transition); }
@@ -718,7 +719,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
       <a href="#components">자료관</a>
       <a href="#donate">나눔동참</a>
       <a href="#visit">오시는길</a>
-      <a href="tel:051-624-3754" class="nav-cta">📞 문의</a>
+      <a href="https://blog.naver.com/jijang-am" target="_blank" class="nav-cta">📝 블로그</a>
     </div>
     <button class="nav-toggle" onclick="toggleMobile()" aria-label="메뉴">
       <span></span><span></span><span></span>
@@ -734,7 +735,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   <a href="#components" onclick="closeMobile()">📚 자료관</a>
   <a href="#donate" onclick="closeMobile()">🤝 나눔동참</a>
   <a href="#visit" onclick="closeMobile()">🗺 오시는길</a>
-  <a href="tel:051-624-3754">📞 051-624-3754</a>
+  <a href="https://blog.naver.com/jijang-am" target="_blank" onclick="closeMobile()">📝 네이버 블로그</a>
 </div>
 
 <!-- ==================== HERO ==================== -->
@@ -990,38 +991,23 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <div class="timeline">
       <div class="tl-item fade-in">
         <div class="tl-year">창건</div>
-        <div class="tl-title">덕암 스님이 문수사 창건</div>
-        <div class="tl-desc">부산 남구 시내에 문수사의 기틀을 놓다</div>
+        <div class="tl-title">덕암 스님, 문수암 창건</div>
+        <div class="tl-desc">부산 남구에 문수암의 첫 기틀을 놓다</div>
       </div>
       <div class="tl-item fade-in">
-        <div class="tl-year">이전</div>
-        <div class="tl-title">현 위치로 사찰 이전</div>
-        <div class="tl-desc">인근 군부대 이전에 따라 현재의 부산 남구 용당동으로 사찰을 옮김</div>
+        <div class="tl-year">도약</div>
+        <div class="tl-title">주지 지원스님의 불사원력, 1만여 평 도량 건립</div>
+        <div class="tl-desc">주지 지원스님의 평생에 걸친 불사원력에 힘입어 구)군부대 부지 1만여 평에 대웅전, 삼천불전, 지장전, 문수사 8각 9층석탑 건립불사에 이르렀다</div>
       </div>
       <div class="tl-item fade-in">
-        <div class="tl-year">1996</div>
-        <div class="tl-title">사회복지법인 문수복지재단 설립</div>
-        <div class="tl-desc">불교의 지혜로운 자비를 현대적 복지 행정 시스템으로 승화</div>
+        <div class="tl-year">실천</div>
+        <div class="tl-title">위드아시아 설립, 국제구호사업 전개</div>
+        <div class="tl-desc">1999년 위드아시아 설립 이후 현재에 이르기까지 6개국 10개 현장에 걸쳐 불교의 자비실천사상에 근거한 인도적 국제구호사업을 전개</div>
       </div>
       <div class="tl-item fade-in">
-        <div class="tl-year">중창</div>
-        <div class="tl-title">지원 스님 6년간 중창불사</div>
-        <div class="tl-desc">평생의 원력을 담아 대웅보전, 삼천불전, 지장전, 삼성각, 종각, 13층 석탑 등을 갖춘 현재의 도량으로 일구어냄</div>
-      </div>
-      <div class="tl-item fade-in">
-        <div class="tl-year">2003</div>
-        <div class="tl-title">사단법인 위드아시아 설립</div>
-        <div class="tl-desc">외교부 등록 국제개발협력 NGO. 아시아 빈곤촌 교육·구호 및 대북 인도적 지원 시작</div>
-      </div>
-      <div class="tl-item fade-in">
-        <div class="tl-year">2007</div>
-        <div class="tl-title">수요 무료 국수 공양 시작</div>
-        <div class="tl-desc">매주 수요일 지역 주민 대상 무료 국수·비빔밥 보시를 시작하여 현재까지 이어옴</div>
-      </div>
-      <div class="tl-item fade-in">
-        <div class="tl-year">현재</div>
-        <div class="tl-title">도심 속 평화도량으로 자리매김</div>
-        <div class="tl-desc">유엔묘지·평화공원과 연계된 부산 최대 평화구역의 중심, 산하 6개 복지시설을 아우르는 자비의 네트워크 구축</div>
+        <div class="tl-year">보살행</div>
+        <div class="tl-title">문수복지법인 설립, 산하 복지센터 6곳 운영</div>
+        <div class="tl-desc">2018년 사회복지법인 문수복지법인 설립 이후 산하 복지센터(심청이문수노인복지센터, 용호종합사회복지관 등) 6곳을 운영</div>
       </div>
     </div>
   </div>
