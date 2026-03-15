@@ -49,7 +49,7 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
   shimmerColor = '#FFF8DC',
   height = '280px',
   fontSize = 80,
-  maxParticles = 6000,
+  maxParticles = 7000,
   className = '',
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -75,20 +75,23 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
       const W = Math.floor(rect.width);
       const H = Math.floor(rect.height);
 
-      console.log(`[P] container: ${W}x${H}`);
-
       if (W < 10 || H < 10) {
         setTimeout(run, 300);
         return;
       }
 
-      // 1:1 캔버스 (DPR 미적용 — 심플하게)
-      canvas.width = W;
-      canvas.height = H;
+      // ★ DPR 다시 적용 — 레티나에서 선명하게
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = `${W}px`;
+      canvas.style.height = `${H}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const isMobile = W < 640;
       const fSize = isMobile ? Math.round(fontSize * 0.55) : fontSize;
-      const step = isMobile ? 3 : 2;
+      // ★ 선명도 핵심: step을 1(데스크톱) / 2(모바일)로 줄임
+      const step = isMobile ? 2 : 1;
 
       // ── 오프스크린에서 텍스트 픽셀 추출 ──
       const fonts = [
@@ -119,14 +122,11 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
         for (let y = 0; y < H; y += step) {
           for (let x = 0; x < W; x += step) {
             const idx = (y * W + x) * 4;
-            // alpha OR red channel (어떤 브라우저든 잡기 위해)
             if (imgData[idx + 3] > 50 || imgData[idx] > 50) {
               found.push({ x, y });
             }
           }
         }
-
-        console.log(`[P] font="${fontStr}" → ${found.length} pixels`);
 
         if (found.length > pixels.length) {
           pixels = found;
@@ -134,11 +134,8 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
         if (pixels.length > 10) break;
       }
 
-      // ── 최종 폴백: 직접 메인 캔버스에 텍스트 좌표 생성 ──
+      // ── 최종 폴백: 메인 캔버스에 직접 추출 ──
       if (pixels.length < 10) {
-        console.warn('[P] 모든 폰트 실패. 직접 좌표 생성 모드.');
-
-        // 메인 캔버스에 직접 그려서 픽셀 추출
         ctx.clearRect(0, 0, W, H);
         ctx.fillStyle = '#ffffff';
         ctx.font = `bold ${fSize}px sans-serif`;
@@ -146,23 +143,23 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
         ctx.textBaseline = 'middle';
         ctx.fillText(text, W / 2, H / 2);
 
-        const mainData = ctx.getImageData(0, 0, W, H).data;
+        const mainData = ctx.getImageData(0, 0, W * dpr, H * dpr).data;
+        const cw = W * dpr;
         pixels = [];
-        for (let y = 0; y < H; y += step) {
-          for (let x = 0; x < W; x += step) {
-            const idx = (y * W + x) * 4;
+        const mainStep = isMobile ? 3 : 2;
+        for (let y = 0; y < H * dpr; y += mainStep) {
+          for (let x = 0; x < W * dpr; x += mainStep) {
+            const idx = (y * cw + x) * 4;
             if (mainData[idx + 3] > 50 || mainData[idx] > 50) {
-              pixels.push({ x, y });
+              pixels.push({ x: x / dpr, y: y / dpr });
             }
           }
         }
-        console.log(`[P] 메인 캔버스 직접 추출: ${pixels.length} pixels`);
         ctx.clearRect(0, 0, W, H);
       }
 
+      // 완전 실패 시 텍스트 직접 표시
       if (pixels.length < 1) {
-        console.error('[P] 픽셀 0개. Canvas 텍스트 렌더링 완전 실패.');
-        // 디버그: 캔버스에 직접 메시지 표시
         ctx.fillStyle = '#D4AF37';
         ctx.font = `bold ${fSize}px sans-serif`;
         ctx.textAlign = 'center';
@@ -171,14 +168,12 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
         return;
       }
 
-      // ── 파티클 수 제한 ──
+      // ── 파티클 수 제한 (최대 7000) ──
       const limit = Math.min(maxParticles, 7000);
       if (pixels.length > limit) {
         const ratio = limit / pixels.length;
         pixels = pixels.filter(() => Math.random() < ratio);
       }
-
-      console.log(`[P] 최종 파티클 수: ${pixels.length}`);
 
       // ── 파티클 생성 ──
       const particles: Particle[] = pixels.map((p) => {
@@ -188,7 +183,8 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
           x: W / 2 + Math.cos(angle) * radius,
           y: H / 2 + Math.sin(angle) * radius,
           tx: p.x, ty: p.y, vx: 0, vy: 0,
-          size: 1.5 + Math.random() * 1.0,
+          // ★ 파티클 크기 축소: 1.0~1.8px (고운 모래알)
+          size: 1.0 + Math.random() * 0.8,
           alpha: 0, settled: false,
           bri: 0.9 + Math.random() * 0.2,
         };
@@ -199,7 +195,12 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
       let allSettled = false;
       let chk = 0;
 
-      // ── 애니메이션 ──
+      // ★ 물리 상수: 느리고 장엄하게 (~5~6초 조립)
+      const MAX_SPEED = 2.0;
+      const MAX_FORCE = 0.18;
+      const ARRIVE_RADIUS = 70;
+
+      // ── 애니메이션 루프 ──
       const animate = () => {
         if (!running) return;
         ctx.clearRect(0, 0, W, H);
@@ -211,26 +212,27 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
           if (!p.settled) {
             const dx = p.tx - p.x, dy = p.ty - p.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 1) {
+            if (dist < 0.8) {
               p.x = p.tx; p.y = p.ty; p.vx = 0; p.vy = 0;
               p.settled = true; p.alpha = 1;
             } else {
               const nx = dx / dist, ny = dy / dist;
-              const ds = dist < 60 ? 3.5 * (dist / 60) : 3.5;
+              const ds = dist < ARRIVE_RADIUS ? MAX_SPEED * (dist / ARRIVE_RADIUS) : MAX_SPEED;
               let sx = nx * ds - p.vx, sy = ny * ds - p.vy;
               const sm = Math.sqrt(sx * sx + sy * sy);
-              if (sm > 0.35) { sx = (sx / sm) * 0.35; sy = (sy / sm) * 0.35; }
+              if (sm > MAX_FORCE) { sx = (sx / sm) * MAX_FORCE; sy = (sy / sm) * MAX_FORCE; }
               p.vx += sx; p.vy += sy;
               const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-              if (spd > 3.5) { p.vx = (p.vx / spd) * 3.5; p.vy = (p.vy / spd) * 3.5; }
+              if (spd > MAX_SPEED) { p.vx = (p.vx / spd) * MAX_SPEED; p.vy = (p.vy / spd) * MAX_SPEED; }
               p.x += p.vx; p.y += p.vy;
-              p.alpha = Math.min(1, p.alpha + 0.012);
+              p.alpha = Math.min(1, p.alpha + 0.008);
               unsettled++;
             }
           }
 
           let r: number, g: number, b: number;
           if (p.settled && allSettled) {
+            // ★ 금빛 물결 Shimmer
             const wave = Math.sin(now * 0.0008 + p.tx * 0.012);
             const t = ((wave + 1) / 2) * 0.7;
             const bl = lerpColor(baseRgb, shimRgb, t);
@@ -267,7 +269,6 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
           ]);
         }
       } catch (e) { /* 무시 */ }
-      // 추가 안전 딜레이
       setTimeout(run, 300);
     };
 
