@@ -6,7 +6,7 @@ import TemplateLayout from '../layouts/TemplateLayout.astro';
 import CustomLayout   from '../layouts/CustomLayout.astro';
 
 export async function getStaticPaths() {
-  const STANDALONE_PAGES = new Set(['borimsa', 'chunkwansa']);
+  const STANDALONE_PAGES = new Set(['borimsa', 'chunkwansa', 'munsusa']);
   const all = await getCollection('temples', e => e.data.active !== false);
   return all
     .filter(e => !STANDALONE_PAGES.has(e.slug))
