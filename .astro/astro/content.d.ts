@@ -183,13 +183,6 @@ declare module 'astro:content' {
   collection: "temples";
   data: any
 } & { render(): Render[".md"] };
-"munsusa.md": {
-	id: "munsusa.md";
-  slug: "munsusa";
-  body: string;
-  collection: "temples";
-  data: any
-} & { render(): Render[".md"] };
 "seonamsa.md": {
 	id: "seonamsa.md";
   slug: "seonamsa";

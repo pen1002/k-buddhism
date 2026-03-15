@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보림사 寶林寺 — 한국 선종의 종가, 장흥 가지산</title>
+<meta name="description" content="한국 선종의 시작점이자 조계종의 모태인 보림사. 국보 철조비로자나불좌상, 삼층석탑, 목조사천왕상 등 천년 문화유산의 보고.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   BORIMSA — CSS CUSTOM PROPERTIES & RESET
+   ============================================ */
+:root {
+  --color-bg: #F5F0E8;
+  --color-bg-alt: #EDE7DB;
+  --color-dark: #1A1A18;
+  --color-text: #2E2B26;
+  --color-text-light: #6B6560;
+  --color-accent: #2C5F2D;
+  --color-accent-light: #4A8B4C;
+  --color-accent-dark: #1E4420;
+  --color-gold: #9B8654;
+  --color-gold-light: #C4AD74;
+  --color-gold-dark: #7A6A43;
+  --color-warm: #8B4513;
+  --color-card: #FDFBF7;
+  --color-border: #D4CEC4;
+  --color-hero-overlay: rgba(20, 18, 14, 0.65);
+  --font-serif: 'Noto Serif KR', 'Batang', serif;
+  --font-sans: 'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+  --font-display: 'Playfair Display', var(--font-serif);
+  --max-w: 1200px;
+  --nav-h: 64px;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 20px rgba(0,0,0,.1);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,.15);
+  --transition: .35s cubic-bezier(.4,0,.2,1);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height:1.75;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img { max-width:100%; height:auto; display:block; }
+a { color:inherit; text-decoration:none; }
+button { border:none; background:none; cursor:pointer; font-family:inherit; }
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.nav {
+  position:fixed; top:0; left:0; width:100%; z-index:1000;
+  background:rgba(245,240,232,.92);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(212,206,196,.5);
+  transition:var(--transition);
+}
+.nav.scrolled { background:rgba(245,240,232,.97); box-shadow:var(--shadow-sm); }
+.nav-inner {
+  max-width:var(--max-w); margin:0 auto;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 24px; height:var(--nav-h);
+}
+.nav-logo {
+  font-family:var(--font-serif); font-size:1.15rem; font-weight:700;
+  color:var(--color-accent-dark); letter-spacing:-.02em;
+}
+.nav-logo span { color:var(--color-gold); margin-left:6px; font-weight:400; font-size:.85rem; }
+.nav-links { display:flex; gap:28px; align-items:center; }
+.nav-links a {
+  font-size:.82rem; font-weight:500; color:var(--color-text-light);
+  transition:var(--transition); position:relative; letter-spacing:.02em;
+}
+.nav-links a:hover { color:var(--color-accent); }
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
+  background:var(--color-accent); transition:var(--transition);
+}
+.nav-links a:hover::after { width:100%; }
+.nav-cta {
+  background:var(--color-accent); color:#fff; padding:8px 18px;
+  border-radius:20px; font-size:.8rem; font-weight:600; transition:var(--transition);
+}
+.nav-cta:hover { background:var(--color-accent-dark); transform:translateY(-1px); }
+.nav-cta::after { display:none !important; }
+.nav-toggle { display:none; flex-direction:column; gap:5px; padding:8px; }
+.nav-toggle span { width:22px; height:2px; background:var(--color-text); transition:var(--transition); }
+
+/* Mobile nav */
+.mobile-menu {
+  display:none; position:fixed; top:var(--nav-h); left:0; width:100%; z-index:999;
+  background:var(--color-bg); border-bottom:1px solid var(--color-border);
+  padding:24px; flex-direction:column; gap:16px;
+  box-shadow:var(--shadow-md);
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu a {
+  font-size:1rem; font-weight:500; padding:12px 0;
+  border-bottom:1px solid var(--color-border); color:var(--color-text);
+}
+
+@media(max-width:768px){
+  .nav-links { display:none; }
+  .nav-toggle { display:flex; }
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  position:relative; min-height:100vh; display:flex; align-items:center; justify-content:center;
+  background:#1a1a18; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(180deg, rgba(20,18,14,.3) 0%, rgba(20,18,14,.15) 40%, rgba(20,18,14,.6) 80%, rgba(20,18,14,.95) 100%),
+    url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/1280px-Borimsa_Daeungjeon_11-05025.JPG') center/cover no-repeat;
+}
+.hero-content {
+  position:relative; z-index:3; text-align:center; padding:120px 24px 80px;
+  max-width:800px; animation:heroIn 1.2s ease-out both;
+}
+@keyframes heroIn { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px; margin-bottom:24px;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.15);
+  padding:8px 20px; border-radius:30px;
+  font-size:.78rem; color:rgba(255,255,255,.7); letter-spacing:.08em;
+  backdrop-filter:blur(8px);
+}
+.hero h1 {
+  font-family:var(--font-serif); font-size:clamp(2.5rem,6vw,4.5rem);
+  font-weight:900; color:#fff; line-height:1.2; margin-bottom:8px;
+  letter-spacing:-.03em;
+}
+.hero-hanja {
+  font-family:var(--font-display); font-size:clamp(1.5rem,3vw,2rem);
+  color:var(--color-gold-light); font-weight:400; letter-spacing:.15em;
+  margin-bottom:28px; font-style:italic;
+}
+.hero-desc {
+  font-size:clamp(.95rem,1.5vw,1.1rem); color:rgba(255,255,255,.75);
+  line-height:1.9; max-width:600px; margin:0 auto 40px;
+  font-family:var(--font-serif); font-weight:400;
+}
+.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.btn-primary {
+  background:var(--color-accent); color:#fff;
+  padding:14px 32px; border-radius:30px; font-size:.9rem; font-weight:600;
+  transition:var(--transition); display:inline-flex; align-items:center; gap:8px;
+}
+.btn-primary:hover { background:var(--color-accent-light); transform:translateY(-2px); box-shadow:0 6px 24px rgba(44,95,45,.3); }
+.btn-outline {
+  border:1.5px solid rgba(255,255,255,.35); color:#fff;
+  padding:14px 32px; border-radius:30px; font-size:.9rem; font-weight:500;
+  transition:var(--transition); backdrop-filter:blur(4px);
+}
+.btn-outline:hover { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.6); }
+
+/* ============================================
+   TICKER / MARQUEE
+   ============================================ */
+.ticker {
+  background:var(--color-accent-dark); padding:12px 0; overflow:hidden;
+  white-space:nowrap;
+}
+.ticker-track {
+  display:inline-flex; animation:ticker 40s linear infinite;
+  gap:0;
+}
+.ticker-track span {
+  font-size:.78rem; color:rgba(255,255,255,.75); padding:0 24px;
+  font-weight:400; letter-spacing:.04em;
+}
+@keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+/* ============================================
+   STATS BAR
+   ============================================ */
+.stats-bar {
+  background:var(--color-card); border-bottom:1px solid var(--color-border);
+  padding:36px 24px;
+}
+.stats-inner {
+  max-width:var(--max-w); margin:0 auto;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:24px; text-align:center;
+}
+.stat-item h3 {
+  font-family:var(--font-display); font-size:2rem; font-weight:700;
+  color:var(--color-accent-dark); line-height:1;
+}
+.stat-item p { font-size:.78rem; color:var(--color-text-light); margin-top:4px; font-weight:500; }
+@media(max-width:600px){ .stats-inner { grid-template-columns:repeat(2,1fr); } }
+
+/* ============================================
+   SECTION COMMON
+   ============================================ */
+.section { padding:100px 24px; }
+.section-inner { max-width:var(--max-w); margin:0 auto; }
+.section-label {
+  font-size:.72rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--color-gold); margin-bottom:12px;
+}
+.section-title {
+  font-family:var(--font-serif); font-size:clamp(1.6rem,3vw,2.4rem);
+  font-weight:700; color:var(--color-dark); line-height:1.3; margin-bottom:16px;
+}
+.section-desc {
+  font-size:1rem; color:var(--color-text-light); max-width:640px; line-height:1.85;
+}
+
+/* ============================================
+   EVENTS / PROGRAMS
+   ============================================ */
+.events-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:24px; margin-top:48px;
+}
+.event-card {
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg); padding:32px 28px;
+  transition:var(--transition); position:relative; overflow:hidden;
+}
+.event-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--color-accent); }
+.event-icon { font-size:2rem; margin-bottom:16px; }
+.event-tag {
+  display:inline-block; font-size:.65rem; font-weight:600; letter-spacing:.08em;
+  color:var(--color-accent); background:rgba(44,95,45,.08); padding:4px 10px;
+  border-radius:12px; margin-bottom:16px; text-transform:uppercase;
+}
+.event-card h3 {
+  font-family:var(--font-serif); font-size:1.15rem; font-weight:700;
+  margin-bottom:10px; color:var(--color-dark);
+}
+.event-card p { font-size:.88rem; color:var(--color-text-light); line-height:1.7; margin-bottom:12px; }
+.event-meta {
+  font-size:.78rem; font-weight:600; color:var(--color-gold-dark);
+  padding-top:12px; border-top:1px solid var(--color-border);
+}
+
+/* ============================================
+   ABOUT / INTRO
+   ============================================ */
+.about-layout {
+  display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center;
+  margin-top:48px;
+}
+@media(max-width:768px){ .about-layout { grid-template-columns:1fr; gap:40px; } }
+.about-text p { margin-bottom:20px; font-size:.95rem; line-height:1.9; }
+.about-info {
+  display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:32px;
+}
+.about-info-item {
+  background:var(--color-bg-alt); padding:16px; border-radius:var(--radius);
+}
+.about-info-item dt {
+  font-size:.72rem; font-weight:600; color:var(--color-gold); letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.about-info-item dd { font-size:.88rem; font-weight:600; color:var(--color-dark); }
+.about-images { position:relative; }
+.about-images img {
+  border-radius:var(--radius-lg); box-shadow:var(--shadow-md);
+}
+.about-images .img-overlay {
+  position:absolute; bottom:-20px; right:-20px;
+  width:200px; border-radius:var(--radius); border:4px solid var(--color-bg);
+  box-shadow:var(--shadow-lg);
+}
+
+/* ============================================
+   HERITAGE (BLOG-STYLE) — 국보·보물
+   ============================================ */
+.heritage-intro {
+  text-align:center; max-width:720px; margin:0 auto 60px;
+}
+.heritage-grid {
+  display:grid; gap:40px; margin-top:48px;
+}
+.heritage-card {
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg); overflow:hidden;
+  transition:var(--transition);
+}
+.heritage-card:hover { box-shadow:var(--shadow-lg); border-color:var(--color-gold-light); }
+.heritage-card-inner {
+  display:grid; grid-template-columns:380px 1fr; min-height:340px;
+}
+@media(max-width:768px){ .heritage-card-inner { grid-template-columns:1fr; } }
+.heritage-card:nth-child(even) .heritage-card-inner { direction:rtl; }
+.heritage-card:nth-child(even) .heritage-card-inner > * { direction:ltr; }
+.heritage-img {
+  position:relative; overflow:hidden; min-height:280px;
+  background:#ddd;
+}
+.heritage-img img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+.heritage-card:hover .heritage-img img { transform:scale(1.05); }
+.heritage-badge {
+  position:absolute; top:16px; left:16px; z-index:2;
+  display:flex; gap:8px;
+}
+.heritage-badge span {
+  background:rgba(0,0,0,.6); color:#fff; padding:6px 14px;
+  border-radius:20px; font-size:.7rem; font-weight:600; letter-spacing:.04em;
+  backdrop-filter:blur(6px);
+}
+.heritage-body { padding:36px 32px; display:flex; flex-direction:column; justify-content:center; }
+.heritage-body h3 {
+  font-family:var(--font-serif); font-size:1.4rem; font-weight:700;
+  color:var(--color-dark); margin-bottom:16px; line-height:1.4;
+}
+.heritage-body p {
+  font-size:.9rem; color:var(--color-text-light); line-height:1.85; margin-bottom:12px;
+}
+.heritage-body blockquote {
+  border-left:3px solid var(--color-gold);
+  padding:12px 20px; margin:16px 0;
+  background:rgba(155,134,84,.06); border-radius:0 var(--radius) var(--radius) 0;
+  font-family:var(--font-serif); font-style:italic;
+  color:var(--color-text); font-size:.92rem; line-height:1.8;
+}
+.heritage-detail {
+  display:inline-flex; gap:16px; flex-wrap:wrap; margin-top:12px;
+}
+.heritage-detail span {
+  font-size:.75rem; font-weight:600; color:var(--color-accent);
+  background:rgba(44,95,45,.08); padding:5px 14px; border-radius:16px;
+}
+
+/* ============================================
+   BLOG-STYLE HERITAGE ARTICLE
+   ============================================ */
+.blog-article {
+  max-width:780px; margin:60px auto 0; padding:48px;
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg);
+}
+.blog-article h2 {
+  font-family:var(--font-serif); font-size:1.8rem; font-weight:700;
+  color:var(--color-dark); line-height:1.3; margin-bottom:24px;
+}
+.blog-article h3 {
+  font-family:var(--font-serif); font-size:1.2rem; font-weight:700;
+  color:var(--color-accent-dark); margin:32px 0 12px; line-height:1.4;
+}
+.blog-article p {
+  font-size:.95rem; line-height:2; margin-bottom:16px; color:var(--color-text);
+}
+.blog-article blockquote {
+  border-left:3px solid var(--color-gold);
+  padding:16px 24px; margin:24px 0;
+  background:rgba(155,134,84,.06); border-radius:0 var(--radius) var(--radius) 0;
+  font-family:var(--font-serif); font-style:italic;
+  color:var(--color-text); font-size:.95rem; line-height:1.9;
+}
+.blog-article .closing {
+  margin-top:40px; padding-top:28px; border-top:1px solid var(--color-border);
+  font-family:var(--font-serif); font-style:italic;
+  color:var(--color-text-light); font-size:.95rem; line-height:1.9;
+}
+
+/* ============================================
+   HISTORY TIMELINE
+   ============================================ */
+.timeline { position:relative; margin-top:60px; padding-left:40px; }
+.timeline::before {
+  content:''; position:absolute; left:16px; top:0; bottom:0; width:2px;
+  background:linear-gradient(180deg, var(--color-accent), var(--color-gold), var(--color-border));
+}
+.tl-item { position:relative; margin-bottom:48px; padding-left:32px; }
+.tl-item::before {
+  content:''; position:absolute; left:-32px; top:6px;
+  width:12px; height:12px; border-radius:50%;
+  background:var(--color-accent); border:3px solid var(--color-bg);
+  box-shadow:0 0 0 2px var(--color-accent);
+}
+.tl-year {
+  font-family:var(--font-display); font-size:1.5rem; font-weight:700;
+  color:var(--color-accent-dark); line-height:1;
+}
+.tl-title {
+  font-family:var(--font-serif); font-size:1.05rem; font-weight:700;
+  color:var(--color-dark); margin:8px 0 6px;
+}
+.tl-desc { font-size:.88rem; color:var(--color-text-light); line-height:1.75; }
+
+/* ============================================
+   COMPONENT: FAQ REPORT
+   ============================================ */
+.faq-section { background:var(--color-bg-alt); }
+.faq-list { margin-top:48px; max-width:800px; }
+.faq-item {
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius); margin-bottom:12px; overflow:hidden;
+  transition:var(--transition);
+}
+.faq-item:hover { border-color:var(--color-gold-light); }
+.faq-q {
+  padding:20px 24px; display:flex; justify-content:space-between; align-items:center;
+  cursor:pointer; font-family:var(--font-serif); font-weight:600;
+  font-size:.95rem; color:var(--color-dark); gap:12px;
+  user-select:none;
+}
+.faq-q::after { content:'＋'; font-size:1.2rem; color:var(--color-gold); transition:var(--transition); flex-shrink:0; }
+.faq-item.open .faq-q::after { content:'－'; }
+.faq-a {
+  max-height:0; overflow:hidden; transition:max-height .4s ease;
+  padding:0 24px;
+}
+.faq-item.open .faq-a { max-height:600px; padding:0 24px 24px; }
+.faq-a p { font-size:.9rem; color:var(--color-text-light); line-height:1.85; margin-bottom:10px; }
+
+/* ============================================
+   COMPONENT: QUIZ
+   ============================================ */
+.quiz-container {
+  max-width:680px; margin:48px auto 0;
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg); padding:40px; text-align:center;
+}
+.quiz-progress {
+  display:flex; gap:8px; justify-content:center; margin-bottom:32px;
+}
+.quiz-dot {
+  width:10px; height:10px; border-radius:50%;
+  background:var(--color-border); transition:var(--transition);
+}
+.quiz-dot.active { background:var(--color-accent); }
+.quiz-dot.correct { background:var(--color-accent-light); }
+.quiz-dot.wrong { background:#c0392b; }
+.quiz-question {
+  font-family:var(--font-serif); font-size:1.15rem; font-weight:600;
+  color:var(--color-dark); margin-bottom:28px; line-height:1.6;
+}
+.quiz-options { display:flex; flex-direction:column; gap:12px; text-align:left; }
+.quiz-opt {
+  padding:16px 20px; border:2px solid var(--color-border);
+  border-radius:var(--radius); font-size:.9rem; font-weight:500;
+  color:var(--color-text); cursor:pointer; transition:var(--transition);
+}
+.quiz-opt:hover { border-color:var(--color-accent); background:rgba(44,95,45,.04); }
+.quiz-opt.selected { border-color:var(--color-accent); background:rgba(44,95,45,.08); }
+.quiz-opt.correct-ans { border-color:var(--color-accent); background:rgba(44,95,45,.12); color:var(--color-accent-dark); }
+.quiz-opt.wrong-ans { border-color:#c0392b; background:rgba(192,57,43,.08); color:#c0392b; }
+.quiz-explain {
+  margin-top:20px; padding:16px; background:var(--color-bg-alt);
+  border-radius:var(--radius); font-size:.88rem; color:var(--color-text);
+  line-height:1.75; text-align:left; display:none;
+}
+.quiz-explain.show { display:block; }
+.quiz-nav { margin-top:28px; display:flex; gap:12px; justify-content:center; }
+.quiz-btn {
+  padding:12px 28px; border-radius:24px; font-size:.88rem; font-weight:600;
+  transition:var(--transition);
+}
+.quiz-btn-next {
+  background:var(--color-accent); color:#fff;
+}
+.quiz-btn-next:hover { background:var(--color-accent-dark); }
+.quiz-btn-retry {
+  border:1.5px solid var(--color-accent); color:var(--color-accent);
+}
+.quiz-result {
+  text-align:center; padding:40px 0;
+}
+.quiz-result h3 {
+  font-family:var(--font-serif); font-size:1.5rem; font-weight:700;
+  color:var(--color-dark); margin-bottom:12px;
+}
+.quiz-score {
+  font-family:var(--font-display); font-size:3rem; font-weight:700;
+  color:var(--color-accent); margin:16px 0;
+}
+
+/* ============================================
+   COMPONENT: SLIDE VIEWER
+   ============================================ */
+.slide-viewer {
+  margin-top:48px; position:relative;
+  background:#1a1a18; border-radius:var(--radius-lg); overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.slide-viewport {
+  position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
+}
+.slide-viewport img {
+  position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+  background:#111; opacity:0; transition:opacity .5s ease;
+}
+.slide-viewport img.active { opacity:1; }
+.slide-controls {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 24px; background:rgba(26,26,24,.95);
+}
+.slide-controls button {
+  color:#fff; font-size:.88rem; font-weight:500; padding:8px 20px;
+  border-radius:20px; transition:var(--transition);
+  border:1px solid rgba(255,255,255,.2);
+}
+.slide-controls button:hover { background:rgba(255,255,255,.1); }
+.slide-counter { color:rgba(255,255,255,.7); font-size:.82rem; font-weight:500; }
+.slide-dots {
+  display:flex; gap:6px; justify-content:center; padding:12px;
+  background:rgba(26,26,24,.95);
+}
+.slide-dots span {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(255,255,255,.25); cursor:pointer; transition:var(--transition);
+}
+.slide-dots span.active { background:var(--color-gold); width:24px; border-radius:4px; }
+
+/* ============================================
+   COMPONENT: INFOGRAPHIC VIEWER
+   ============================================ */
+.infographic-viewer {
+  margin-top:48px; text-align:center;
+}
+.infographic-frame {
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg); overflow:hidden;
+  box-shadow:var(--shadow-md); display:inline-block; max-width:100%;
+}
+.infographic-frame img {
+  width:100%; max-width:1200px; cursor:zoom-in; transition:var(--transition);
+}
+.infographic-caption {
+  padding:20px 28px; text-align:left;
+  border-top:1px solid var(--color-border);
+}
+.infographic-caption h4 {
+  font-family:var(--font-serif); font-size:1rem; font-weight:700;
+  color:var(--color-dark); margin-bottom:4px;
+}
+.infographic-caption p { font-size:.82rem; color:var(--color-text-light); }
+
+/* Lightbox */
+.lightbox {
+  position:fixed; inset:0; z-index:2000;
+  background:rgba(0,0,0,.9); display:none;
+  align-items:center; justify-content:center; padding:24px;
+  cursor:zoom-out;
+}
+.lightbox.open { display:flex; }
+.lightbox img { max-width:95vw; max-height:90vh; object-fit:contain; border-radius:var(--radius); }
+.lightbox-close {
+  position:absolute; top:20px; right:24px; color:#fff; font-size:1.5rem;
+  cursor:pointer; z-index:2001; padding:8px;
+}
+
+/* ============================================
+   TEMPLE STAY
+   ============================================ */
+.templestay-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:48px;
+}
+@media(max-width:768px){ .templestay-grid { grid-template-columns:1fr; } }
+.ts-card {
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg); padding:36px 28px; text-align:center;
+  transition:var(--transition);
+}
+.ts-card:hover { transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--color-gold-light); }
+.ts-icon { font-size:2.5rem; margin-bottom:16px; }
+.ts-card h3 {
+  font-family:var(--font-serif); font-size:1.1rem; font-weight:700;
+  color:var(--color-dark); margin-bottom:8px;
+}
+.ts-card p { font-size:.85rem; color:var(--color-text-light); line-height:1.75; }
+
+/* ============================================
+   INDUNG (인등불사)
+   ============================================ */
+.indung-section { background:var(--color-accent-dark); color:#fff; position:relative; overflow:hidden; }
+.indung-section::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at 30% 50%, rgba(155,134,84,.15), transparent 60%);
+}
+.indung-section .section-label { color:var(--color-gold-light); }
+.indung-section .section-title { color:#fff; }
+.indung-section .section-desc { color:rgba(255,255,255,.7); }
+.indung-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:20px; margin-top:48px; position:relative; z-index:1;
+}
+.indung-card {
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius-lg); padding:32px 24px; text-align:center;
+  transition:var(--transition);
+}
+.indung-card:hover { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.2); }
+.indung-card .price {
+  font-family:var(--font-display); font-size:1.8rem; font-weight:700;
+  color:var(--color-gold-light); margin:12px 0;
+}
+.indung-card h4 { font-size:1rem; font-weight:600; margin-bottom:8px; }
+.indung-card p { font-size:.82rem; color:rgba(255,255,255,.6); line-height:1.7; }
+.indung-card .tag {
+  display:inline-block; background:var(--color-gold); color:#fff;
+  padding:4px 12px; border-radius:12px; font-size:.68rem; font-weight:600;
+  margin-top:12px;
+}
+
+/* ============================================
+   GALLERY
+   ============================================ */
+.gallery-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:48px;
+}
+@media(max-width:600px){ .gallery-grid { grid-template-columns:repeat(2,1fr); } }
+.gallery-item {
+  position:relative; overflow:hidden; border-radius:var(--radius);
+  aspect-ratio:4/3; background:#ddd; cursor:pointer;
+}
+.gallery-item img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+.gallery-item:hover img { transform:scale(1.08); }
+.gallery-overlay {
+  position:absolute; inset:0; background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,.7));
+  display:flex; align-items:flex-end; padding:16px;
+  opacity:0; transition:var(--transition);
+}
+.gallery-item:hover .gallery-overlay { opacity:1; }
+.gallery-overlay span { color:#fff; font-size:.82rem; font-weight:600; }
+
+/* ============================================
+   QUOTE BANNER
+   ============================================ */
+.quote-banner {
+  position:relative; padding:120px 24px; text-align:center;
+  background:
+    linear-gradient(rgba(20,18,14,.7), rgba(20,18,14,.7)),
+    url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/1280px-Borimsa_Daeungjeon_11-05025.JPG') center/cover no-repeat fixed;
+}
+.quote-banner h2 {
+  font-family:var(--font-serif); font-size:clamp(1.5rem,3vw,2.5rem);
+  color:#fff; font-weight:700; line-height:1.5; margin-bottom:16px;
+}
+.quote-banner p {
+  font-size:1rem; color:var(--color-gold-light); font-family:var(--font-serif);
+}
+
+/* ============================================
+   VISIT / LOCATION
+   ============================================ */
+.visit-layout {
+  display:grid; grid-template-columns:1fr 1fr; gap:48px; margin-top:48px;
+}
+@media(max-width:768px){ .visit-layout { grid-template-columns:1fr; } }
+.visit-map {
+  border-radius:var(--radius-lg); overflow:hidden; min-height:360px;
+  background:#ddd; border:1px solid var(--color-border);
+}
+.visit-map iframe { width:100%; height:100%; border:none; min-height:360px; }
+.visit-info dl { margin-bottom:20px; }
+.visit-info dt {
+  font-size:.75rem; font-weight:600; color:var(--color-gold);
+  letter-spacing:.08em; margin-bottom:4px;
+}
+.visit-info dd {
+  font-size:.9rem; color:var(--color-text); margin-bottom:16px;
+  line-height:1.7; padding-bottom:16px; border-bottom:1px solid var(--color-border);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  background:var(--color-dark); color:rgba(255,255,255,.6); padding:60px 24px 32px;
+}
+.footer-inner {
+  max-width:var(--max-w); margin:0 auto;
+  display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px;
+}
+@media(max-width:768px){ .footer-inner { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .footer-inner { grid-template-columns:1fr; } }
+.footer-brand h3 {
+  font-family:var(--font-serif); font-size:1.3rem; font-weight:700; color:#fff;
+  margin-bottom:8px;
+}
+.footer-brand p { font-size:.82rem; line-height:1.7; }
+.footer-col h4 {
+  font-size:.78rem; font-weight:600; letter-spacing:.08em; color:var(--color-gold-light);
+  margin-bottom:16px;
+}
+.footer-col a { display:block; font-size:.85rem; padding:4px 0; transition:var(--transition); }
+.footer-col a:hover { color:#fff; }
+.footer-bottom {
+  max-width:var(--max-w); margin:40px auto 0; padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.1); text-align:center;
+  font-size:.75rem; color:rgba(255,255,255,.35);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+.fade-in {
+  opacity:0; transform:translateY(24px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.fade-in.visible { opacity:1; transform:translateY(0); }
+
+/* Scroll to top */
+.scroll-top {
+  position:fixed; bottom:24px; right:24px; z-index:900;
+  width:44px; height:44px; border-radius:50%;
+  background:var(--color-accent); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem; box-shadow:var(--shadow-md);
+  opacity:0; transform:translateY(20px); transition:var(--transition);
+  cursor:pointer;
+}
+.scroll-top.show { opacity:1; transform:translateY(0); }
+.scroll-top:hover { background:var(--color-accent-dark); transform:translateY(-2px); }
+
+/* ============================================
+   MOBILE OPTIMIZATION
+   ============================================ */
+@media(max-width:768px){
+  .hero { min-height:85vh; }
+  .hero-content { padding:100px 20px 60px; }
+  .hero-btns { flex-direction:column; align-items:center; }
+  .btn-primary, .btn-outline { width:100%; max-width:280px; text-align:center; justify-content:center; }
+  .section { padding:60px 16px; }
+  .heritage-card-inner { grid-template-columns:1fr !important; direction:ltr !important; }
+  .heritage-card-inner > * { direction:ltr !important; }
+  .heritage-img { min-height:220px; }
+  .heritage-body { padding:24px 20px; }
+  .heritage-body h3 { font-size:1.15rem; }
+  .blog-article { padding:28px 20px; margin-top:40px; }
+  .blog-article h2 { font-size:1.35rem; }
+  .blog-article h3 { font-size:1.05rem; }
+  .blog-article blockquote { padding:12px 16px; }
+  .timeline { padding-left:28px; }
+  .tl-item { padding-left:24px; }
+  .quote-banner { padding:80px 20px; }
+  .quote-banner h2 { font-size:1.4rem; }
+  .comp-tab { padding:10px 16px; font-size:.82rem; }
+  .faq-q { padding:16px 18px; font-size:.88rem; }
+  .faq-item.open .faq-a { padding:0 18px 18px; }
+  .quiz-container { padding:28px 20px; }
+  .quiz-question { font-size:1rem; }
+  .quiz-opt { padding:14px 16px; font-size:.85rem; }
+  .slide-viewer { border-radius:var(--radius); }
+  .slide-viewport { aspect-ratio:16/9; }
+  .slide-controls { padding:12px 16px; }
+  .slide-controls button { padding:6px 14px; font-size:.8rem; }
+  .indung-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
+  .indung-card { padding:24px 16px; }
+  .indung-card .price { font-size:1.4rem; }
+  .visit-info dd { font-size:.85rem; }
+  .gallery-grid { gap:8px; }
+  .about-info { grid-template-columns:1fr; gap:10px; }
+  .events-grid { grid-template-columns:1fr; }
+  .event-card { padding:24px 20px; }
+}
+@media(max-width:480px){
+  .hero h1 { font-size:2.2rem; }
+  .hero-hanja { font-size:1.2rem; }
+  .stats-inner { gap:16px; }
+  .stat-item h3 { font-size:1.5rem; }
+  .section-title { font-size:1.35rem; }
+  .heritage-body h3 { font-size:1.05rem; }
+  .heritage-detail { gap:8px; }
+  .heritage-detail span { font-size:.7rem; padding:4px 10px; }
+  .indung-grid { grid-template-columns:1fr; }
+  .ts-card { padding:28px 20px; }
+  .gallery-grid { grid-template-columns:1fr; }
+  .gallery-item { aspect-ratio:16/10; }
+  #compTabs { gap:6px; }
+  .comp-tab { padding:8px 12px; font-size:.78rem; }
+}
+
+/* ============================================
+   PARTICLE HERO
+   ============================================ */
+.hero-toggle {
+  position:absolute; top:20px; right:20px; z-index:10;
+  display:flex; align-items:center; gap:8px;
+  background:rgba(0,0,0,.45); backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.15); border-radius:24px;
+  padding:6px 16px; cursor:pointer; transition:var(--transition);
+}
+.hero-toggle:hover { background:rgba(0,0,0,.6); border-color:rgba(255,255,255,.3); }
+.hero-toggle-label { font-size:.7rem; color:rgba(255,255,255,.7); letter-spacing:.04em; font-weight:500; }
+.hero-toggle-switch {
+  width:36px; height:20px; border-radius:10px;
+  background:rgba(255,255,255,.2); position:relative; transition:var(--transition);
+}
+.hero-toggle-switch::after {
+  content:''; position:absolute; top:2px; left:2px;
+  width:16px; height:16px; border-radius:50%;
+  background:#fff; transition:var(--transition);
+}
+.hero-toggle.active .hero-toggle-switch { background:var(--color-gold); }
+.hero-toggle.active .hero-toggle-switch::after { left:18px; }
+.hero-toggle.active .hero-toggle-label { color:var(--color-gold-light); }
+
+#particleCanvas {
+  position:absolute; inset:0; z-index:2;
+  width:100%; height:100%;
+  opacity:0; transition:opacity .6s ease;
+  pointer-events:none;
+}
+.hero.particle-mode #particleCanvas { opacity:1; pointer-events:auto; }
+.hero.particle-mode .hero-bg { opacity:.2; transition:opacity .6s ease; }
+.hero.particle-mode .hero-content h1,
+.hero.particle-mode .hero-content .hero-hanja { opacity:0; transition:opacity .4s ease; }
+
+@media(max-width:768px){
+  .hero-toggle { top:12px; right:12px; padding:5px 12px; }
+  .hero-toggle-label { font-size:.65rem; }
+  .hero-toggle-switch { width:30px; height:16px; }
+  .hero-toggle-switch::after { width:12px; height:12px; }
+  .hero-toggle.active .hero-toggle-switch::after { left:16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== NAVIGATION ==================== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">보림사 <span>寶林寺</span></a>
+    <div class="nav-links">
+      <a href="#events">행사·법회</a>
+      <a href="#intro">사찰소개</a>
+      <a href="#heritage">국보·보물</a>
+      <a href="#history">연혁</a>
+      <a href="#components">학습관</a>
+      <a href="#templestay">템플스테이</a>
+      <a href="#indung">인등불사</a>
+      <a href="#visit">오시는길</a>
+      <a href="tel:061-864-2055" class="nav-cta">📞 문의</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleMobile()" aria-label="메뉴">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#events" onclick="closeMobile()">🎏 행사·법회</a>
+  <a href="#intro" onclick="closeMobile()">🏯 사찰소개</a>
+  <a href="#heritage" onclick="closeMobile()">🏛 국보·보물</a>
+  <a href="#history" onclick="closeMobile()">📜 연혁</a>
+  <a href="#components" onclick="closeMobile()">📚 학습관</a>
+  <a href="#templestay" onclick="closeMobile()">🍵 템플스테이</a>
+  <a href="#indung" onclick="closeMobile()">🕯 인등불사</a>
+  <a href="#visit" onclick="closeMobile()">🗺 오시는길</a>
+  <a href="tel:061-864-2055">📞 061-864-2055</a>
+</div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-toggle" id="heroToggle" onclick="toggleParticleHero()">
+    <span class="hero-toggle-label">✦ 파티클</span>
+    <div class="hero-toggle-switch"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">☸ 교학에서 선(禪)으로 · 가지산문의 종가</div>
+    <h1>보림사</h1>
+    <div class="hero-hanja">寶 林 寺</div>
+    <p class="hero-desc">
+      천년의 깨달음에서 현대의 치유로<br>
+      한국 조계종의 모태, 동양 3보림의 하나<br>
+      가지산 깊은 숲에서 선(禪)의 향기를 만나다
+    </p>
+    <div class="hero-btns">
+      <a href="#heritage" class="btn-primary">국보·보물 보기</a>
+      <a href="#templestay" class="btn-outline">템플스테이 안내</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>☸ 보림사</span><span>✦ 한국 선종의 종가(宗家)</span><span>✦ 동양 3보림</span>
+    <span>✦ 국보 제117호 철조비로자나불좌상</span><span>✦ 국보 제44호 삼층석탑 및 석등</span>
+    <span>✦ 보물 목조사천왕상</span><span>✦ 가지산문 최초 개산</span>
+    <span>✦ 비자나무 숲 명상</span><span>✦ 다선일미(茶禪一味)</span>
+    <span>✦ 템플스테이 운영</span><span>✦ 전남 장흥군 유치면</span>
+    <span>☸ 보림사</span><span>✦ 한국 선종의 종가(宗家)</span><span>✦ 동양 3보림</span>
+    <span>✦ 국보 제117호 철조비로자나불좌상</span><span>✦ 국보 제44호 삼층석탑 및 석등</span>
+    <span>✦ 보물 목조사천왕상</span><span>✦ 가지산문 최초 개산</span>
+    <span>✦ 비자나무 숲 명상</span><span>✦ 다선일미(茶禪一味)</span>
+    <span>✦ 템플스테이 운영</span><span>✦ 전남 장흥군 유치면</span>
+  </div>
+</div>
+
+<!-- ==================== STATS ==================== -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><h3>759</h3><p>AD 원표대덕 가지산사 창건</p></div>
+    <div class="stat-item"><h3>2</h3><p>국보 (철조비로자나불·석탑석등)</p></div>
+    <div class="stat-item"><h3>5+</h3><p>보물 (사천왕상·승탑·탑비)</p></div>
+    <div class="stat-item"><h3>300년</h3><p>수령 비자나무 숲</p></div>
+  </div>
+</div>
+
+<!-- ==================== EVENTS ==================== -->
+<section class="section" id="events">
+  <div class="section-inner">
+    <p class="section-label">Events & Programs</p>
+    <h2 class="section-title">주요 행사 · 법회</h2>
+    <p class="section-desc">가지산의 맑은 기운 아래 천년의 기도와 수행이 이어집니다</p>
+    <div class="events-grid">
+      <div class="event-card fade-in">
+        <div class="event-icon">🌕</div>
+        <span class="event-tag">Monthly</span>
+        <h3>초하루·보름 법회</h3>
+        <p>매월 음력 1일·15일 오전 10:00<br>관음보살 기도 및 스님 법문</p>
+        <div class="event-meta">정기법회 · 무료</div>
+      </div>
+      <div class="event-card fade-in">
+        <div class="event-icon">🪔</div>
+        <span class="event-tag">Annual</span>
+        <h3>부처님 오신 날</h3>
+        <p>음력 4월 8일 대법회<br>연등 행렬 · 대적광전 점등식</p>
+        <div class="event-meta">대법회 · 연 1회</div>
+      </div>
+      <div class="event-card fade-in">
+        <div class="event-icon">🍵</div>
+        <span class="event-tag">Temple Stay</span>
+        <h3>가지산 템플스테이</h3>
+        <p>비자나무 숲 명상·새벽 예불<br>다선일미 차 명상 프로그램</p>
+        <div class="event-meta">₩ 40,000~ / 1박</div>
+      </div>
+      <div class="event-card fade-in">
+        <div class="event-icon">🌿</div>
+        <span class="event-tag">Seasonal</span>
+        <h3>비자림 치유 산책</h3>
+        <p>수령 300년 비자나무 숲길<br>사계절 피톤치드 명상 포행</p>
+        <div class="event-meta">상시 운영 · 무료</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
+<section class="section" id="intro" style="background:var(--color-bg-alt);">
+  <div class="section-inner">
+    <p class="section-label">About Temple</p>
+    <h2 class="section-title">가지산 품 안에서 천년을 이어온 선종의 성지</h2>
+    <div class="about-layout">
+      <div class="about-text fade-in">
+        <p>
+          보림사(寶林寺)는 전라남도 장흥군 유치면 가지산(迦智山) 기슭에 자리한
+          대한불교 조계종 소속 천년 고찰입니다. 759년 원표대덕이 가지산사로 처음 터를 잡은 이래,
+          859년 보조선사 체징이 구산선문 최초의 산문인 가지산문을 개창하며
+          한국 선종의 역사가 시작된 곳입니다.
+        </p>
+        <p>
+          인도·중국의 보림사와 함께 <strong>'동양 3보림'</strong>으로 불리며,
+          중국 혜능 선맥의 정통을 이어받은 한국 조계종의 사상적 모태입니다.
+          858년 조성된 국보 철조비로자나불좌상, 870년 건립된 국보 남·북 삼층석탑,
+          그리고 임진왜란 이전 유일한 목조 사천왕상 등 한국 불교미술사의
+          절대적 기준점을 제공하는 보물들이 살아 숨 쉬고 있습니다.
+        </p>
+        <p>
+          수령 300년 비자나무 숲과 야생 차나무밭이 어우러진 천혜의 자연 환경은
+          현대인들에게 '비움과 쉼'이라는 최고의 치유를 선사합니다.
+        </p>
+        <div class="about-info">
+          <div class="about-info-item"><dt>종단</dt><dd>대한불교 조계종</dd></div>
+          <div class="about-info-item"><dt>창건</dt><dd>759년 원표대덕</dd></div>
+          <div class="about-info-item"><dt>개산</dt><dd>859년 보조선사 체징</dd></div>
+          <div class="about-info-item"><dt>소재지</dt><dd>전남 장흥군 유치면</dd></div>
+          <div class="about-info-item"><dt>주불</dt><dd>비로자나불</dd></div>
+          <div class="about-info-item"><dt>문화재</dt><dd>국보 2점·보물 5점+</dd></div>
+        </div>
+      </div>
+      <div class="about-images fade-in">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/800px-Borimsa_Daeungjeon_11-05025.JPG"
+             alt="보림사 대웅보전" style="width:100%;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HERITAGE — 국보·보물 ==================== -->
+<section class="section" id="heritage">
+  <div class="section-inner">
+    <div class="heritage-intro">
+      <p class="section-label">National Treasures & Heritage</p>
+      <h2 class="section-title">천년을 건너온 국보급 문화유산</h2>
+      <p class="section-desc" style="margin:0 auto;">
+        제작 연대가 확실한 9세기 유물들이 한국 불교 미술 연구의 절대적 기준점이 되고 있습니다
+      </p>
+    </div>
+
+    <div class="heritage-grid">
+
+      <!-- 철조비로자나불좌상 -->
+      <div class="heritage-card fade-in">
+        <div class="heritage-card-inner">
+          <div class="heritage-img">
+            <img src="https://res.cloudinary.com/db3izttcy/image/upload/Borimsa_Iron_Buddha1_khhlv3"
+                 alt="철조비로자나불좌상" loading="lazy">
+            <div class="heritage-badge">
+              <span>국보 제117호</span>
+              <span>858년 조성</span>
+            </div>
+          </div>
+          <div class="heritage-body">
+            <h3>절대 연대를 품은 최초의 철불<br>— 철조비로자나불좌상</h3>
+            <p>
+              한국에서 제작 연대가 확실한 가장 오래된 철불입니다.
+              불상 왼팔 뒷면에 858년 장사현 부수 김언경이 철 2,500근을 시주하여
+              조성했다는 명문이 새겨져 있어, 한국 금속공예사와 미술사의
+              절대적 기준점이 됩니다.
+            </p>
+            <blockquote>
+              왼손 검지를 오른손으로 감싸 쥔 지권인(智拳印)은 중생과 부처,
+              번뇌와 깨달음이 본래 하나라는 선종의 핵심 철학을 철로 주조해 시각화한 것입니다.
+            </blockquote>
+            <p>
+              개인의 지극한 신심이 천년의 국보를 탄생시킨 사례로,
+              관리 한 사람의 봉급을 아껴 시주한 정성이 오늘날까지 빛나고 있습니다.
+            </p>
+            <div class="heritage-detail">
+              <span>비로자나불</span><span>지권인 수인</span><span>김언경 시주</span><span>대적광전 봉안</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 남·북 삼층석탑 및 석등 -->
+      <div class="heritage-card fade-in">
+        <div class="heritage-card-inner">
+          <div class="heritage-img">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Borimsa_Seoktap_11-05026.JPG/640px-Borimsa_Seoktap_11-05026.JPG"
+                 alt="남북 삼층석탑 및 석등" loading="lazy">
+            <div class="heritage-badge">
+              <span>국보 제44호</span>
+              <span>870년 건립</span>
+            </div>
+          </div>
+          <div class="heritage-body">
+            <h3>완벽한 비례미의 결정체<br>— 남·북 삼층석탑과 석등</h3>
+            <p>
+              대적광전 앞마당에 남·북으로 나란히 선 쌍탑과 그 사이의 석등은
+              통일신라 석조 예술의 전형을 보여주는 국보입니다.
+              남탑 5.4m, 북탑 5.9m로 기단부터 상륜부까지 훼손 없이
+              완벽히 보존되어 있습니다.
+            </p>
+            <blockquote>
+              1933년 북탑 해체 보수 시 내부에서 발견된 납석제 석탑지(石塔誌)에
+              870년(경문왕 10년)이라는 명확한 건립 연대가 기록되어 있어,
+              후대 수리 기록까지 품은 '타임캡슐'과 같은 유물입니다.
+            </blockquote>
+            <p>
+              화사석 석등은 부처의 지혜가 온 세상을 비춘다는 상징을
+              섬세한 8각 조형미로 승화시켰습니다.
+            </p>
+            <div class="heritage-detail">
+              <span>통일신라 석탑 전형</span><span>석탑지 발견</span><span>경문왕 10년</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 목조 사천왕상 -->
+      <div class="heritage-card fade-in">
+        <div class="heritage-card-inner">
+          <div class="heritage-img">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Borimsa_Sacheonwang_11-05168.JPG/640px-Borimsa_Sacheonwang_11-05168.JPG"
+                 alt="목조 사천왕상" loading="lazy">
+            <div class="heritage-badge">
+              <span>보물 제1254호</span>
+              <span>1515년 제작</span>
+            </div>
+          </div>
+          <div class="heritage-body">
+            <h3>조선 목조각의 걸작<br>— 목조 사천왕상</h3>
+            <p>
+              임진왜란 이전에 제작된 유일한 목조 사천왕상으로,
+              높이 3.7m의 당당한 위용을 자랑합니다.
+              험악함 대신 인자하고 부드러운 미소를 머금고 있으며,
+              유리로 만든 녹색 눈동자가 생생한 생명감을 불어넣습니다.
+            </p>
+            <blockquote>
+              1995년 해체 보수 중 사천왕상 내부에서 《월인석보》 등
+              227종 345권의 조선 전기 고문헌이 발견되었습니다.
+              500년간 전란 속에서 불교 문화의 정수를 지켜낸 '성스러운 도서관'이었던 셈입니다.
+            </blockquote>
+            <div class="heritage-detail">
+              <span>임진왜란 이전 유일</span><span>복장 유물 345권</span><span>월인석보 발견</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 보조선사 창성탑비 -->
+      <div class="heritage-card fade-in">
+        <div class="heritage-card-inner">
+          <div class="heritage-img" style="background:linear-gradient(135deg, var(--color-bg-alt), var(--color-border)); display:flex; align-items:center; justify-content:center; min-height:280px;">
+            <div style="text-align:center; padding:32px;">
+              <div style="font-size:4rem; margin-bottom:16px;">🗿</div>
+              <div style="font-family:var(--font-serif); font-size:1.1rem; color:var(--color-text-light);">보물 제158호</div>
+            </div>
+          </div>
+          <div class="heritage-body">
+            <h3>창건의 주역을 기리다<br>— 보조선사 창성탑비</h3>
+            <p>
+              884년에 건립된 이 비석은 보조선사 체징의 생애와
+              가지산문의 법맥 계승 과정을 생생히 기록하고 있습니다.
+              신라 하대 선종 사상의 흐름을 담은 역사서이자,
+              서예사적으로도 매우 중요한 유물입니다.
+            </p>
+            <p>
+              철불을 시주했던 김언경이 행서(行書)로 새긴 비문으로,
+              글씨를 쓴 사람의 이름이 기록된 가장 오래된 예 중 하나입니다.
+              거북 받침돌 위의 용 조각은 신라 하대 석비 양식의
+              장엄함과 뛰어난 조각 기술의 결정체를 보여줍니다.
+            </p>
+            <div class="heritage-detail">
+              <span>884년 건립</span><span>김언경 행서</span><span>선종 역사 기록</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== BLOG-STYLE HERITAGE ARTICLE ===== -->
+    <article class="blog-article fade-in">
+      <h2>858년 철에 새긴 믿음 — 보림사 문화유산이 특별한 진짜 이유</h2>
+
+      <p>
+        사찰을 방문할 때 우리는 흔히 건축의 웅장함이나 주변 풍경에 먼저 시선을 빼앗기곤 합니다.
+        하지만 장흥 보림사에서는 순서가 다릅니다. 여기서는 '연대(年代)'가 먼저 눈에 들어옵니다.
+        858년, 870년, 884년 — 이 숫자들이 왜 중요한 걸까요?
+      </p>
+
+      <h3>1. 한국 불교미술의 '기준 자(尺)'가 된 철불</h3>
+      <p>
+        미술사 연구에서 가장 어려운 일 중 하나는 '이 작품이 정확히 언제 만들어졌는가'를
+        밝히는 것입니다. 보림사 철조비로자나불좌상은 이 난제를 단번에 해결합니다.
+        불상 왼팔 뒤에 명확하게 새겨진 858년이라는 기년명(紀年銘)은
+        다른 모든 연대 불확실한 철불들의 제작 시기를 추정하는 '기준 자'가 됩니다.
+      </p>
+      <p>
+        더 놀라운 것은 이 국보가 탄생한 배경입니다. 왕실이나 귀족이 아닌,
+        김언경이라는 한 지방 관리가 자신의 봉급을 아껴 철 2,500근을 시주했습니다.
+        개인의 간절한 신심 하나가 천년 후 국보가 된 것입니다.
+      </p>
+
+      <h3>2. '타임캡슐'을 품은 석탑</h3>
+      <p>
+        대적광전 앞마당의 남·북 삼층석탑은 겉으로 보면 신라 석탑의
+        전형적 모습입니다. 하지만 이 석탑이 국보인 결정적 이유는 '안'에 있습니다.
+        1933년 해체 보수 때 북탑 내부에서 발견된 석탑지는
+        870년이라는 건립 연대를 알려줄 뿐 아니라,
+        후대에 언제 어떻게 수리했는지까지 기록하고 있어
+        그야말로 '돌 속의 타임캡슐'입니다.
+      </p>
+
+      <h3>3. 500년간 책을 품고 서 있던 수호신</h3>
+      <p>
+        보림사 목조 사천왕상의 가장 극적인 이야기는 1995년에 펼쳐집니다.
+        해체 보수를 위해 사천왕상 내부를 열었을 때, 《월인석보》를 비롯한
+        227종 345권의 불교 문헌이 쏟아져 나왔습니다.
+        임진왜란, 병자호란, 한국전쟁을 겪으면서도 사천왕의 몸 안에서
+        500년간 온전히 보존되어 온 것입니다.
+      </p>
+      <blockquote>
+        보림사의 유물들은 단순히 '오래된 물건'이 아닙니다.
+        858년 한 사람의 믿음이 철이 되고, 870년 석공의 기술이 돌이 되고,
+        1515년 장인의 혼이 나무가 되어 — 그 모든 것이 천년을 건너
+        지금 우리 앞에 서 있습니다.
+      </blockquote>
+
+      <h3>4. 선종(禪宗)의 철학이 미술이 된 순간</h3>
+      <p>
+        철조비로자나불의 지권인(智拳印) — 왼손 검지를 오른손으로 감싸는 손 모양 —은
+        단순한 불교 도상이 아닙니다. '중생과 부처가 둘이 아니다'는 선종의 핵심 가르침을
+        철이라는 가장 무거운 물질 위에 새겨, 추상적 진리를 누구나 눈으로 볼 수 있게 만든 것입니다.
+        철 속에 깨달음을 주조한 이 역설이야말로 보림사 불교미술의 진정한 매력입니다.
+      </p>
+
+      <p class="closing">
+        다음에 보림사를 찾으실 때, 대적광전의 철불 앞에서 잠시 멈춰 서 보세요.
+        1,167년 전 김언경이 철을 녹이며 빌었을 소원은 무엇이었을까요?
+        그리고 그 소원은 이루어졌을까요?
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ==================== HISTORY TIMELINE ==================== -->
+<section class="section" id="history" style="background:var(--color-bg-alt);">
+  <div class="section-inner">
+    <p class="section-label">History</p>
+    <h2 class="section-title">보림사 연혁</h2>
+    <p class="section-desc">759년 창건부터 천년을 이어온 가지산 성지의 발자취</p>
+
+    <div class="timeline">
+      <div class="tl-item fade-in">
+        <div class="tl-year">759</div>
+        <div class="tl-title">원표대덕, 가지산사(迦智山寺) 창건</div>
+        <div class="tl-desc">신라 경덕왕 18년, 큰 연못에 살던 아홉 마리 용을 제압하고 터를 잡다. 장생표주 건립.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">858</div>
+        <div class="tl-title">철조비로자나불좌상 조성 (국보 제117호)</div>
+        <div class="tl-desc">김언경이 철 2,500근을 시주하여 한국 최초의 기년명 철불 탄생. 한국 미술사의 절대 기준점.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">859</div>
+        <div class="tl-title">보조선사 체징, 가지산문 개창</div>
+        <div class="tl-desc">헌안왕의 권유로 정착. 구산선문 최초의 산문 개산. 교학에서 실천적 선종으로의 패러다임 전환.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">870</div>
+        <div class="tl-title">남·북 삼층석탑 및 석등 건립 (국보 제44호)</div>
+        <div class="tl-desc">경문왕 10년. 통일신라 석탑의 완성된 비례미. 석탑지(타임캡슐) 발견으로 건립 연대 확인.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">884</div>
+        <div class="tl-title">보조선사 창성탑 및 탑비 건립 (보물)</div>
+        <div class="tl-desc">체징 선사의 생애와 법맥을 기록. 김언경의 행서 비문. 선종 역사의 공식 기록.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">1515</div>
+        <div class="tl-title">목조 사천왕상 조성 (보물 제1254호)</div>
+        <div class="tl-desc">임진왜란 이전의 유일한 목조 사천왕상. 500년간 내부에 227종 345권의 고문헌 보존.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">1950</div>
+        <div class="tl-title">6·25 전쟁의 참화</div>
+        <div class="tl-desc">빨치산 소탕 작전으로 대부분의 목조 전각 전소. 일주문과 사천왕문만 기적적으로 생존.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">1982~</div>
+        <div class="tl-title">대웅보전 복원 및 가람 중창</div>
+        <div class="tl-desc">대웅보전(1982), 대적광전(1995) 등 주요 전각 복원. 천년의 잿더미 위에서 법맥을 이어가다.</div>
+      </div>
+      <div class="tl-item fade-in">
+        <div class="tl-year">현재</div>
+        <div class="tl-title">선종 성지 · 힐링 공간으로 재탄생</div>
+        <div class="tl-desc">템플스테이 운영, 비자나무 숲 치유, 다선일미 체험. 천년의 깨달음이 현대의 치유로 이어지다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== QUOTE BANNER ==================== -->
+<div class="quote-banner">
+  <h2>천년의 선(禪)이 건네는 위로</h2>
+  <p>혁신의 산실에서 영혼의 안식처로 — 가지산 보림사</p>
+</div>
+
+<!-- ==================== COMPONENTS SECTION (학습관) ==================== -->
+<section class="section" id="components">
+  <div class="section-inner">
+    <p class="section-label">Learning & Explore</p>
+    <h2 class="section-title">보림사 학습관</h2>
+    <p class="section-desc">보림사의 역사와 문화유산을 다양한 방식으로 만나보세요</p>
+
+    <!-- Tab Navigation -->
+    <div style="display:flex; gap:8px; margin-top:40px; flex-wrap:wrap;" id="compTabs">
+      <button class="comp-tab active" onclick="switchTab('faq')">📋 FAQ 리포트</button>
+      <button class="comp-tab" onclick="switchTab('quiz')">🧩 문화유산 퀴즈</button>
+      <button class="comp-tab" onclick="switchTab('slides')">🖼 슬라이드</button>
+      <button class="comp-tab" onclick="switchTab('infographic')">📊 인포그래픽</button>
+    </div>
+
+    <style>
+      .comp-tab {
+        padding:12px 24px; border-radius:24px; font-size:.88rem; font-weight:600;
+        border:1.5px solid var(--color-border); color:var(--color-text-light);
+        transition:var(--transition); background:var(--color-card);
+      }
+      .comp-tab:hover { border-color:var(--color-accent); color:var(--color-accent); }
+      .comp-tab.active {
+        background:var(--color-accent); color:#fff; border-color:var(--color-accent);
+      }
+      .comp-panel { display:none; }
+      .comp-panel.active { display:block; }
+    </style>
+
+    <!-- ===== COMPONENT 1: FAQ REPORT ===== -->
+    <div class="comp-panel active" id="panel-faq">
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">보림사는 언제, 누구에 의해 세워졌나요?</div>
+          <div class="faq-a"><p>759년(신라 경덕왕 18년) 화엄종 승려 원표대덕이 '가지산사'라는 이름으로 처음 세웠습니다. 당시 이곳은 큰 연못이었고 아홉 마리의 용이 살고 있었다는 전설이 전해집니다. 이후 859년(신라 헌안왕 3년) 보조선사 체징이 헌안왕의 권유로 이곳에 머물며 선종 사찰로 일구어냈고, 헌강왕이 '보림사'라는 이름을 내려 오늘에 이릅니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">'동양 3보림'이란 무엇을 의미하나요?</div>
+          <div class="faq-a"><p>보림사는 인도 가지산의 보림사, 중국 선종 제6조 혜능 스님의 보림사와 더불어 '동양 3보림'의 하나로 일컬어집니다. 이 명칭은 신라의 선사들이 중국 혜능 스님의 선맥을 정통으로 이어받았음을 국가적으로 공인받았다는 영광스러운 의미를 담고 있습니다. '가지산(迦智山)'은 석가모니(迦)의 지혜(智)가 머무는 산이라는 뜻입니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">가지산문과 보림사는 어떤 관계인가요?</div>
+          <div class="faq-a"><p>보림사는 신라 말 형성된 구산선문 중 가장 먼저 문을 연 '가지산문'의 중심 사찰입니다. 도의-염거-체징으로 이어지는 법맥을 통해 한국 선종의 역사가 시작된 곳으로, 중국의 선맥이 신라 승려들에게 모두 돌아왔다는 '강서선맥(江西禪脈)'의 자부심이 깃든 한국 선종의 실질적인 종가입니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">철조비로자나불좌상(국보 제117호)이 왜 유명한가요?</div>
+          <div class="faq-a"><p>한국 미술사에서 제작 연대가 확실한 가장 오래된 철불입니다. 858년 관리 김언경이 자신의 봉급을 아껴 시주하여 조성했다는 기록이 불상 뒷면에 새겨져 있습니다. 왼손 검지를 오른손으로 감싸 쥔 지권인(智拳印)은 부처와 중생이 하나라는 선종의 핵심 가르침을 상징합니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">석탑과 석등(국보 제44호)의 특징은?</div>
+          <div class="faq-a"><p>870년(경문왕 10년) 건립. 남탑(5.4m), 북탑(5.9m)은 기단부터 상륜부까지 훼손 없이 완벽 보존되어 신라 석탑의 표준 모델로 가치가 매우 높습니다. 1933년 북탑 내부에서 발견된 석탑지(石塔誌)를 통해 명확한 건립 연대와 후대 수리 기록까지 확인되었습니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">목조 사천왕상이 특별한 이유는?</div>
+          <div class="faq-a"><p>1515년 제작된 임진왜란 이전의 유일한 목조 사천왕상(보물 제1254호)입니다. 1995년 해체 보수 시 내부에서 《월인석보》 등 국보급 전적류 227종 345권이 발견되어, 500년간 전란 속에서 불교 문화를 지켜낸 '성스러운 도서관'이었음이 밝혀졌습니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">템플스테이 예약은 어떻게 하나요?</div>
+          <div class="faq-a"><p>보림사 템플스테이는 휴식형(상시), 체험형(주말), 당일형으로 운영됩니다. 참가비는 성인 기준 약 40,000~60,000원이며, 화~일요일 운영(월요일 정비 휴무)합니다. 템플스테이 공식 홈페이지(www.templestay.com)에서 '보림사' 검색 후 온라인 예약이 가능합니다.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">주변에 함께 둘러볼 만한 명소는?</div>
+          <div class="faq-a"><p>① 정남진 편백숲 우드랜드 — 피톤치드 숲길 산책, ② 정남진 장흥 토요시장 — 한우·키조개·표고버섯의 '장흥 삼합', ③ 정남진 천문과학관 — 별빛 관측. 추천 코스: 보림사 순례 → 비자나무 숲 명상 → 편백숲 우드랜드 치유</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 2: QUIZ ===== -->
+    <div class="comp-panel" id="panel-quiz">
+      <div class="quiz-container" id="quizBox">
+        <div class="quiz-progress" id="quizProgress"></div>
+        <div id="quizContent"></div>
+      </div>
+    </div>
+
+    <!-- ===== COMPONENT 3: SLIDES ===== -->
+    <div class="comp-panel" id="panel-slides">
+      <div class="slide-viewer" id="slideViewer">
+        <div class="slide-viewport" id="slideViewport"></div>
+        <div class="slide-dots" id="slideDots"></div>
+        <div class="slide-controls">
+          <button onclick="prevSlide()">← 이전</button>
+          <span class="slide-counter" id="slideCounter">1 / 14</span>
+          <button onclick="nextSlide()">다음 →</button>
+        </div>
+      </div>
+      <p style="margin-top:16px; font-size:.82rem; color:var(--color-text-light); text-align:center;">
+        ※ 보림사 소개 슬라이드 (NotebookLM 생성 자료 기반 14페이지)
+      </p>
+    </div>
+
+    <!-- ===== COMPONENT 4: INFOGRAPHIC ===== -->
+    <div class="comp-panel" id="panel-infographic">
+      <div class="infographic-viewer">
+        <div class="infographic-frame">
+          <img src="/images/Zen_history.png"
+               alt="한국 선종의 역사적 기원 인포그래픽"
+               id="infographicImg" onclick="openLightbox(this.src)">
+          <div class="infographic-caption">
+            <h4>한국 선종의 종가(宗家), 장흥 보림사 — 인포그래픽</h4>
+            <p>한국 선종의 역사적 기원과 천년을 건너온 국보급 문화유산을 한눈에 살펴보세요. (클릭하면 확대됩니다)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== TEMPLE STAY ==================== -->
+<section class="section" id="templestay" style="background:var(--color-bg-alt);">
+  <div class="section-inner">
+    <p class="section-label">Temple Stay</p>
+    <h2 class="section-title">나를 찾는 시간, 보림사 템플스테이</h2>
+    <p class="section-desc">비자나무 숲과 야생 차향이 어우러진 가지산 자연 속에서 '비움과 쉼'을 경험하세요</p>
+    <div class="templestay-grid">
+      <div class="ts-card fade-in">
+        <div class="ts-icon">🌿</div>
+        <h3>비자숲길 걷기 (휴식형)</h3>
+        <p>일상에 지친 몸과 마음을 달래는 호젓한 자유 포행. 수령 300년 비자나무 숲이 사찰을 병풍처럼 감싸 안고 있습니다.</p>
+      </div>
+      <div class="ts-card fade-in">
+        <div class="ts-icon">🍵</div>
+        <h3>다담과 사찰 음식</h3>
+        <p>자연이 주는 가장 순수한 맛의 식사와 스님과의 차담. 야생 차나무에서 얻은 차로 다선일미(茶禪一味)를 체험합니다.</p>
+      </div>
+      <div class="ts-card fade-in">
+        <div class="ts-icon">🧘</div>
+        <h3>선명상 (체험형)</h3>
+        <p>타종, 108배, 참선을 통해 번뇌를 비우고 내면을 채우는 전통 수행 체험. 새벽 예불 참여 가능.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== INDUNG (인등불사) ==================== -->
+<section class="section indung-section" id="indung">
+  <div class="section-inner">
+    <p class="section-label">Offering of Light</p>
+    <h2 class="section-title">인등불사</h2>
+    <p class="section-desc">가지산 천년 도량에 불을 밝혀 소원을 이루세요</p>
+    <div class="indung-grid">
+      <div class="indung-card">
+        <div style="font-size:2rem; margin-bottom:8px;">🕯️</div>
+        <h4>기본 인등</h4>
+        <div class="price">₩30,000<span style="font-size:.8rem; font-weight:400;">/월</span></div>
+        <p>매일 법회 시 스님이 직접 독송<br>월 1회 기도 회향 및 문자 발송</p>
+      </div>
+      <div class="indung-card">
+        <div style="font-size:2rem; margin-bottom:8px;">🌟</div>
+        <h4>삼구 인등</h4>
+        <div class="price">₩80,000<span style="font-size:.8rem; font-weight:400;">/월</span></div>
+        <p>가족 3인 동시 기원<br>분기별 회향 증명서 발송</p>
+        <span class="tag">Family</span>
+      </div>
+      <div class="indung-card">
+        <div style="font-size:2rem; margin-bottom:8px;">📿</div>
+        <h4>연간 인등</h4>
+        <div class="price">₩300,000<span style="font-size:.8rem; font-weight:400;">/년</span></div>
+        <p>1년 등록 시 2개월 무료<br>정기 법회 우선 참석권</p>
+        <span class="tag">2개월 무료</span>
+      </div>
+      <div class="indung-card">
+        <div style="font-size:2rem; margin-bottom:8px;">🙏</div>
+        <h4>49재·천도재</h4>
+        <div class="price" style="font-size:1.2rem;">별도 문의</div>
+        <p>선망 영가 극락왕생 기원<br>사전 예약 필수</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== GALLERY ==================== -->
+<section class="section" id="gallery">
+  <div class="section-inner">
+    <p class="section-label">Gallery</p>
+    <h2 class="section-title">보림사 갤러리</h2>
+    <p class="section-desc">천년 고찰의 사계와 문화유산</p>
+    <div class="gallery-grid">
+      <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/640px-Borimsa_Daeungjeon_11-05025.JPG" alt="보림사 대웅보전" loading="lazy">
+        <div class="gallery-overlay"><span>대웅보전</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/Borimsa_Iron_buddha_sponci" alt="철조비로자나불" loading="lazy">
+        <div class="gallery-overlay"><span>철조비로자나불좌상 · 국보</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Borimsa_Seoktap_11-05026.JPG/640px-Borimsa_Seoktap_11-05026.JPG" alt="삼층석탑" loading="lazy">
+        <div class="gallery-overlay"><span>남·북 삼층석탑 · 국보</span></div>
+      </div>
+      <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Borimsa_Sacheonwang_11-05168.JPG/640px-Borimsa_Sacheonwang_11-05168.JPG" alt="사천왕상" loading="lazy">
+        <div class="gallery-overlay"><span>목조 사천왕상 · 보물</span></div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,#2C5F2D,#4A8B4C); display:flex; align-items:center; justify-content:center;">
+        <div style="text-align:center; color:#fff; padding:24px;">
+          <div style="font-size:2.5rem; margin-bottom:8px;">🌿</div>
+          <span style="font-size:.9rem; font-weight:600;">비자나무 숲</span><br>
+          <span style="font-size:.75rem; opacity:.7;">수령 300년 치유의 숲</span>
+        </div>
+      </div>
+      <div class="gallery-item" style="background:linear-gradient(135deg,var(--color-gold-dark),var(--color-gold)); display:flex; align-items:center; justify-content:center;">
+        <div style="text-align:center; color:#fff; padding:24px;">
+          <div style="font-size:2.5rem; margin-bottom:8px;">🍵</div>
+          <span style="font-size:.9rem; font-weight:600;">다선일미</span><br>
+          <span style="font-size:.75rem; opacity:.7;">야생 차나무밭 차 명상</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VISIT / LOCATION ==================== -->
+<section class="section" id="visit" style="background:var(--color-bg-alt);">
+  <div class="section-inner">
+    <p class="section-label">Location</p>
+    <h2 class="section-title">오시는 길</h2>
+    <p class="section-desc">전라남도 장흥군 유치면 가지산 기슭</p>
+    <div class="visit-layout">
+      <div class="visit-map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3290.5!2d126.89!3d34.76!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x356e0a6f1b2d3c9d%3A0x4c2d3e5f6a7b8c9d!2z67O066a87IKs!5e0!3m2!1sko!2skr!4v1700000000000"
+                allowfullscreen loading="lazy" title="보림사 위치"></iframe>
+      </div>
+      <div class="visit-info">
+        <dl>
+          <dt>주소</dt><dd>전라남도 장흥군 유치면 봉덕리 45 (가지산 기슭, 주차 가능)</dd>
+          <dt>전화</dt><dd><a href="tel:061-864-2055" style="color:var(--color-accent); font-weight:600;">061-864-2055</a></dd>
+          <dt>종단</dt><dd>대한불교 조계종 제21교구 본사 송광사 말사</dd>
+          <dt>자가용</dt><dd>장흥IC → 장흥읍 → 유치면 방면 → 보림사 (약 25분)</dd>
+          <dt>대중교통</dt><dd>장흥 버스터미널에서 유치면 방면 버스 탑승<br>보림사 입구 하차 (약 30분)</dd>
+          <dt>템플스테이</dt><dd>www.templestay.com 에서 '보림사' 검색<br>휴식형(상시), 체험형(주말) · 월요일 휴무</dd>
+          <dt>주변 코스</dt><dd>보림사 → 정남진 편백숲 우드랜드 → 정남진 천문과학관 → 장흥 토요시장</dd>
+        </dl>
+        <a href="https://map.naver.com/p/search/보림사" target="_blank" class="btn-primary" style="display:inline-flex; margin-top:8px; font-size:.85rem;">
+          네이버 지도로 보기 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h3>☸ 보림사</h3>
+      <p>Borimsa · 寶林寺<br>한국 선종의 종가<br>가지산 천년 고찰</p>
+    </div>
+    <div class="footer-col">
+      <h4>사찰 안내</h4>
+      <a href="#intro">사찰 소개</a>
+      <a href="#heritage">국보·보물</a>
+      <a href="#history">연혁</a>
+      <a href="#events">행사·법회</a>
+      <a href="#gallery">갤러리</a>
+    </div>
+    <div class="footer-col">
+      <h4>수행 · 체험</h4>
+      <a href="#indung">인등불사</a>
+      <a href="#templestay">템플스테이</a>
+      <a href="#components">학습관</a>
+      <a href="https://www.templestay.com" target="_blank">한국 템플스테이</a>
+    </div>
+    <div class="footer-col">
+      <h4>연락처</h4>
+      <a href="tel:061-864-2055">📞 061-864-2055</a>
+      <a href="#visit">📍 전남 장흥 유치면</a>
+      <a href="#indung">🕯 인등불사 신청</a>
+      <a href="#templestay">🏔 템플스테이 예약</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 보림사(寶林寺) · 대한불교 조계종 · 전라남도 장흥군 유치면 봉덕리 45<br>
+    Heritage · Wisdom · Healing
+  </div>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close">✕</span>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<!-- Scroll to top -->
+<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// ===== NAV =====
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 600);
+});
+
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+// ===== SCROLL ANIMATIONS =====
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// ===== LIGHTBOX =====
+function openLightbox(src) {
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ===== COMPONENT TABS =====
+function switchTab(name) {
+  document.querySelectorAll('.comp-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.comp-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.target.classList.add('active');
+  if(name === 'quiz' && !quizInit) initQuiz();
+  if(name === 'slides' && !slidesInit) initSlides();
+}
+
+// ===== FAQ ACCORDION =====
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+// ===== QUIZ COMPONENT =====
+let quizInit = false;
+const quizData = [
+  {
+    q: "보림사 철조비로자나불좌상이 국보로 지정된 가장 핵심적인 이유는?",
+    opts: ["크기가 한국 철불 중 가장 크기 때문", "858년이라는 제작 연대가 명확히 기록되어 있기 때문", "금으로 도금되어 있기 때문", "고려시대 왕실이 제작을 명했기 때문"],
+    ans: 1,
+    explain: "불상 왼팔 뒷면에 858년 김언경이 철 2,500근을 시주했다는 기년명(紀年銘)이 새겨져 있어, 한국 미술사에서 제작 연대가 확실한 가장 오래된 철불입니다. 이 '절대 연대'가 다른 철불들의 시기를 추정하는 기준이 됩니다."
+  },
+  {
+    q: "철조비로자나불좌상의 손 모양인 '지권인(智拳印)'이 상징하는 의미는?",
+    opts: ["전쟁에서의 승리를 기원", "중생과 부처가 본래 하나라는 선종의 핵심 사상", "극락왕생을 위한 기도", "제자들에 대한 가르침의 시작"],
+    ans: 1,
+    explain: "지권인은 왼손 검지를 오른손으로 감싸 쥔 수인으로, 중생과 부처, 번뇌와 깨달음이 본래 하나라는 선종의 핵심 철학을 시각화한 것입니다. 이 추상적 진리를 가장 무거운 물질인 철 위에 새긴 역설이 보림사 불교미술의 특별한 점입니다."
+  },
+  {
+    q: "국보 제44호 남·북 삼층석탑에서 발견된 '석탑지'가 중요한 이유는?",
+    opts: ["금으로 된 부처님 사리가 함께 발견되어서", "870년이라는 건립 연대와 수리 기록이 담겨 있어서", "탑을 만든 석공의 이름이 적혀 있어서", "탑의 설계 도면이 그려져 있어서"],
+    ans: 1,
+    explain: "1933년 북탑 해체 보수 시 내부에서 발견된 납석제 석탑지에는 870년(경문왕 10년)이라는 명확한 건립 연대와 후대 수리 기록이 새겨져 있어, 그야말로 '돌 속의 타임캡슐'입니다."
+  },
+  {
+    q: "보림사 목조 사천왕상(보물) 내부에서 1995년에 발견된 것은?",
+    opts: ["금·은 보석류", "《월인석보》 등 227종 345권의 고문헌", "부처님 사리 3과", "보림사 창건 당시의 목재 편"],
+    ans: 1,
+    explain: "1995년 해체 보수 중 사천왕상 내부(복장)에서 《월인석보》를 비롯한 227종 345권의 조선 전기 고문헌이 발견되었습니다. 임진왜란, 병자호란, 한국전쟁을 거치면서도 500년간 온전히 보존된 '성스러운 도서관'이었습니다."
+  },
+  {
+    q: "보림사가 '동양 3보림' 중 하나로 불리는 이유는?",
+    opts: ["인도·중국·한국 세 나라의 보림사가 동일한 건축 양식이기 때문", "세 사찰 모두 동양에서 가장 크기 때문", "중국 혜능 선맥의 정통을 잇는 선종의 중심 사찰이기 때문", "세 사찰이 같은 해에 창건되었기 때문"],
+    ans: 2,
+    explain: "보림사라는 명칭은 중국 선종 제6조 혜능 스님의 보림사에서 유래했으며, 인도 가지산의 보림사와 함께 선맥의 정통을 상징합니다. 신라 선사들이 혜능의 선맥을 정통으로 이어받았음을 국가적으로 공인받은 것입니다."
+  }
+];
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function initQuiz() {
+  quizInit = true;
+  quizIdx = 0; quizScore = 0;
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const box = document.getElementById('quizContent');
+  const prog = document.getElementById('quizProgress');
+
+  // progress dots
+  prog.innerHTML = quizData.map((_, i) =>
+    `<span class="quiz-dot ${i < quizIdx ? 'correct' : ''} ${i === quizIdx ? 'active' : ''}"></span>`
+  ).join('');
+
+  if (quizIdx >= quizData.length) {
+    box.innerHTML = `
+      <div class="quiz-result">
+        <h3>퀴즈 완료!</h3>
+        <div class="quiz-score">${quizScore} / ${quizData.length}</div>
+        <p style="color:var(--color-text-light); margin-bottom:24px;">
+          ${quizScore >= 4 ? '훌륭합니다! 보림사 문화유산 전문가시네요.' :
+            quizScore >= 3 ? '좋은 점수입니다! 보림사에 대해 많이 알고 계시군요.' :
+            '보림사 학습관의 다른 자료도 함께 살펴보세요!'}
+        </p>
+        <button class="quiz-btn quiz-btn-retry" onclick="initQuiz()">다시 도전하기</button>
+      </div>`;
+    return;
+  }
+
+  const d = quizData[quizIdx];
+  quizAnswered = false;
+  box.innerHTML = `
+    <div class="quiz-question">${quizIdx + 1}. ${d.q}</div>
+    <div class="quiz-options">
+      ${d.opts.map((o, i) => `<div class="quiz-opt" onclick="selectQuiz(${i})" data-idx="${i}">${o}</div>`).join('')}
+    </div>
+    <div class="quiz-explain" id="quizExplain">${d.explain}</div>
+    <div class="quiz-nav">
+      <button class="quiz-btn quiz-btn-next" id="quizNext" onclick="nextQuiz()" style="display:none;">다음 문제 →</button>
+    </div>`;
+}
+
+function selectQuiz(idx) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const d = quizData[quizIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((o, i) => {
+    if (i === d.ans) o.classList.add('correct-ans');
+    if (i === idx && i !== d.ans) o.classList.add('wrong-ans');
+  });
+  if (idx === d.ans) quizScore++;
+  document.getElementById('quizExplain').classList.add('show');
+  document.getElementById('quizNext').style.display = 'inline-flex';
+}
+
+function nextQuiz() { quizIdx++; renderQuiz(); }
+
+// ===== SLIDE COMPONENT =====
+let slidesInit = false, slideIdx = 0;
+const slideCount = 14;
+const slideTitles = [
+  "천년의 깨달음에서 현대의 치유로",
+  "보림사를 읽는 3가지 시선",
+  "깨달음의 동진(東進), 가지산문의 개창",
+  "도슨트 투어: 천년의 유산을 걷다",
+  "조선 목조각의 걸작, 사천왕상",
+  "완벽한 비례미, 남·북 삼층석탑과 석등",
+  "절대 연대를 품은 최초의 철불",
+  "창건의 주역을 기리다, 보조선사 창성탑비",
+  "소실과 중건, 멈추지 않는 법맥",
+  "다선일미(茶禪一味)와 비자나무 숲",
+  "나를 찾는 시간, 보림사 템플스테이",
+  "장흥의 자연과 연결된 치유 여행",
+  "천년의 선(禪)이 건네는 위로",
+  "보림사 방문 안내 (Plan Your Visit)"
+];
+
+function initSlides() {
+  slidesInit = true;
+  const viewport = document.getElementById('slideViewport');
+  const dots = document.getElementById('slideDots');
+
+  // Use actual slide images from /images/
+  viewport.innerHTML = '';
+  for (let i = 0; i < slideCount; i++) {
+    const num = String(i + 1).padStart(2, '0');
+    const img = document.createElement('img');
+    img.src = `/images/slide-${num}.jpg`;
+    img.alt = slideTitles[i];
+    img.className = i === 0 ? 'active' : '';
+    img.dataset.slide = i;
+    img.loading = i < 2 ? 'eager' : 'lazy';
+    viewport.appendChild(img);
+  }
+
+  dots.innerHTML = Array.from({length:slideCount}, (_, i) =>
+    `<span class="${i===0?'active':''}" onclick="goSlide(${i})"></span>`
+  ).join('');
+
+  updateSlideCounter();
+}
+
+function goSlide(idx) {
+  slideIdx = idx;
+  document.querySelectorAll('#slideViewport > img').forEach((d, i) => {
+    d.className = i === idx ? 'active' : '';
+  });
+  document.querySelectorAll('#slideDots span').forEach((d, i) => {
+    d.className = i === idx ? 'active' : '';
+  });
+  updateSlideCounter();
+}
+function nextSlide() { goSlide((slideIdx + 1) % slideCount); }
+function prevSlide() { goSlide((slideIdx - 1 + slideCount) % slideCount); }
+function updateSlideCounter() {
+  const c = document.getElementById('slideCounter');
+  if(c) c.textContent = `${slideIdx + 1} / ${slideCount}`;
+}
+
+// ===== PARTICLE HERO ENGINE =====
+let particleActive = false;
+let particleAnimId = null;
+let particles = [];
+let particleWordIdx = 0;
+const particleWords = ['보림사', '寶林寺'];
+let particleFrameCount = 0;
+
+class HeroParticle {
+  constructor() {
+    this.x = 0; this.y = 0;
+    this.vx = 0; this.vy = 0;
+    this.tx = 0; this.ty = 0;
+    this.size = 2;
+    this.maxSpd = 12; // fast
+    this.maxForce = 0.6;
+    this.cr = 196; this.cg = 173; this.cb = 116; // gold color
+    this.tcr = 196; this.tcg = 173; this.tcb = 116;
+    this.cw = 0;
+    this.dead = false;
+  }
+  move() {
+    const dx = this.tx - this.x, dy = this.ty - this.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    const prox = dist < 80 ? dist / 80 : 1;
+    const mag = Math.sqrt(dx*dx + dy*dy) || 1;
+    const sx = (dx/mag) * this.maxSpd * prox - this.vx;
+    const sy = (dy/mag) * this.maxSpd * prox - this.vy;
+    const sm = Math.sqrt(sx*sx + sy*sy) || 1;
+    this.vx += (sx/sm) * this.maxForce;
+    this.vy += (sy/sm) * this.maxForce;
+    this.x += this.vx; this.y += this.vy;
+    if(this.cw < 1) this.cw = Math.min(this.cw + 0.02, 1);
+  }
+  draw(ctx) {
+    const r = Math.round(this.cr + (this.tcr - this.cr) * this.cw);
+    const g = Math.round(this.cg + (this.tcg - this.cg) * this.cw);
+    const b = Math.round(this.cb + (this.tcb - this.cb) * this.cw);
+    ctx.fillStyle = `rgb(${r},${g},${b})`;
+    ctx.fillRect(this.x, this.y, this.size, this.size);
+  }
+  kill(w, h) {
+    if(!this.dead) {
+      const angle = Math.random() * Math.PI * 2;
+      const mag = (w + h) / 2;
+      this.tx = w/2 + Math.cos(angle) * mag;
+      this.ty = h/2 + Math.sin(angle) * mag;
+      this.tcr = 0; this.tcg = 0; this.tcb = 0;
+      this.cr += (this.tcr - this.cr) * this.cw;
+      this.cg += (this.tcg - this.cg) * this.cw;
+      this.cb += (this.tcb - this.cb) * this.cw;
+      this.cw = 0;
+      this.dead = true;
+    }
+  }
+}
+
+function spawnWord(word, canvas) {
+  const off = document.createElement('canvas');
+  off.width = canvas.width; off.height = canvas.height;
+  const oc = off.getContext('2d');
+  const fontSize = Math.min(canvas.width * 0.18, 180);
+  oc.fillStyle = '#fff';
+  oc.font = `900 ${fontSize}px "Noto Serif KR", serif`;
+  oc.textAlign = 'center';
+  oc.textBaseline = 'middle';
+  oc.fillText(word, canvas.width / 2, canvas.height / 2);
+  const imgData = oc.getImageData(0, 0, canvas.width, canvas.height).data;
+  const step = 4;
+  const gold = [
+    {r:196,g:173,b:116}, {r:155,g:134,b:84}, {r:220,g:200,b:140},
+    {r:180,g:160,b:100}, {r:255,g:235,b:180}
+  ];
+  const clr = gold[Math.floor(Math.random() * gold.length)];
+  const coords = [];
+  for(let i = 0; i < imgData.length; i += step * 4) {
+    if(imgData[i+3] > 0) coords.push(i);
+  }
+  // shuffle
+  for(let i = coords.length -1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [coords[i], coords[j]] = [coords[j], coords[i]];
+  }
+  let pi = 0;
+  for(const ci of coords) {
+    const px = (ci/4) % canvas.width;
+    const py = Math.floor(ci / 4 / canvas.width);
+    let p;
+    if(pi < particles.length) {
+      p = particles[pi]; p.dead = false; pi++;
+    } else {
+      p = new HeroParticle();
+      const angle = Math.random() * Math.PI * 2;
+      const mag = (canvas.width + canvas.height) / 2;
+      p.x = canvas.width/2 + Math.cos(angle) * mag;
+      p.y = canvas.height/2 + Math.sin(angle) * mag;
+      p.maxSpd = Math.random() * 8 + 8;
+      p.maxForce = p.maxSpd * 0.06;
+      p.size = Math.random() * 2.5 + 1.5;
+      particles.push(p);
+    }
+    p.cr += (p.tcr - p.cr) * p.cw;
+    p.cg += (p.tcg - p.cg) * p.cw;
+    p.cb += (p.tcb - p.cb) * p.cw;
+    p.tcr = clr.r; p.tcg = clr.g; p.tcb = clr.b;
+    p.cw = 0;
+    p.tx = px; p.ty = py;
+  }
+  for(let i = pi; i < particles.length; i++) particles[i].kill(canvas.width, canvas.height);
+}
+
+function particleLoop() {
+  const canvas = document.getElementById('particleCanvas');
+  if(!canvas || !particleActive) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'rgba(0,0,0,0.12)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  for(let i = particles.length - 1; i >= 0; i--) {
+    particles[i].move();
+    particles[i].draw(ctx);
+    if(particles[i].dead) {
+      if(particles[i].x < -50 || particles[i].x > canvas.width+50 ||
+         particles[i].y < -50 || particles[i].y > canvas.height+50) {
+        particles.splice(i, 1);
+      }
+    }
+  }
+  particleFrameCount++;
+  if(particleFrameCount % 180 === 0) { // switch every 3 sec
+    particleWordIdx = (particleWordIdx + 1) % particleWords.length;
+    spawnWord(particleWords[particleWordIdx], canvas);
+  }
+  particleAnimId = requestAnimationFrame(particleLoop);
+}
+
+function initParticleCanvas() {
+  const canvas = document.getElementById('particleCanvas');
+  const hero = document.getElementById('hero');
+  if(!canvas || !hero) return;
+  canvas.width = hero.offsetWidth * (window.devicePixelRatio > 1 ? 1.5 : 1);
+  canvas.height = hero.offsetHeight * (window.devicePixelRatio > 1 ? 1.5 : 1);
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+}
+
+function toggleParticleHero() {
+  const hero = document.getElementById('hero');
+  const toggle = document.getElementById('heroToggle');
+  particleActive = !particleActive;
+  if(particleActive) {
+    hero.classList.add('particle-mode');
+    toggle.classList.add('active');
+    initParticleCanvas();
+    particles = [];
+    particleFrameCount = 0;
+    particleWordIdx = 0;
+    const canvas = document.getElementById('particleCanvas');
+    spawnWord(particleWords[0], canvas);
+    particleLoop();
+  } else {
+    hero.classList.remove('particle-mode');
+    toggle.classList.remove('active');
+    if(particleAnimId) cancelAnimationFrame(particleAnimId);
+    particleAnimId = null;
+    particles = [];
+    const canvas = document.getElementById('particleCanvas');
+    if(canvas) { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); }
+  }
+}
+
+// Handle resize when particle is active
+window.addEventListener('resize', () => {
+  if(particleActive) {
+    initParticleCanvas();
+    spawnWord(particleWords[particleWordIdx], document.getElementById('particleCanvas'));
+  }
+});
+
+// ===== INIT =====
+document.addEventListener('DOMContentLoaded', () => {
+  // Auto-open first FAQ
+  const firstFaq = document.querySelector('.faq-item');
+  if(firstFaq) firstFaq.classList.add('open');
+});
+</script>
+
+</body>
+</html>
