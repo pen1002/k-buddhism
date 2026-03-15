@@ -125,7 +125,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   position:absolute; inset:0; z-index:1;
   background:
     linear-gradient(180deg, rgba(20,18,14,.25) 0%, rgba(20,18,14,.1) 35%, rgba(20,18,14,.55) 75%, rgba(20,18,14,.92) 100%),
-    url('https://res.cloudinary.com/db3izttcy/image/upload/KakaoTalk_Photo_2026-02-01-22-02-08_009_jiqbed') center/cover no-repeat;
+    linear-gradient(135deg, #1C4A5A 0%, #2B6B7F 40%, #3D92A8 100%);
 }
 /* floating lotus petals */
 .hero-bg::after {
@@ -663,7 +663,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
    PARTICLE HERO
    ============================================ */
 .hero-toggle {
-  position:absolute; top:20px; right:20px; z-index:10;
+  position:absolute; top:80px; right:20px; z-index:10;
   display:flex; align-items:center; gap:8px;
   background:rgba(0,0,0,.45); backdrop-filter:blur(10px);
   border:1px solid rgba(255,255,255,.15); border-radius:24px;
@@ -696,7 +696,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 .hero.particle-mode .hero-content .hero-hanja { opacity:0; transition:opacity .4s ease; }
 
 @media(max-width:768px){
-  .hero-toggle { top:12px; right:12px; padding:5px 12px; }
+  .hero-toggle { top:72px; right:12px; padding:5px 12px; }
   .hero-toggle-label { font-size:.65rem; }
   .hero-toggle-switch { width:30px; height:16px; }
   .hero-toggle-switch::after { width:12px; height:12px; }
@@ -741,16 +741,12 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <canvas id="particleCanvas"></canvas>
-  <div class="hero-toggle" id="heroToggle" onclick="toggleParticleHero()">
-    <span class="hero-toggle-label">✦ 파티클</span>
-    <div class="hero-toggle-switch"></div>
-  </div>
   <div class="hero-content">
     <div class="hero-badge">☸ 동체대비(同體大悲) · 도심 속 평화도량</div>
     <h1>문수사</h1>
     <div class="hero-hanja">文 殊 寺</div>
     <p class="hero-desc">
-      천지는 나와 한 뿌리이며, 만물은 나와 한 몸<br>
+      나눔, 참회, 기도, 더불어 함께하는 우리절<br>
       大門 없는 열린 도량에서 자비와 평화를 실천합니다<br>
       부산 남구, 유엔묘지·평화공원과 함께하는 최대 평화구역
     </p>
@@ -1338,7 +1334,7 @@ let particleActive = false;
 let particleAnimId = null;
 let particles = [];
 let particleWordIdx = 0;
-const particleWords = ['문수사', '文殊寺', '平和'];
+const particleWords = ['문수사', '文殊寺'];
 let particleFrameCount = 0;
 
 class HeroParticle {
@@ -1399,7 +1395,7 @@ function spawnWord(word, canvas) {
   oc.font = `900 ${fontSize}px "Noto Serif KR", serif`;
   oc.textAlign = 'center';
   oc.textBaseline = 'middle';
-  oc.fillText(word, canvas.width / 2, canvas.height / 2);
+  oc.fillText(word, canvas.width / 2, canvas.height * 0.38);
   const imgData = oc.getImageData(0, 0, canvas.width, canvas.height).data;
   const step = 4;
   const colors = [
@@ -1460,9 +1456,16 @@ function particleLoop() {
     }
   }
   particleFrameCount++;
-  if(particleFrameCount % 180 === 0) {
-    particleWordIdx = (particleWordIdx + 1) % particleWords.length;
+  // 자동 1회 재생: 각 단어 180프레임씩, 마지막 단어 후 120프레임 여유
+  const stopFrame = 180 * particleWords.length + 120;
+  if(particleFrameCount % 180 === 0 && particleWordIdx < particleWords.length - 1) {
+    particleWordIdx++;
     spawnWord(particleWords[particleWordIdx], canvas);
+  }
+  if(particleFrameCount >= stopFrame) {
+    // 자동 정지 및 페이드아웃
+    stopParticleHero();
+    return;
   }
   particleAnimId = requestAnimationFrame(particleLoop);
 }
@@ -1477,30 +1480,42 @@ function initParticleCanvas() {
   canvas.style.height = '100%';
 }
 
-function toggleParticleHero() {
+function stopParticleHero() {
   const hero = document.getElementById('hero');
-  const toggle = document.getElementById('heroToggle');
-  particleActive = !particleActive;
-  if(particleActive) {
-    hero.classList.add('particle-mode');
-    toggle.classList.add('active');
-    initParticleCanvas();
-    particles = [];
-    particleFrameCount = 0;
-    particleWordIdx = 0;
-    const canvas = document.getElementById('particleCanvas');
-    spawnWord(particleWords[0], canvas);
-    particleLoop();
-  } else {
-    hero.classList.remove('particle-mode');
-    toggle.classList.remove('active');
-    if(particleAnimId) cancelAnimationFrame(particleAnimId);
-    particleAnimId = null;
-    particles = [];
-    const canvas = document.getElementById('particleCanvas');
-    if(canvas) { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); }
+  particleActive = false;
+  hero.classList.remove('particle-mode');
+  if(particleAnimId) cancelAnimationFrame(particleAnimId);
+  particleAnimId = null;
+  // 파티클을 서서히 사라지게 (캔버스를 급히 지우지 않음)
+  const canvas = document.getElementById('particleCanvas');
+  if(canvas) {
+    const ctx = canvas.getContext('2d');
+    let fadeFrame = 0;
+    function fadeOut() {
+      ctx.fillStyle = 'rgba(0,0,0,0.08)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      fadeFrame++;
+      if(fadeFrame < 60) requestAnimationFrame(fadeOut);
+      else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    fadeOut();
   }
 }
+
+function startParticleHero() {
+  const hero = document.getElementById('hero');
+  particleActive = true;
+  hero.classList.add('particle-mode');
+  initParticleCanvas();
+  particles = [];
+  particleFrameCount = 0;
+  particleWordIdx = 0;
+  const canvas = document.getElementById('particleCanvas');
+  spawnWord(particleWords[0], canvas);
+  particleLoop();
+}
+
+// 토글 버튼 없이 자동 재생 전용
 
 window.addEventListener('resize', () => {
   if(particleActive) {
@@ -1513,6 +1528,11 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const firstFaq = document.querySelector('.faq-item');
   if(firstFaq) firstFaq.classList.add('open');
+
+  // 페이지 오픈 시 파티클 1회 자동 재생
+  setTimeout(() => {
+    startParticleHero();
+  }, 600); // 히어로 애니메이션 후 시작
 });
 </script>
 
