@@ -1,22 +1,8 @@
 /**
  * ParticleTextEffect.tsx
- * ─────────────────────
  * 📁 파일 위치: src/components/particle-text-effect.tsx
  *
- * 사찰 Hero 섹션용 파티클 텍스트 이펙트 컴포넌트
- *
- * ✅ 단일 텍스트 고정 렌더링 (배열순환 없음)
- * ✅ 느리고 장엄한 조립 애니메이션 (~3초)
- * ✅ 정착 후 금빛 물결(Shimmer) 이펙트
- * ✅ 고운 모래알 질감 (1.5~2.5px, 최대 7000개)
- * ✅ pointer-events-none (하단 요소 클릭 방해 없음)
- * ✅ Astro SSR 호환 (window/document 접근은 useEffect 내부에서만)
- *
- * Astro에서 사용 시:
- *   import ParticleTextEffect from '../components/particle-text-effect';
- *   <ParticleTextEffect client:only="react" />
- *
- *   ⚠️ 반드시 client:only="react" 디렉티브를 사용하세요.
+ * ⚠️ Astro에서 반드시 client:only="react" 로 호출
  */
 
 import React, { useRef, useEffect, useCallback } from 'react';
@@ -57,7 +43,8 @@ function extractTextPixels(
   fontSize: number,
   canvasW: number,
   canvasH: number,
-  step: number
+  step: number,
+  fontFamily: string
 ): Array<{ x: number; y: number }> {
   const off = document.createElement('canvas');
   off.width = canvasW;
@@ -65,7 +52,7 @@ function extractTextPixels(
   const c = off.getContext('2d');
   if (!c) return [];
   c.fillStyle = '#fff';
-  c.font = `900 ${fontSize}px "Noto Serif KR", "Batang", Georgia, serif`;
+  c.font = `900 ${fontSize}px ${fontFamily}`;
   c.textAlign = 'center';
   c.textBaseline = 'middle';
   c.fillText(text, canvasW / 2, canvasH / 2);
@@ -125,6 +112,13 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
     const rect = container.getBoundingClientRect();
     const W = rect.width;
     const H = rect.height;
+
+    // 컨테이너가 아직 레이아웃되지 않았으면 재시도
+    if (W < 10 || H < 10) {
+      setTimeout(() => init(), 200);
+      return;
+    }
+
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     canvas.style.width = `${W}px`;
@@ -135,7 +129,21 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
     const scaledFont = isMobile ? fontSize * 0.5 : fontSize;
     const pixelStep = isMobile ? 3 : 2;
 
-    let pixels = extractTextPixels(text, scaledFont, W, H, pixelStep);
+    // ★ 폰트 패밀리: Noto Serif KR 우선, 실패 시 시스템 폰트 사용
+    const fontFamily = '"Noto Serif KR", "Batang", "Georgia", serif';
+
+    let pixels = extractTextPixels(text, scaledFont, W, H, pixelStep, fontFamily);
+
+    // ★ 픽셀이 너무 적으면 폰트 미로드 — 시스템 폰트로 재시도
+    if (pixels.length < 50) {
+      pixels = extractTextPixels(text, scaledFont, W, H, pixelStep, '"Batang", "Georgia", serif');
+    }
+
+    // 그래도 없으면 sans-serif 최종 폴백
+    if (pixels.length < 50) {
+      pixels = extractTextPixels(text, scaledFont, W, H, pixelStep, 'sans-serif');
+    }
+
     const limit = Math.min(maxParticles, 7000);
     if (pixels.length > limit) {
       const ratio = limit / pixels.length;
@@ -213,12 +221,26 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
 
   useEffect(() => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
-    const start = () => setTimeout(init, 150);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(start);
-    } else {
-      start();
-    }
+
+    // ★ 핵심 수정: 명시적으로 폰트 로드 완료를 기다린 후 init
+    const loadFontAndInit = async () => {
+      try {
+        // 1차: 명시적 폰트 로드 요청 (최대 3초 대기)
+        if (document.fonts && document.fonts.load) {
+          await Promise.race([
+            document.fonts.load('900 80px "Noto Serif KR"'),
+            new Promise(resolve => setTimeout(resolve, 3000))
+          ]);
+        }
+      } catch (e) {
+        // 폰트 로드 실패해도 시스템 폰트 폴백으로 진행
+      }
+      // 레이아웃 안정화 대기 후 init
+      setTimeout(init, 100);
+    };
+
+    loadFontAndInit();
+
     let timer: ReturnType<typeof setTimeout>;
     const onResize = () => { clearTimeout(timer); timer = setTimeout(init, 250); };
     window.addEventListener('resize', onResize);
