@@ -475,33 +475,36 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
    COMPONENT: SLIDE VIEWER
    ============================================ */
 .slide-viewer {
-  margin-top:48px; position:relative;
-  background:#1a1a18; border-radius:var(--radius-lg); overflow:hidden;
+  margin-top:32px; position:relative;
+  background:#1a1a18; border-radius:var(--radius); overflow:hidden;
   box-shadow:var(--shadow-lg);
 }
-.slide-viewport { position:relative; width:100%; aspect-ratio:16/9; overflow:hidden; }
+.slide-viewport {
+  position:relative; width:100%; aspect-ratio:4/3; overflow:hidden;
+  background:#1a1a18;
+}
 .slide-viewport img {
   position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
-  background:#111; opacity:0; transition:opacity .5s ease;
+  background:#1a1a18; opacity:0; transition:opacity .5s ease;
 }
 .slide-viewport img.active { opacity:1; }
 .slide-controls {
   display:flex; align-items:center; justify-content:space-between;
-  padding:16px 24px; background:rgba(26,26,24,.95);
+  padding:10px 16px; background:#1a1a18; border-top:1px solid rgba(255,255,255,.08);
 }
 .slide-controls button {
-  color:#fff; font-size:.88rem; font-weight:500; padding:8px 20px;
+  color:#fff; font-size:.82rem; font-weight:500; padding:7px 18px;
   border-radius:20px; transition:var(--transition);
   border:1px solid rgba(255,255,255,.2);
 }
 .slide-controls button:hover { background:rgba(255,255,255,.1); }
-.slide-counter { color:rgba(255,255,255,.7); font-size:.82rem; font-weight:500; }
-.slide-dots { display:flex; gap:6px; justify-content:center; padding:12px; background:rgba(26,26,24,.95); }
+.slide-counter { color:rgba(255,255,255,.6); font-size:.78rem; font-weight:500; }
+.slide-dots { display:flex; gap:5px; justify-content:center; padding:8px; background:#1a1a18; }
 .slide-dots span {
-  width:8px; height:8px; border-radius:50%;
-  background:rgba(255,255,255,.25); cursor:pointer; transition:var(--transition);
+  width:7px; height:7px; border-radius:50%;
+  background:rgba(255,255,255,.2); cursor:pointer; transition:var(--transition);
 }
-.slide-dots span.active { background:var(--color-gold); width:24px; border-radius:4px; }
+.slide-dots span.active { background:var(--color-gold); width:22px; border-radius:4px; }
 
 /* ============================================
    COMPONENT: INFOGRAPHIC VIEWER
@@ -742,10 +745,13 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   .quiz-container { padding:28px 20px; }
   .quiz-question { font-size:1rem; }
   .quiz-opt { padding:14px 16px; font-size:.85rem; }
-  .slide-viewer { border-radius:var(--radius); }
-  .slide-viewport { aspect-ratio:16/9; }
-  .slide-controls { padding:12px 16px; }
-  .slide-controls button { padding:6px 14px; font-size:.8rem; }
+  .slide-viewer { border-radius:6px; margin-top:24px; }
+  .slide-viewport { aspect-ratio:3/2; }
+  .slide-controls { padding:8px 12px; }
+  .slide-controls button { padding:6px 12px; font-size:.75rem; }
+  .slide-dots { padding:6px; gap:4px; }
+  .slide-dots span { width:6px; height:6px; }
+  .slide-dots span.active { width:18px; }
   .indung-grid { grid-template-columns:repeat(2,1fr); gap:12px; }
   .indung-card { padding:24px 16px; }
   .indung-card .price { font-size:1.4rem; }
@@ -1190,7 +1196,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
           <dt>템플스테이</dt><dd>www.templestay.com 에서 '보림사' 검색<br>휴식형(상시), 체험형(주말) · 월요일 휴무</dd>
           <dt>주변 코스</dt><dd>보림사 → 정남진 편백숲 우드랜드 → 정남진 천문과학관 → 장흥 토요시장</dd>
         </dl>
-        <a href="https://map.naver.com/p/search/보림사" target="_blank" class="btn-primary" style="display:inline-flex; margin-top:8px; font-size:.85rem;">네이버 지도로 보기 →</a>
+        <a href="https://naver.me/xMjDF31x" target="_blank" class="btn-primary" style="display:inline-flex; margin-top:8px; font-size:.85rem;">네이버 지도로 보기 →</a>
       </div>
     </div>
   </div>
