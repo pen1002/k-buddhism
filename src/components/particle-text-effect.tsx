@@ -4,7 +4,7 @@
  * ⚠️ Astro: client:only="react" 필수
  */
 
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 export interface ParticleTextEffectProps {
   text?: string;
@@ -37,70 +37,10 @@ function lerpColor(
   };
 }
 
-/**
- * 폰트가 실제로 로드됐는지 글자 폭 비교로 판정
- */
-function isFontLoaded(fontFamily: string, weight: string, testText: string): boolean {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return false;
-
-  ctx.font = `${weight} 72px monospace`;
-  const fallbackWidth = ctx.measureText(testText).width;
-
-  ctx.font = `${weight} 72px ${fontFamily}, monospace`;
-  const testWidth = ctx.measureText(testText).width;
-
-  return Math.abs(testWidth - fallbackWidth) > 1;
-}
-
-function extractTextPixels(
-  text: string,
-  fontSize: number,
-  canvasW: number,
-  canvasH: number,
-  step: number,
-  fontSpec: string
-): Array<{ x: number; y: number }> {
-  const off = document.createElement('canvas');
-  off.width = canvasW;
-  off.height = canvasH;
-  const c = off.getContext('2d');
-  if (!c) return [];
-  c.fillStyle = '#fff';
-  c.font = `900 ${fontSize}px ${fontSpec}`;
-  c.textAlign = 'center';
-  c.textBaseline = 'middle';
-  c.fillText(text, canvasW / 2, canvasH / 2);
-  const img = c.getImageData(0, 0, canvasW, canvasH);
-  const pixels: Array<{ x: number; y: number }> = [];
-  for (let y = 0; y < canvasH; y += step) {
-    for (let x = 0; x < canvasW; x += step) {
-      if (img.data[(y * canvasW + x) * 4 + 3] > 128) {
-        pixels.push({ x, y });
-      }
-    }
-  }
-  return pixels;
-}
-
 interface Particle {
   x: number; y: number; tx: number; ty: number;
   vx: number; vy: number; size: number; alpha: number;
-  settled: boolean; brightnessOffset: number;
-}
-
-function createParticle(tx: number, ty: number, cw: number, ch: number): Particle {
-  const angle = Math.random() * Math.PI * 2;
-  const radius = Math.max(cw, ch) * 0.6 + Math.random() * 100;
-  return {
-    x: cw / 2 + Math.cos(angle) * radius,
-    y: ch / 2 + Math.sin(angle) * radius,
-    tx, ty, vx: 0, vy: 0,
-    size: 1.5 + Math.random() * 1.0,
-    alpha: 0, settled: false,
-    brightnessOffset: 0.9 + Math.random() * 0.2,
-  };
+  settled: boolean; bri: number;
 }
 
 const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
@@ -115,208 +55,236 @@ const ParticleTextEffect: React.FC<ParticleTextEffectProps> = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const animRef = useRef<number>(0);
-  const retryRef = useRef<number>(0);
 
-  const init = useCallback(() => {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const canvas = canvasRef.current;
     const container = containerRef.current;
-    if (!canvas || !container) {
-      console.warn('[Particle] canvas 또는 container ref 없음');
-      return;
-    }
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      console.warn('[Particle] 2d context 생성 실패');
-      return;
-    }
-    if (animRef.current) cancelAnimationFrame(animRef.current);
+    if (!canvas || !container) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const rect = container.getBoundingClientRect();
-    const W = rect.width;
-    const H = rect.height;
+    let running = true;
 
-    console.log(`[Particle] 컨테이너 크기: ${W}x${H}, DPR: ${dpr}, 재시도: ${retryRef.current}`);
+    const run = () => {
+      if (!running) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      if (animRef.current) cancelAnimationFrame(animRef.current);
 
-    if (W < 10 || H < 10) {
-      if (retryRef.current < 15) {
-        retryRef.current++;
-        setTimeout(init, 300);
-      }
-      return;
-    }
+      const rect = container.getBoundingClientRect();
+      const W = Math.floor(rect.width);
+      const H = Math.floor(rect.height);
 
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-    canvas.style.width = `${W}px`;
-    canvas.style.height = `${H}px`;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      console.log(`[P] container: ${W}x${H}`);
 
-    const isMobile = W < 640;
-    const scaledFont = isMobile ? fontSize * 0.5 : fontSize;
-    const pixelStep = isMobile ? 3 : 2;
-
-    // ★ 폰트 우선순위 목록 — 순서대로 시도
-    const fontCandidates = [
-      '"Noto Serif KR", serif',
-      '"Batang", serif',
-      '"Apple SD Gothic Neo", sans-serif',
-      '"Malgun Gothic", sans-serif',
-      'serif',
-      'sans-serif',
-    ];
-
-    let pixels: Array<{ x: number; y: number }> = [];
-
-    for (const fontSpec of fontCandidates) {
-      pixels = extractTextPixels(text, scaledFont, W, H, pixelStep, fontSpec);
-      if (pixels.length >= 50) {
-        console.log(`[Particle] 폰트 "${fontSpec}" 으로 ${pixels.length}개 픽셀 추출 성공`);
-        break;
-      }
-    }
-
-    // ★ 모든 폰트에서 실패 → 재시도 (최대 10회, 500ms 간격)
-    if (pixels.length < 50) {
-      console.warn(`[Particle] 픽셀 ${pixels.length}개 — 폰트 미로드. 재시도 ${retryRef.current}/10`);
-      if (retryRef.current < 10) {
-        retryRef.current++;
-        setTimeout(init, 500);
+      if (W < 10 || H < 10) {
+        setTimeout(run, 300);
         return;
       }
-      console.error('[Particle] 최대 재시도 초과. 파티클 렌더링 불가.');
-      return;
-    }
 
-    // 재시도 카운터 리셋
-    retryRef.current = 0;
+      // 1:1 캔버스 (DPR 미적용 — 심플하게)
+      canvas.width = W;
+      canvas.height = H;
 
-    const limit = Math.min(maxParticles, 7000);
-    if (pixels.length > limit) {
-      const ratio = limit / pixels.length;
-      pixels = pixels.filter(() => Math.random() < ratio);
-    }
+      const isMobile = W < 640;
+      const fSize = isMobile ? Math.round(fontSize * 0.55) : fontSize;
+      const step = isMobile ? 3 : 2;
 
-    console.log(`[Particle] 최종 파티클 수: ${pixels.length}`);
+      // ── 오프스크린에서 텍스트 픽셀 추출 ──
+      const fonts = [
+        'bold ' + fSize + 'px "Noto Serif KR", serif',
+        'bold ' + fSize + 'px serif',
+        'bold ' + fSize + 'px sans-serif',
+      ];
 
-    const particles: Particle[] = pixels.map((p) => createParticle(p.x, p.y, W, H));
-    const baseRgb = hexToRgb(particleColor);
-    const shimRgb = hexToRgb(shimmerColor);
+      let pixels: Array<{ x: number; y: number }> = [];
 
-    const MAX_SPEED = 3.5;
-    const MAX_FORCE = 0.35;
-    const ARRIVE_RADIUS = 60;
-    let allSettled = false;
-    let checkCounter = 0;
+      for (const fontStr of fonts) {
+        const off = document.createElement('canvas');
+        off.width = W;
+        off.height = H;
+        const oc = off.getContext('2d');
+        if (!oc) continue;
 
-    const animate = () => {
-      ctx.clearRect(0, 0, W, H);
-      const now = Date.now();
-      let unsettledCount = 0;
+        oc.clearRect(0, 0, W, H);
+        oc.fillStyle = '#ffffff';
+        oc.font = fontStr;
+        oc.textAlign = 'center';
+        oc.textBaseline = 'middle';
+        oc.fillText(text, W / 2, H / 2);
 
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-        if (!p.settled) {
-          const dx = p.tx - p.x;
-          const dy = p.ty - p.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 1.0) {
-            p.x = p.tx; p.y = p.ty; p.vx = 0; p.vy = 0;
-            p.settled = true; p.alpha = 1;
-          } else {
-            const nx = dx / dist;
-            const ny = dy / dist;
-            const ds = dist < ARRIVE_RADIUS ? MAX_SPEED * (dist / ARRIVE_RADIUS) : MAX_SPEED;
-            let sx = nx * ds - p.vx;
-            let sy = ny * ds - p.vy;
-            const sm = Math.sqrt(sx * sx + sy * sy);
-            if (sm > MAX_FORCE) { sx = (sx / sm) * MAX_FORCE; sy = (sy / sm) * MAX_FORCE; }
-            p.vx += sx; p.vy += sy;
-            const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-            if (spd > MAX_SPEED) { p.vx = (p.vx / spd) * MAX_SPEED; p.vy = (p.vy / spd) * MAX_SPEED; }
-            p.x += p.vx; p.y += p.vy;
-            p.alpha = Math.min(1, p.alpha + 0.012);
-            unsettledCount++;
+        const imgData = oc.getImageData(0, 0, W, H).data;
+        const found: Array<{ x: number; y: number }> = [];
+
+        for (let y = 0; y < H; y += step) {
+          for (let x = 0; x < W; x += step) {
+            const idx = (y * W + x) * 4;
+            // alpha OR red channel (어떤 브라우저든 잡기 위해)
+            if (imgData[idx + 3] > 50 || imgData[idx] > 50) {
+              found.push({ x, y });
+            }
           }
         }
 
-        let r: number, g: number, b: number;
-        if (p.settled && allSettled) {
-          const wave = Math.sin(now * 0.0008 + p.tx * 0.012);
-          const shimmerT = ((wave + 1) / 2) * 0.7;
-          const blended = lerpColor(baseRgb, shimRgb, shimmerT);
-          r = Math.min(255, Math.round(blended.r * p.brightnessOffset));
-          g = Math.min(255, Math.round(blended.g * p.brightnessOffset));
-          b = Math.min(255, Math.round(blended.b * p.brightnessOffset));
-        } else {
-          r = Math.min(255, Math.round(baseRgb.r * p.brightnessOffset));
-          g = Math.min(255, Math.round(baseRgb.g * p.brightnessOffset));
-          b = Math.min(255, Math.round(baseRgb.b * p.brightnessOffset));
-        }
+        console.log(`[P] font="${fontStr}" → ${found.length} pixels`);
 
-        ctx.globalAlpha = p.alpha;
-        ctx.fillStyle = `rgb(${r},${g},${b})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
+        if (found.length > pixels.length) {
+          pixels = found;
+        }
+        if (pixels.length > 10) break;
       }
-      ctx.globalAlpha = 1;
-      checkCounter++;
-      if (!allSettled && checkCounter % 30 === 0 && unsettledCount === 0) allSettled = true;
-      animRef.current = requestAnimationFrame(animate);
+
+      // ── 최종 폴백: 직접 메인 캔버스에 텍스트 좌표 생성 ──
+      if (pixels.length < 10) {
+        console.warn('[P] 모든 폰트 실패. 직접 좌표 생성 모드.');
+
+        // 메인 캔버스에 직접 그려서 픽셀 추출
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${fSize}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, W / 2, H / 2);
+
+        const mainData = ctx.getImageData(0, 0, W, H).data;
+        pixels = [];
+        for (let y = 0; y < H; y += step) {
+          for (let x = 0; x < W; x += step) {
+            const idx = (y * W + x) * 4;
+            if (mainData[idx + 3] > 50 || mainData[idx] > 50) {
+              pixels.push({ x, y });
+            }
+          }
+        }
+        console.log(`[P] 메인 캔버스 직접 추출: ${pixels.length} pixels`);
+        ctx.clearRect(0, 0, W, H);
+      }
+
+      if (pixels.length < 1) {
+        console.error('[P] 픽셀 0개. Canvas 텍스트 렌더링 완전 실패.');
+        // 디버그: 캔버스에 직접 메시지 표시
+        ctx.fillStyle = '#D4AF37';
+        ctx.font = `bold ${fSize}px sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, W / 2, H / 2);
+        return;
+      }
+
+      // ── 파티클 수 제한 ──
+      const limit = Math.min(maxParticles, 7000);
+      if (pixels.length > limit) {
+        const ratio = limit / pixels.length;
+        pixels = pixels.filter(() => Math.random() < ratio);
+      }
+
+      console.log(`[P] 최종 파티클 수: ${pixels.length}`);
+
+      // ── 파티클 생성 ──
+      const particles: Particle[] = pixels.map((p) => {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = Math.max(W, H) * 0.6 + Math.random() * 100;
+        return {
+          x: W / 2 + Math.cos(angle) * radius,
+          y: H / 2 + Math.sin(angle) * radius,
+          tx: p.x, ty: p.y, vx: 0, vy: 0,
+          size: 1.5 + Math.random() * 1.0,
+          alpha: 0, settled: false,
+          bri: 0.9 + Math.random() * 0.2,
+        };
+      });
+
+      const baseRgb = hexToRgb(particleColor);
+      const shimRgb = hexToRgb(shimmerColor);
+      let allSettled = false;
+      let chk = 0;
+
+      // ── 애니메이션 ──
+      const animate = () => {
+        if (!running) return;
+        ctx.clearRect(0, 0, W, H);
+        const now = Date.now();
+        let unsettled = 0;
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          if (!p.settled) {
+            const dx = p.tx - p.x, dy = p.ty - p.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 1) {
+              p.x = p.tx; p.y = p.ty; p.vx = 0; p.vy = 0;
+              p.settled = true; p.alpha = 1;
+            } else {
+              const nx = dx / dist, ny = dy / dist;
+              const ds = dist < 60 ? 3.5 * (dist / 60) : 3.5;
+              let sx = nx * ds - p.vx, sy = ny * ds - p.vy;
+              const sm = Math.sqrt(sx * sx + sy * sy);
+              if (sm > 0.35) { sx = (sx / sm) * 0.35; sy = (sy / sm) * 0.35; }
+              p.vx += sx; p.vy += sy;
+              const spd = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+              if (spd > 3.5) { p.vx = (p.vx / spd) * 3.5; p.vy = (p.vy / spd) * 3.5; }
+              p.x += p.vx; p.y += p.vy;
+              p.alpha = Math.min(1, p.alpha + 0.012);
+              unsettled++;
+            }
+          }
+
+          let r: number, g: number, b: number;
+          if (p.settled && allSettled) {
+            const wave = Math.sin(now * 0.0008 + p.tx * 0.012);
+            const t = ((wave + 1) / 2) * 0.7;
+            const bl = lerpColor(baseRgb, shimRgb, t);
+            r = Math.min(255, Math.round(bl.r * p.bri));
+            g = Math.min(255, Math.round(bl.g * p.bri));
+            b = Math.min(255, Math.round(bl.b * p.bri));
+          } else {
+            r = Math.min(255, Math.round(baseRgb.r * p.bri));
+            g = Math.min(255, Math.round(baseRgb.g * p.bri));
+            b = Math.min(255, Math.round(baseRgb.b * p.bri));
+          }
+
+          ctx.globalAlpha = p.alpha;
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        chk++;
+        if (!allSettled && chk % 30 === 0 && unsettled === 0) allSettled = true;
+        animRef.current = requestAnimationFrame(animate);
+      };
+      animate();
     };
-    animate();
-  }, [text, particleColor, shimmerColor, fontSize, maxParticles]);
 
-  useEffect(() => {
-    if (typeof document === 'undefined' || typeof window === 'undefined') return;
-
-    console.log('[Particle] 컴포넌트 마운트됨');
-
-    const startInit = async () => {
-      // 1단계: document.fonts.ready 대기
+    // ── 폰트 로드 후 실행 ──
+    const start = async () => {
       try {
-        if (document.fonts && document.fonts.ready) {
-          await document.fonts.ready;
-          console.log('[Particle] document.fonts.ready 완료');
-        }
-      } catch (e) {
-        console.warn('[Particle] fonts.ready 에러:', e);
-      }
-
-      // 2단계: 명시적 폰트 로드 시도
-      try {
-        if (document.fonts && document.fonts.load) {
-          const results = await Promise.race([
-            document.fonts.load('900 80px "Noto Serif KR"'),
-            new Promise<FontFace[]>(resolve => setTimeout(() => resolve([]), 3000))
+        if (document.fonts?.load) {
+          await Promise.race([
+            document.fonts.load(`bold ${fontSize}px "Noto Serif KR"`),
+            new Promise(r => setTimeout(r, 2000))
           ]);
-          console.log('[Particle] fonts.load 결과:', results);
         }
-      } catch (e) {
-        console.warn('[Particle] fonts.load 에러:', e);
-      }
-
-      // 3단계: 실측 확인
-      const loaded = isFontLoaded('"Noto Serif KR"', '900', text);
-      console.log(`[Particle] 폰트 실측 로드 여부: ${loaded}`);
-
-      // 4단계: init 실행 (약간 딜레이)
-      retryRef.current = 0;
-      setTimeout(init, 200);
+      } catch (e) { /* 무시 */ }
+      // 추가 안전 딜레이
+      setTimeout(run, 300);
     };
 
-    startInit();
+    start();
 
-    let timer: ReturnType<typeof setTimeout>;
-    const onResize = () => { clearTimeout(timer); timer = setTimeout(init, 250); };
+    const onResize = () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      setTimeout(run, 300);
+    };
     window.addEventListener('resize', onResize);
+
     return () => {
+      running = false;
       window.removeEventListener('resize', onResize);
-      clearTimeout(timer);
       if (animRef.current) cancelAnimationFrame(animRef.current);
     };
-  }, [init]);
+  }, [text, particleColor, shimmerColor, fontSize, maxParticles, height]);
 
   return (
     <div ref={containerRef} className={className}
