@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import Spline from '@splinetool/react-spline';
 import { ChevronRight, Sparkles, MapPin, ShoppingBag, Star, Moon, Volume2, Smartphone, Calendar, Heart, ExternalLink, Play, Pause } from "lucide-react";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
@@ -961,13 +962,10 @@ export default function KBuddhismHero() {
             {/* Right: 3D Robot */}
             <div className="right-panel">
               <div className="spline-wrapper">
-                <iframe
-                  src="https://my.spline.design/kZDDjO5HuC9GJUM2/"
-                  className="spline-iframe"
-                  title="K-Buddhism 3D Robot"
-                  loading="lazy"
+                <Spline
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                   onLoad={() => setSplineLoaded(true)}
-                  allow="autoplay"
+                  style={{ width: '100%', height: '100%' }}
                 />
                 <div className={cn("spline-loader", splineLoaded && "hidden")}>
                   <div className="loader-ring" />
