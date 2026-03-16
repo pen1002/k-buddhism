@@ -1366,7 +1366,7 @@ let particleActive = false;
 let particleAnimId = null;
 let particles = [];
 let particleWordIdx = 0;
-const particleWords = ['문수사', '文殊寺'];
+const particleWords = ['부산', '문수사'];
 let particleFrameCount = 0;
 
 class HeroParticle {
@@ -1489,8 +1489,8 @@ function particleLoop() {
   }
   particleFrameCount++;
   // 자동 1회 재생: 각 단어 180프레임씩, 마지막 단어 후 120프레임 여유
-  const stopFrame = 180 * particleWords.length + 120;
-  if(particleFrameCount % 180 === 0 && particleWordIdx < particleWords.length - 1) {
+  const stopFrame = 300 * particleWords.length + 180;
+  if(particleFrameCount % 300 === 0 && particleWordIdx < particleWords.length - 1) {
     particleWordIdx++;
     spawnWord(particleWords[particleWordIdx], canvas);
   }
