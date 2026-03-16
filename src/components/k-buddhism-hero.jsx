@@ -58,7 +58,6 @@ const PAYMENT_METHODS = [
   { name: "토스페이", icon: "💙" },
 ];
 
-// ─── Utilities ───────────────────────────────────────────────────────────────
 function cn(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -173,7 +172,7 @@ function Particles({ color }) {
   );
 }
 
-// ─── Service Tab Navigation (Dynamic Island Style) ───────────────────────────
+// ─── Service Tab Navigation ──────────────────────────────────────────────────
 function ServiceNav({ active, onChange }) {
   return (
     <div className="service-nav">
@@ -190,10 +189,7 @@ function ServiceNav({ active, onChange }) {
             <Icon size={16} style={isActive ? { color: s.accentSolid } : {}} />
             <span>{s.label}</span>
             {isActive && (
-              <div
-                className="nav-indicator"
-                style={{ backgroundColor: s.accentSolid }}
-              />
+              <div className="nav-indicator" style={{ backgroundColor: s.accentSolid }} />
             )}
           </button>
         );
@@ -225,7 +221,7 @@ function LinkCard({ link, accentColor }) {
   );
 }
 
-// ─── Feature Chips (for Apps section) ────────────────────────────────────────
+// ─── Feature Chips ───────────────────────────────────────────────────────────
 function FeatureChips({ features, color }) {
   const icons = {
     "월령(月令) 분석": <Calendar size={13} />,
@@ -249,16 +245,12 @@ function StatsBar() {
   return (
     <div className="stats-bar">
       <div className="stat-item">
-        <span className="stat-number">
-          <AnimatedNumber target={1080} suffix="+" />
-        </span>
+        <span className="stat-number"><AnimatedNumber target={1080} suffix="+" /></span>
         <span className="stat-label">목표 사찰</span>
       </div>
       <div className="stat-divider" />
       <div className="stat-item">
-        <span className="stat-number">
-          <AnimatedNumber target={4} suffix="개" />
-        </span>
+        <span className="stat-number"><AnimatedNumber target={4} suffix="개" /></span>
         <span className="stat-label">운영 중 앱</span>
       </div>
       <div className="stat-divider" />
@@ -266,6 +258,85 @@ function StatsBar() {
         <span className="stat-number">24/7</span>
         <span className="stat-label">AI 상담</span>
       </div>
+    </div>
+  );
+}
+
+// ─── 3D Model with Mouse-Follow Tilt ─────────────────────────────────────────
+function Model3D({ onLoad, loaded }) {
+  const containerRef = useRef(null);
+  const tiltRef = useRef(null);
+  const rafRef = useRef(null);
+  const currentTilt = useRef({ x: 0, y: 0 });
+  const targetTilt = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleMouseMove = (e) => {
+      const rect = container.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+
+      // Normalize to -1 ~ 1 range, then scale to degrees
+      const maxTilt = 12;
+      targetTilt.current = {
+        x: -(mouseY / (rect.height / 2)) * maxTilt,
+        y: (mouseX / (rect.width / 2)) * maxTilt,
+      };
+    };
+
+    const handleMouseLeave = () => {
+      targetTilt.current = { x: 0, y: 0 };
+    };
+
+    // Smooth animation loop
+    const animate = () => {
+      const lerp = 0.08;
+      currentTilt.current.x += (targetTilt.current.x - currentTilt.current.x) * lerp;
+      currentTilt.current.y += (targetTilt.current.y - currentTilt.current.y) * lerp;
+
+      if (tiltRef.current) {
+        tiltRef.current.style.transform = `perspective(1000px) rotateX(${currentTilt.current.x}deg) rotateY(${currentTilt.current.y}deg)`;
+      }
+      rafRef.current = requestAnimationFrame(animate);
+    };
+
+    container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("mouseleave", handleMouseLeave);
+    rafRef.current = requestAnimationFrame(animate);
+
+    return () => {
+      container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("mouseleave", handleMouseLeave);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  return (
+    <div className="right-panel" ref={containerRef}>
+      {/* Glow effect that follows tilt */}
+      <div className="model-glow" />
+      <div className="model-tilt-wrapper" ref={tiltRef}>
+        <div className="model-wrapper">
+          <iframe
+            title="금동미륵보살반가사유상 - 국보 제83호"
+            src="https://sketchfab.com/models/2d37bf970e5143d59f0cdfad2c7fd691/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=1&ui_stop=0&ui_watermark=0&ui_watermark_link=0"
+            className="model-iframe"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            onLoad={onLoad}
+          />
+          <div className={cn("model-loader", loaded && "hidden")}>
+            <div className="loader-ring" />
+            <div className="loader-text">반가사유상 로딩 중...</div>
+          </div>
+        </div>
+      </div>
+      {/* Reflection line */}
+      <div className="model-reflection" />
     </div>
   );
 }
@@ -309,8 +380,7 @@ export default function KBuddhismHero() {
         }
 
         .bg-grid {
-          position: absolute;
-          inset: 0;
+          position: absolute; inset: 0;
           background-image: 
             linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
@@ -319,30 +389,23 @@ export default function KBuddhismHero() {
         }
 
         .bg-vignette {
-          position: absolute;
-          inset: 0;
+          position: absolute; inset: 0;
           background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);
           pointer-events: none;
         }
 
         .spotlight-glow {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 1;
+          position: absolute; inset: 0;
+          pointer-events: none; z-index: 1;
         }
 
         .particles-container {
-          position: absolute;
-          inset: 0;
-          pointer-events: none;
-          z-index: 1;
+          position: absolute; inset: 0;
+          pointer-events: none; z-index: 1;
         }
 
         .particle {
-          position: absolute;
-          border-radius: 50%;
-          opacity: 0;
+          position: absolute; border-radius: 50%; opacity: 0;
           animation: particleFloat linear infinite;
         }
 
@@ -354,12 +417,9 @@ export default function KBuddhismHero() {
         }
 
         .moon-svg {
-          position: absolute;
-          top: 30px;
-          right: 60px;
-          opacity: 0.4;
+          position: absolute; top: 30px; right: 60px;
+          opacity: 0.4; z-index: 2;
           animation: moonPulse 6s ease-in-out infinite;
-          z-index: 2;
         }
 
         @keyframes moonPulse {
@@ -368,414 +428,252 @@ export default function KBuddhismHero() {
         }
 
         .hero-content {
-          position: relative;
-          z-index: 10;
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          padding: 20px;
+          position: relative; z-index: 10;
+          display: flex; flex-direction: column;
+          min-height: 100vh; padding: 20px;
         }
 
+        /* ── Top Bar ── */
         .top-bar {
-          display: flex;
-          align-items: center;
+          display: flex; align-items: center;
           justify-content: space-between;
-          padding: 16px 0;
-          margin-bottom: 8px;
+          padding: 16px 0; margin-bottom: 8px;
         }
-
-        .brand {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
+        .brand { display: flex; align-items: center; gap: 10px; }
         .brand-icon {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
+          width: 36px; height: 36px; border-radius: 10px;
           background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 18px;
+          display: flex; align-items: center; justify-content: center; font-size: 18px;
         }
-
         .brand-text {
           font-family: var(--font-display);
-          font-size: 20px;
-          font-weight: 800;
-          letter-spacing: -0.5px;
+          font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
         }
-
         .brand-sub {
-          font-size: 10px;
-          color: rgba(255,255,255,0.4);
-          font-family: var(--font-body);
-          font-weight: 300;
-          letter-spacing: 2px;
-          text-transform: uppercase;
+          font-size: 10px; color: rgba(255,255,255,0.4);
+          font-family: var(--font-body); font-weight: 300;
+          letter-spacing: 2px; text-transform: uppercase;
         }
 
+        /* ── Service Nav ── */
         .service-nav {
-          display: flex;
-          gap: 4px;
-          padding: 4px;
+          display: flex; gap: 4px; padding: 4px;
           background: rgba(255,255,255,0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-radius: 16px;
-          border: 1px solid rgba(255,255,255,0.06);
-          margin: 0 auto 24px;
-          width: fit-content;
+          backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+          border-radius: 16px; border: 1px solid rgba(255,255,255,0.06);
+          margin: 0 auto 24px; width: fit-content;
         }
-
         .service-nav-btn {
-          position: relative;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 10px 18px;
-          border-radius: 12px;
-          border: 1px solid transparent;
-          background: transparent;
-          color: rgba(255,255,255,0.45);
-          font-family: var(--font-body);
-          font-size: 13px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          white-space: nowrap;
+          position: relative; display: flex; align-items: center; gap: 6px;
+          padding: 10px 18px; border-radius: 12px;
+          border: 1px solid transparent; background: transparent;
+          color: rgba(255,255,255,0.45); font-family: var(--font-body);
+          font-size: 13px; font-weight: 500; cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); white-space: nowrap;
         }
-
-        .service-nav-btn:hover {
-          color: rgba(255,255,255,0.7);
-          background: rgba(255,255,255,0.04);
-        }
-
-        .service-nav-btn.active {
-          color: #fff;
-          background: rgba(255,255,255,0.08);
-        }
-
+        .service-nav-btn:hover { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.04); }
+        .service-nav-btn.active { color: #fff; background: rgba(255,255,255,0.08); }
         .nav-indicator {
-          position: absolute;
-          bottom: 4px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 16px;
-          height: 2px;
-          border-radius: 1px;
-          transition: all 0.3s ease;
+          position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+          width: 16px; height: 2px; border-radius: 1px; transition: all 0.3s ease;
         }
 
+        /* ── Main Grid ── */
         .main-area {
-          flex: 1;
-          display: grid;
-          grid-template-columns: 1fr;
-          gap: 24px;
-          align-items: center;
+          flex: 1; display: grid; grid-template-columns: 1fr;
+          gap: 24px; align-items: center;
         }
-
         @media (min-width: 768px) {
-          .main-area {
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-          }
+          .main-area { grid-template-columns: 1fr 1fr; gap: 40px; }
         }
 
-        .left-panel {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-        }
-
+        /* ── Left Panel ── */
+        .left-panel { display: flex; flex-direction: column; gap: 24px; }
         .hero-tagline {
           font-family: var(--font-display);
-          font-size: clamp(28px, 5vw, 52px);
-          font-weight: 900;
-          line-height: 1.2;
-          letter-spacing: -1px;
+          font-size: clamp(28px, 5vw, 52px); font-weight: 900;
+          line-height: 1.2; letter-spacing: -1px;
           animation: fadeSlideUp 0.8s ease-out;
         }
-
         .gradient-text {
-          background-clip: text;
-          -webkit-background-clip: text;
+          background-clip: text; -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
-
         .hero-desc {
-          font-size: 15px;
-          line-height: 1.75;
-          color: rgba(255,255,255,0.55);
-          max-width: 480px;
-          animation: fadeSlideUp 0.8s ease-out 0.1s both;
+          font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.55);
+          max-width: 480px; animation: fadeSlideUp 0.8s ease-out 0.1s both;
         }
-
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(16px); }
           to { opacity: 1; transform: translateY(0); }
         }
 
+        /* ── Feature Chips ── */
         .feature-chips {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
+          display: flex; flex-wrap: wrap; gap: 8px;
           animation: fadeSlideUp 0.8s ease-out 0.15s both;
         }
-
         .feature-chip {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 6px 14px;
-          border-radius: 20px;
-          border: 1px solid;
-          background: rgba(255,255,255,0.03);
-          font-size: 12px;
-          color: rgba(255,255,255,0.7);
-          backdrop-filter: blur(8px);
+          display: flex; align-items: center; gap: 6px;
+          padding: 6px 14px; border-radius: 20px; border: 1px solid;
+          background: rgba(255,255,255,0.03); font-size: 12px;
+          color: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
         }
 
+        /* ── Links Grid ── */
         .links-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 8px;
+          display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
           animation: fadeSlideUp 0.8s ease-out 0.2s both;
         }
-
         .link-card {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 12px 14px;
-          border-radius: 10px;
+          display: flex; align-items: center; gap: 8px;
+          padding: 12px 14px; border-radius: 10px;
           border: 1px solid rgba(255,255,255,0.06);
-          background: rgba(255,255,255,0.03);
-          text-decoration: none;
-          color: rgba(255,255,255,0.75);
-          font-size: 13px;
-          transition: all 0.3s ease;
-          cursor: pointer;
+          background: rgba(255,255,255,0.03); text-decoration: none;
+          color: rgba(255,255,255,0.75); font-size: 13px;
+          transition: all 0.3s ease; cursor: pointer;
         }
-
         .link-card:hover {
           background: rgba(255,255,255,0.07);
           border-color: var(--card-accent, rgba(255,255,255,0.15));
           transform: translateY(-1px);
         }
-
-        .link-card.coming-soon {
-          opacity: 0.5;
-          cursor: default;
-        }
-
+        .link-card.coming-soon { opacity: 0.5; cursor: default; }
         .link-name { flex: 1; font-weight: 500; }
-
         .link-badge {
-          font-size: 9px;
-          font-weight: 600;
-          padding: 2px 6px;
-          border-radius: 4px;
-          letter-spacing: 0.5px;
+          font-size: 9px; font-weight: 600; padding: 2px 6px;
+          border-radius: 4px; letter-spacing: 0.5px;
         }
-
         .link-badge.live {
-          background: rgba(52, 211, 153, 0.15);
-          color: #34d399;
-          display: flex;
-          align-items: center;
-          gap: 4px;
+          background: rgba(52, 211, 153, 0.15); color: #34d399;
+          display: flex; align-items: center; gap: 4px;
         }
-
         .live-dot {
-          width: 5px;
-          height: 5px;
-          border-radius: 50%;
-          background: #34d399;
+          width: 5px; height: 5px; border-radius: 50%; background: #34d399;
           animation: blink 1.5s infinite;
         }
-
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.3; }
-        }
-
-        .link-badge.soon {
-          background: rgba(255,255,255,0.08);
-          color: rgba(255,255,255,0.4);
-        }
-
-        .link-arrow {
-          opacity: 0.3;
-          transition: opacity 0.3s;
-        }
-
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .link-badge.soon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+        .link-arrow { opacity: 0.3; transition: opacity 0.3s; }
         .link-card:hover .link-arrow { opacity: 0.8; }
 
+        /* ── Right Panel: 3D Model with Mouse-Follow ── */
         .right-panel {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          min-height: 450px;
+          position: relative; display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          min-height: 450px; cursor: grab;
         }
-
         @media (min-width: 768px) {
           .right-panel { min-height: 600px; }
         }
 
-        .model-wrapper {
-          position: relative;
-          width: 100%;
-          height: 100%;
-          min-height: 450px;
-          border-radius: 20px;
-          overflow: hidden;
+        .model-glow {
+          position: absolute; top: 50%; left: 50%;
+          transform: translate(-50%, -50%);
+          width: 80%; height: 70%;
+          background: radial-gradient(ellipse, rgba(251,191,36,0.06) 0%, transparent 70%);
+          pointer-events: none; z-index: 0;
+          animation: glowPulse 4s ease-in-out infinite;
         }
 
+        @keyframes glowPulse {
+          0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+          50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        .model-tilt-wrapper {
+          position: relative; width: 100%; height: 100%;
+          min-height: 450px; z-index: 1;
+          transition: transform 0.05s linear;
+          transform-style: preserve-3d;
+          will-change: transform;
+        }
+        @media (min-width: 768px) {
+          .model-tilt-wrapper { min-height: 600px; }
+        }
+
+        .model-wrapper {
+          position: relative; width: 100%; height: 100%;
+          min-height: 450px; border-radius: 20px; overflow: hidden;
+          box-shadow: 0 0 60px rgba(251,191,36,0.05), 0 0 120px rgba(251,191,36,0.02);
+        }
         @media (min-width: 768px) {
           .model-wrapper { min-height: 600px; }
         }
 
         .model-iframe {
-          width: 100%;
-          height: 100%;
-          min-height: 450px;
-          border: none;
-          border-radius: 20px;
+          width: 100%; height: 100%; min-height: 450px;
+          border: none; border-radius: 20px;
         }
-
         @media (min-width: 768px) {
           .model-iframe { min-height: 600px; }
         }
 
         .model-loader {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          background: rgba(0,0,0,0.5);
-          backdrop-filter: blur(10px);
-          border-radius: 20px;
-          gap: 12px;
-          transition: opacity 0.5s ease;
+          position: absolute; inset: 0; display: flex;
+          flex-direction: column; align-items: center; justify-content: center;
+          background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+          border-radius: 20px; gap: 12px; transition: opacity 0.5s ease;
         }
-
-        .model-loader.hidden {
-          opacity: 0;
-          pointer-events: none;
-        }
-
+        .model-loader.hidden { opacity: 0; pointer-events: none; }
         .loader-ring {
-          width: 40px;
-          height: 40px;
+          width: 40px; height: 40px;
           border: 2px solid rgba(255,255,255,0.1);
           border-top-color: rgba(255,255,255,0.6);
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
+          border-radius: 50%; animation: spin 1s linear infinite;
         }
-
         @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-text { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 1px; }
 
-        .loader-text {
-          font-size: 12px;
-          color: rgba(255,255,255,0.4);
-          letter-spacing: 1px;
+        .model-reflection {
+          width: 60%; height: 1px; margin-top: 12px;
+          background: linear-gradient(90deg, transparent, rgba(251,191,36,0.2), transparent);
+          z-index: 1;
         }
 
+        /* ── Stats ── */
         .stats-bar {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 24px;
-          padding: 20px 0;
-          margin-top: auto;
+          display: flex; align-items: center; justify-content: center;
+          gap: 24px; padding: 20px 0; margin-top: auto;
           animation: fadeSlideUp 0.8s ease-out 0.3s both;
         }
-
-        .stat-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 4px;
-        }
-
+        .stat-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .stat-number {
-          font-family: var(--font-display);
-          font-size: 22px;
-          font-weight: 800;
-          color: rgba(255,255,255,0.9);
+          font-family: var(--font-display); font-size: 22px;
+          font-weight: 800; color: rgba(255,255,255,0.9);
         }
-
-        .stat-label {
-          font-size: 11px;
-          color: rgba(255,255,255,0.35);
-          letter-spacing: 1px;
-        }
-
-        .stat-divider {
-          width: 1px;
-          height: 30px;
-          background: rgba(255,255,255,0.08);
-        }
+        .stat-label { font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
+        .stat-divider { width: 1px; height: 30px; background: rgba(255,255,255,0.08); }
 
         .credit-line {
-          text-align: center;
-          font-size: 10px;
-          color: rgba(255,255,255,0.2);
-          padding: 4px 0;
+          text-align: center; font-size: 10px;
+          color: rgba(255,255,255,0.2); padding: 4px 0;
         }
 
         .payment-strip {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 16px;
-          padding: 16px 0;
+          display: flex; align-items: center; justify-content: center;
+          gap: 16px; padding: 16px 0;
           border-top: 1px solid rgba(255,255,255,0.04);
           animation: fadeSlideUp 0.8s ease-out 0.35s both;
         }
-
-        .payment-label {
-          font-size: 11px;
-          color: rgba(255,255,255,0.25);
-          letter-spacing: 1px;
-        }
-
+        .payment-label { font-size: 11px; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
         .payment-icons { display: flex; gap: 10px; }
-
         .payment-icon {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          padding: 4px 10px;
-          border-radius: 6px;
-          background: rgba(255,255,255,0.04);
-          font-size: 11px;
-          color: rgba(255,255,255,0.45);
-          border: 1px solid rgba(255,255,255,0.04);
+          display: flex; align-items: center; gap: 4px;
+          padding: 4px 10px; border-radius: 6px;
+          background: rgba(255,255,255,0.04); font-size: 11px;
+          color: rgba(255,255,255,0.45); border: 1px solid rgba(255,255,255,0.04);
         }
 
         .deco-hanzi {
-          position: absolute;
-          font-family: var(--font-accent);
-          font-size: 200px;
-          font-weight: 900;
-          color: rgba(255,255,255,0.015);
-          pointer-events: none;
-          user-select: none;
-          z-index: 0;
-          line-height: 1;
+          position: absolute; font-family: var(--font-accent);
+          font-size: 200px; font-weight: 900; color: rgba(255,255,255,0.015);
+          pointer-events: none; user-select: none; z-index: 0; line-height: 1;
         }
-
         .deco-hanzi.left { bottom: 5%; left: -2%; }
         .deco-hanzi.right { top: 10%; right: -3%; }
 
+        /* ── Mobile ── */
         @media (max-width: 767px) {
           .hero-content { padding: 12px; }
           .service-nav { gap: 2px; padding: 3px; }
@@ -788,6 +686,7 @@ export default function KBuddhismHero() {
           .deco-hanzi { font-size: 120px; }
           .brand-text { font-size: 17px; }
           .right-panel { order: -1; min-height: 320px; }
+          .model-tilt-wrapper { min-height: 320px; }
           .model-wrapper { min-height: 320px; }
           .model-iframe { min-height: 320px; }
         }
@@ -798,17 +697,11 @@ export default function KBuddhismHero() {
       <div className="bg-vignette" />
       <Spotlight activeService={activeService} />
       <Particles color={currentService.accentSolid} />
-
-      {/* Decorative Chinese characters */}
       <div className="deco-hanzi left">禪</div>
       <div className="deco-hanzi right">佛</div>
-
-      {/* Moon */}
       {!isMobile && <MoonPhase />}
 
-      {/* Main Content */}
       <div className="hero-content">
-        {/* Top Bar */}
         <header className="top-bar">
           <div className="brand">
             <div className="brand-icon">☸</div>
@@ -819,63 +712,32 @@ export default function KBuddhismHero() {
           </div>
         </header>
 
-        {/* Dynamic Island Navigation */}
         <ServiceNav active={activeService} onChange={setActiveService} />
 
-        {/* Main Area */}
         <div className="main-area">
-          {/* Left: Content */}
           <div className="left-panel" key={activeService}>
             <h1 className="hero-tagline">
               <span
                 className="gradient-text"
-                style={{
-                  backgroundImage: `linear-gradient(135deg, ${currentService.accentSolid}, #fff)`,
-                }}
+                style={{ backgroundImage: `linear-gradient(135deg, ${currentService.accentSolid}, #fff)` }}
               >
                 {currentService.tagline}
               </span>
             </h1>
-
             <p className="hero-desc">{currentService.desc}</p>
-
             {currentService.features && (
-              <FeatureChips
-                features={currentService.features}
-                color={currentService.accentSolid}
-              />
+              <FeatureChips features={currentService.features} color={currentService.accentSolid} />
             )}
-
             <div className="links-grid">
               {currentService.links.map((link) => (
-                <LinkCard
-                  key={link.name}
-                  link={link}
-                  accentColor={currentService.accentSolid}
-                />
+                <LinkCard key={link.name} link={link} accentColor={currentService.accentSolid} />
               ))}
             </div>
           </div>
 
-          {/* Right: 3D 금동미륵보살반가사유상 */}
-          <div className="right-panel">
-            <div className="model-wrapper">
-              <iframe
-                title="금동미륵보살반가사유상 - 국보 제83호"
-                src="https://sketchfab.com/models/9c25e4ebd9c3458d9a1a70f19493217e/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0"
-                className="model-iframe"
-                allow="autoplay; fullscreen; xr-spatial-tracking"
-                onLoad={() => setModelLoaded(true)}
-              />
-              <div className={cn("model-loader", modelLoaded && "hidden")}>
-                <div className="loader-ring" />
-                <div className="loader-text">반가사유상 로딩 중...</div>
-              </div>
-            </div>
-          </div>
+          <Model3D onLoad={() => setModelLoaded(true)} loaded={modelLoaded} />
         </div>
 
-        {/* Bottom */}
         <StatsBar />
         <div className="credit-line">
           3D 모델 출처: 국립중앙박물관 | 국보 제83호 금동미륵보살반가사유상
