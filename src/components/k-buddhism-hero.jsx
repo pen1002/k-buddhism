@@ -9,7 +9,6 @@ const SERVICES = [
     icon: MapPin,
     tagline: "1080 사찰의 문을 열다",
     desc: "산속 깊은 곳, 대중과의 소통을 위해 1080개 사찰의 디지털 인연을 잇습니다.",
-    accent: "from-amber-400 to-yellow-200",
     accentSolid: "#fbbf24",
     links: [
       { name: "부산 문수사", url: "https://pen1002.github.io/munsu/", live: true },
@@ -24,7 +23,6 @@ const SERVICES = [
     icon: ShoppingBag,
     tagline: "마음을 담은 공양물",
     desc: "엄선된 불교 용품과 굿즈를 합리적인 가격에 만나보세요. 안전한 결제를 지원합니다.",
-    accent: "from-emerald-400 to-teal-200",
     accentSolid: "#34d399",
     links: [
       { name: "불교굿즈 쇼핑몰", url: "#", live: false },
@@ -39,7 +37,6 @@ const SERVICES = [
     icon: Sparkles,
     tagline: "AI가 읽는 당신의 운명",
     desc: "사주·타로·별자리 분석부터 건강관리까지, 실생활에 유용한 앱 컬렉션입니다.",
-    accent: "from-violet-400 to-purple-200",
     accentSolid: "#a78bfa",
     features: ["월령(月令) 분석", "TTS 음성 읽어주기", "모바일 UI 최적화"],
     links: [
@@ -262,30 +259,37 @@ function StatsBar() {
   );
 }
 
-// ─── 3D Model with Mouse-Follow Tilt ─────────────────────────────────────────
+// ─── 3D Model with GLOBAL Mouse-Follow Tilt ──────────────────────────────────
 function Model3D({ onLoad, loaded }) {
-  const containerRef = useRef(null);
+  const modelCenterRef = useRef(null);
   const tiltRef = useRef(null);
   const rafRef = useRef(null);
   const currentTilt = useRef({ x: 0, y: 0 });
   const targetTilt = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
+    // Listen on the entire window — tilt responds to mouse anywhere on the page
     const handleMouseMove = (e) => {
-      const rect = container.getBoundingClientRect();
+      const el = modelCenterRef.current;
+      if (!el) return;
+
+      const rect = el.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      const mouseX = e.clientX - centerX;
-      const mouseY = e.clientY - centerY;
 
-      // Normalize to -1 ~ 1 range, then scale to degrees
-      const maxTilt = 12;
+      // Distance from mouse to center of the 3D model
+      const deltaX = e.clientX - centerX;
+      const deltaY = e.clientY - centerY;
+
+      // Normalize by viewport size for consistent feel across screen sizes
+      const normX = deltaX / (window.innerWidth / 2);
+      const normY = deltaY / (window.innerHeight / 2);
+
+      // Clamp to -1 ~ 1 range, scale to max tilt degrees
+      const maxTilt = 15;
       targetTilt.current = {
-        x: -(mouseY / (rect.height / 2)) * maxTilt,
-        y: (mouseX / (rect.width / 2)) * maxTilt,
+        x: -Math.max(-1, Math.min(1, normY)) * maxTilt,
+        y: Math.max(-1, Math.min(1, normX)) * maxTilt,
       };
     };
 
@@ -293,38 +297,39 @@ function Model3D({ onLoad, loaded }) {
       targetTilt.current = { x: 0, y: 0 };
     };
 
-    // Smooth animation loop
+    // Smooth animation loop with lerp
     const animate = () => {
-      const lerp = 0.08;
+      const lerp = 0.06;
       currentTilt.current.x += (targetTilt.current.x - currentTilt.current.x) * lerp;
       currentTilt.current.y += (targetTilt.current.y - currentTilt.current.y) * lerp;
 
       if (tiltRef.current) {
-        tiltRef.current.style.transform = `perspective(1000px) rotateX(${currentTilt.current.x}deg) rotateY(${currentTilt.current.y}deg)`;
+        tiltRef.current.style.transform =
+          `perspective(1000px) rotateX(${currentTilt.current.x}deg) rotateY(${currentTilt.current.y}deg)`;
       }
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
+    // Attach to window for global tracking
+    window.addEventListener("mousemove", handleMouseMove);
+    document.documentElement.addEventListener("mouseleave", handleMouseLeave);
     rafRef.current = requestAnimationFrame(animate);
 
     return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("mousemove", handleMouseMove);
+      document.documentElement.removeEventListener("mouseleave", handleMouseLeave);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
 
   return (
-    <div className="right-panel" ref={containerRef}>
-      {/* Glow effect that follows tilt */}
+    <div className="right-panel" ref={modelCenterRef}>
       <div className="model-glow" />
       <div className="model-tilt-wrapper" ref={tiltRef}>
         <div className="model-wrapper">
           <iframe
             title="금동미륵보살반가사유상 - 국보 제83호"
-            src="https://sketchfab.com/models/2d37bf970e5143d59f0cdfad2c7fd691/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=1&ui_stop=0&ui_watermark=0&ui_watermark_link=0"
+            src="https://sketchfab.com/models/2d37bf970e5143d59f0cdfad2c7fd691/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0"
             className="model-iframe"
             allow="autoplay; fullscreen; xr-spatial-tracking"
             onLoad={onLoad}
@@ -335,7 +340,6 @@ function Model3D({ onLoad, loaded }) {
           </div>
         </div>
       </div>
-      {/* Reflection line */}
       <div className="model-reflection" />
     </div>
   );
@@ -370,13 +374,9 @@ export default function KBuddhismHero() {
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         .hero-root {
-          position: relative;
-          width: 100%;
-          min-height: 100vh;
-          background: #000;
-          overflow: hidden;
-          font-family: var(--font-body);
-          color: #fff;
+          position: relative; width: 100%; min-height: 100vh;
+          background: #000; overflow: hidden;
+          font-family: var(--font-body); color: #fff;
         }
 
         .bg-grid {
@@ -384,8 +384,7 @@ export default function KBuddhismHero() {
           background-image: 
             linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
             linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-          background-size: 60px 60px;
-          pointer-events: none;
+          background-size: 60px 60px; pointer-events: none;
         }
 
         .bg-vignette {
@@ -395,13 +394,11 @@ export default function KBuddhismHero() {
         }
 
         .spotlight-glow {
-          position: absolute; inset: 0;
-          pointer-events: none; z-index: 1;
+          position: absolute; inset: 0; pointer-events: none; z-index: 1;
         }
 
         .particles-container {
-          position: absolute; inset: 0;
-          pointer-events: none; z-index: 1;
+          position: absolute; inset: 0; pointer-events: none; z-index: 1;
         }
 
         .particle {
@@ -433,7 +430,6 @@ export default function KBuddhismHero() {
           min-height: 100vh; padding: 20px;
         }
 
-        /* ── Top Bar ── */
         .top-bar {
           display: flex; align-items: center;
           justify-content: space-between;
@@ -455,7 +451,6 @@ export default function KBuddhismHero() {
           letter-spacing: 2px; text-transform: uppercase;
         }
 
-        /* ── Service Nav ── */
         .service-nav {
           display: flex; gap: 4px; padding: 4px;
           background: rgba(255,255,255,0.04);
@@ -478,7 +473,6 @@ export default function KBuddhismHero() {
           width: 16px; height: 2px; border-radius: 1px; transition: all 0.3s ease;
         }
 
-        /* ── Main Grid ── */
         .main-area {
           flex: 1; display: grid; grid-template-columns: 1fr;
           gap: 24px; align-items: center;
@@ -487,7 +481,6 @@ export default function KBuddhismHero() {
           .main-area { grid-template-columns: 1fr 1fr; gap: 40px; }
         }
 
-        /* ── Left Panel ── */
         .left-panel { display: flex; flex-direction: column; gap: 24px; }
         .hero-tagline {
           font-family: var(--font-display);
@@ -508,7 +501,6 @@ export default function KBuddhismHero() {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── Feature Chips ── */
         .feature-chips {
           display: flex; flex-wrap: wrap; gap: 8px;
           animation: fadeSlideUp 0.8s ease-out 0.15s both;
@@ -520,7 +512,6 @@ export default function KBuddhismHero() {
           color: rgba(255,255,255,0.7); backdrop-filter: blur(8px);
         }
 
-        /* ── Links Grid ── */
         .links-grid {
           display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
           animation: fadeSlideUp 0.8s ease-out 0.2s both;
@@ -557,11 +548,11 @@ export default function KBuddhismHero() {
         .link-arrow { opacity: 0.3; transition: opacity 0.3s; }
         .link-card:hover .link-arrow { opacity: 0.8; }
 
-        /* ── Right Panel: 3D Model with Mouse-Follow ── */
+        /* ── Right Panel: 3D Model with Global Mouse Tilt ── */
         .right-panel {
           position: relative; display: flex; flex-direction: column;
           align-items: center; justify-content: center;
-          min-height: 450px; cursor: grab;
+          min-height: 450px;
         }
         @media (min-width: 768px) {
           .right-panel { min-height: 600px; }
@@ -575,7 +566,6 @@ export default function KBuddhismHero() {
           pointer-events: none; z-index: 0;
           animation: glowPulse 4s ease-in-out infinite;
         }
-
         @keyframes glowPulse {
           0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
           50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
@@ -584,9 +574,9 @@ export default function KBuddhismHero() {
         .model-tilt-wrapper {
           position: relative; width: 100%; height: 100%;
           min-height: 450px; z-index: 1;
-          transition: transform 0.05s linear;
           transform-style: preserve-3d;
           will-change: transform;
+          transition: transform 0.05s linear;
         }
         @media (min-width: 768px) {
           .model-tilt-wrapper { min-height: 600px; }
@@ -631,7 +621,6 @@ export default function KBuddhismHero() {
           z-index: 1;
         }
 
-        /* ── Stats ── */
         .stats-bar {
           display: flex; align-items: center; justify-content: center;
           gap: 24px; padding: 20px 0; margin-top: auto;
@@ -673,7 +662,6 @@ export default function KBuddhismHero() {
         .deco-hanzi.left { bottom: 5%; left: -2%; }
         .deco-hanzi.right { top: 10%; right: -3%; }
 
-        /* ── Mobile ── */
         @media (max-width: 767px) {
           .hero-content { padding: 12px; }
           .service-nav { gap: 2px; padding: 3px; }
@@ -692,7 +680,6 @@ export default function KBuddhismHero() {
         }
       `}</style>
 
-      {/* Background layers */}
       <div className="bg-grid" />
       <div className="bg-vignette" />
       <Spotlight activeService={activeService} />
