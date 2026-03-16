@@ -5,7 +5,7 @@ import { ChevronRight, Sparkles, MapPin, ShoppingBag, Star, Moon, Volume2, Smart
 const SERVICES = [
   {
     id: "temple",
-    label: "사찰 네트워크",
+    label: "1080사찰홈페이지",
     icon: MapPin,
     tagline: "1080 사찰의 문을 열다",
     desc: "산속 깊은 곳, 대중과의 소통을 위해 1080개 사찰의 디지털 인연을 잇습니다.",
@@ -15,6 +15,33 @@ const SERVICES = [
       { name: "장흥 천관사", url: "/chunkwansa", live: true },
       { name: "장흥 보림사", url: "/borimsa", live: true },
       { name: "더 많은 사찰 →", url: "/temples", live: true },
+    ],
+  },
+  {
+    id: "apps",
+    label: "운명 분석 앱",
+    icon: Sparkles,
+    tagline: "AI가 읽는 당신의 운명",
+    desc: "사주·타로·별자리 분석부터 건강관리·시니어 AI 비서까지, 실생활에 유용한 앱 컬렉션입니다.",
+    accentSolid: "#a78bfa",
+    features: ["월령(月令) 분석", "TTS 음성 읽어주기", "모바일 UI 최적화"],
+    links: [
+      { name: "사주 분석 앱", url: "https://saju-cyan.vercel.app", live: true },
+      { name: "별자리 운명의 그물", url: "https://astro-graphrag.vercel.app", live: true },
+      { name: "타로 앱 (TAROT108)", url: "https://tarot108.vercel.app", live: true },
+      { name: "당뇨퇴치 앱", url: "https://diabetes108-v2.vercel.app", live: true },
+      { name: "마음벗 — 시니어 AI 비서", url: "https://companion-ai-lovat.vercel.app", live: true },
+    ],
+  },
+  {
+    id: "biz",
+    label: "기업홈피",
+    icon: Heart,
+    tagline: "기업·단체 홈페이지 제작",
+    desc: "기업, 단체, 개인 대상 맞춤형 홈페이지 제작 및 마케팅을 지원합니다.",
+    accentSolid: "#f97316",
+    links: [
+      { name: "조원물산", url: "https://jowon-mulsan-web.vercel.app", live: true },
     ],
   },
   {
@@ -29,21 +56,6 @@ const SERVICES = [
       { name: "네이버페이 결제", url: "#", live: false },
       { name: "카카오페이 결제", url: "#", live: false },
       { name: "토스페이 결제", url: "#", live: false },
-    ],
-  },
-  {
-    id: "apps",
-    label: "운명 분석 앱",
-    icon: Sparkles,
-    tagline: "AI가 읽는 당신의 운명",
-    desc: "사주·타로·별자리 분석부터 건강관리까지, 실생활에 유용한 앱 컬렉션입니다.",
-    accentSolid: "#a78bfa",
-    features: ["월령(月令) 분석", "TTS 음성 읽어주기", "모바일 UI 최적화"],
-    links: [
-      { name: "사주 분석 앱", url: "https://saju-cyan.vercel.app", live: true },
-      { name: "별자리 운명의 그물", url: "https://star-fate.vercel.app", live: true },
-      { name: "타로 앱", url: "#", live: false },
-      { name: "당뇨퇴치 앱", url: "https://diabetes108.vercel.app", live: true },
     ],
   },
 ];
@@ -247,7 +259,7 @@ function StatsBar() {
       </div>
       <div className="stat-divider" />
       <div className="stat-item">
-        <span className="stat-number"><AnimatedNumber target={4} suffix="개" /></span>
+        <span className="stat-number"><AnimatedNumber target={5} suffix="개" /></span>
         <span className="stat-label">운영 중 앱</span>
       </div>
       <div className="stat-divider" />

@@ -4,30 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>1080 사찰 네트워크 — K-Buddhism</title>
-<meta name="description" content="한국 1080 사찰 디지털 네트워크. AI 도우미와 함께하는 사찰 홈페이지 포털.">
+<meta name="description" content="한국 1080 사찰 디지털 네트워크. 사찰 홈페이지 포털.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0a0a;
-  --card: #141414;
-  --border: #222;
-  --text: #e5e5e5;
-  --text-dim: #888;
-  --accent: #fbbf24;
-  --accent2: #34d399;
-  --font-serif: 'Noto Serif KR', serif;
-  --font-sans: 'Noto Sans KR', sans-serif;
+  --bg: #0a0a0a; --card: #141414; --border: #222;
+  --text: #e5e5e5; --text-dim: #666; --accent: #fbbf24; --green: #34d399;
+  --font-serif: 'Noto Serif KR', serif; --font-sans: 'Noto Sans KR', sans-serif;
 }
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-body {
-  font-family:var(--font-sans); background:var(--bg); color:var(--text);
-  line-height:1.7; overflow-x:hidden; -webkit-font-smoothing:antialiased;
-}
+body { font-family:var(--font-sans); background:var(--bg); color:var(--text); line-height:1.7; -webkit-font-smoothing:antialiased; }
 a { color:inherit; text-decoration:none; }
-
-/* NAV */
 .nav {
   position:fixed; top:0; left:0; width:100%; z-index:100;
   background:rgba(10,10,10,.85); backdrop-filter:blur(16px);
@@ -36,173 +25,88 @@ a { color:inherit; text-decoration:none; }
 }
 .nav-logo { font-family:var(--font-serif); font-size:1rem; font-weight:700; color:#fff; }
 .nav-logo span { color:var(--accent); margin-left:6px; font-size:.8rem; font-weight:400; }
-.nav-back {
-  font-size:.82rem; color:var(--text-dim); padding:8px 16px;
-  border:1px solid var(--border); border-radius:20px; transition:.3s;
-}
+.nav-back { font-size:.82rem; color:var(--text-dim); padding:8px 16px; border:1px solid var(--border); border-radius:20px; transition:.3s; }
 .nav-back:hover { border-color:var(--accent); color:var(--accent); }
-
-/* HERO */
-.hero {
-  min-height:100vh; display:flex; align-items:center; justify-content:center;
-  padding:80px 24px 60px; position:relative;
-}
-.hero-inner {
-  max-width:1200px; width:100%; display:grid;
-  grid-template-columns:1fr 1fr; gap:60px; align-items:center;
-}
-@media(max-width:768px){ .hero-inner { grid-template-columns:1fr; gap:32px; } }
-
-.hero-text h1 {
-  font-family:var(--font-serif); font-size:clamp(2rem,5vw,3.5rem);
-  font-weight:900; color:#fff; line-height:1.2; margin-bottom:16px;
-}
-.hero-text h1 em { color:var(--accent); font-style:normal; }
-.hero-text p {
-  font-size:1rem; color:var(--text-dim); line-height:1.85; margin-bottom:40px;
-  max-width:480px;
-}
-
-/* TEMPLE CARDS */
-.temple-grid {
-  display:grid; grid-template-columns:1fr; gap:12px;
-}
+.main { max-width:800px; margin:0 auto; padding:100px 24px 60px; }
+.main h1 { font-family:var(--font-serif); font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900; color:#fff; line-height:1.2; margin-bottom:8px; }
+.main h1 em { color:var(--accent); font-style:normal; }
+.main > p { color:var(--text-dim); font-size:.95rem; margin-bottom:48px; }
+.section-label { font-size:.72rem; font-weight:700; letter-spacing:.15em; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
+.section-label.dim { color:var(--text-dim); }
+.temple-list { display:flex; flex-direction:column; gap:12px; margin-bottom:56px; }
 .temple-card {
   display:flex; align-items:center; justify-content:space-between;
   background:var(--card); border:1px solid var(--border); border-radius:12px;
-  padding:18px 24px; transition:.3s; gap:12px;
+  padding:20px 24px; transition:.3s; gap:12px;
 }
-.temple-card:hover { border-color:var(--accent); transform:translateX(4px); }
-.temple-card-left { display:flex; align-items:center; gap:12px; }
-.temple-card-left h3 { font-size:.95rem; font-weight:600; }
-.temple-card-left .region { font-size:.72rem; color:var(--text-dim); }
-.live-badge {
+.temple-card.live:hover { border-color:var(--accent); transform:translateX(4px); }
+.temple-card.disabled { opacity:.35; pointer-events:none; }
+.temple-info h3 { font-size:1rem; font-weight:700; }
+.temple-info .region { font-size:.78rem; color:var(--text-dim); margin-top:2px; }
+.badge-live {
   display:inline-flex; align-items:center; gap:5px;
-  background:rgba(52,211,153,.12); color:var(--accent2);
-  padding:4px 12px; border-radius:16px; font-size:.7rem; font-weight:700;
+  background:rgba(52,211,153,.12); color:var(--green);
+  padding:5px 14px; border-radius:16px; font-size:.72rem; font-weight:700; flex-shrink:0;
 }
-.live-dot { width:6px; height:6px; border-radius:50%; background:var(--accent2); animation:pulse 1.5s infinite; }
+.badge-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:pulse 1.5s infinite; }
 @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:.3; } }
-.soon-badge {
-  padding:4px 12px; border-radius:16px; font-size:.7rem; font-weight:600;
-  color:var(--text-dim); border:1px solid var(--border);
+.badge-soon {
+  padding:5px 14px; border-radius:16px; font-size:.72rem; font-weight:600;
+  color:var(--text-dim); border:1px solid #333; flex-shrink:0;
 }
-
-/* ROBOT */
-.robot-panel {
-  position:relative; min-height:500px; display:flex; align-items:center;
-  justify-content:center;
-}
-.robot-iframe {
-  width:100%; height:500px; border:none; border-radius:16px;
-  background:transparent;
-}
-.robot-caption {
-  text-align:center; margin-top:12px;
-  font-size:.72rem; color:var(--text-dim);
-}
-@media(max-width:768px){
-  .robot-panel { min-height:350px; }
-  .robot-iframe { height:350px; }
-}
-
-/* COMING SOON SECTION */
-.coming-section {
-  padding:80px 24px; border-top:1px solid var(--border);
-}
-.coming-inner { max-width:1200px; margin:0 auto; text-align:center; }
-.coming-inner h2 {
-  font-family:var(--font-serif); font-size:1.8rem; font-weight:700;
-  color:#fff; margin-bottom:8px;
-}
-.coming-inner p { color:var(--text-dim); font-size:.95rem; margin-bottom:48px; }
-.coming-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:16px; text-align:left;
-}
-.coming-card {
-  background:var(--card); border:1px solid var(--border); border-radius:12px;
-  padding:24px; transition:.3s; opacity:.5;
-}
-.coming-card:hover { opacity:.7; border-color:#333; }
-.coming-card h4 { font-size:.9rem; font-weight:600; margin-bottom:4px; }
-.coming-card p { font-size:.75rem; color:var(--text-dim); }
-
-/* FOOTER */
-.footer {
-  border-top:1px solid var(--border); padding:32px 24px; text-align:center;
-}
-.footer p { font-size:.72rem; color:rgba(255,255,255,.25); }
+.footer { border-top:1px solid var(--border); padding:32px 24px; text-align:center; }
+.footer p { font-size:.72rem; color:rgba(255,255,255,.2); }
 </style>
 </head>
 <body>
-
 <nav class="nav">
   <a href="/" class="nav-logo">K-Buddhism <span>사찰 네트워크</span></a>
   <a href="/" class="nav-back">← 메인으로</a>
 </nav>
-
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <h1><em>1080</em> 사찰의<br>디지털 인연</h1>
-      <p>
-        산속 깊은 곳의 사찰부터 도심 속 도량까지,<br>
-        AI 도우미와 함께 대중과 소통하는 새로운 길을 엽니다.<br>
-        현재 3개 사찰이 운영 중이며, 지속적으로 확장됩니다.
-      </p>
-      <div class="temple-grid">
-        <a href="/munsusa" class="temple-card">
-          <div class="temple-card-left">
-            <div><h3>문수사</h3><div class="region">부산 남구 · 도심 평화도량</div></div>
-          </div>
-          <span class="live-badge"><span class="live-dot"></span>LIVE</span>
-        </a>
-        <a href="/chunkwansa" class="temple-card">
-          <div class="temple-card-left">
-            <div><h3>천관사</h3><div class="region">전남 장흥 · 천관산 자락</div></div>
-          </div>
-          <span class="live-badge"><span class="live-dot"></span>LIVE</span>
-        </a>
-        <a href="/borimsa" class="temple-card">
-          <div class="temple-card-left">
-            <div><h3>보림사</h3><div class="region">전남 장흥 · 선종의 종가</div></div>
-          </div>
-          <span class="live-badge"><span class="live-dot"></span>LIVE</span>
-        </a>
-      </div>
+<div class="main">
+  <h1><em>1080</em> 사찰의<br>디지털 인연</h1>
+  <p>산속 깊은 곳의 사찰부터 도심 속 도량까지, 대중과 소통하는 새로운 길을 엽니다.</p>
+  <div class="section-label">● 운영 중 (LIVE)</div>
+  <div class="temple-list">
+    <a href="/munsusa" class="temple-card live">
+      <div class="temple-info"><h3>문수사</h3><div class="region">부산 남구 · 도심 평화도량</div></div>
+      <span class="badge-live"><span class="badge-dot"></span>LIVE</span>
+    </a>
+    <a href="/chunkwansa" class="temple-card live">
+      <div class="temple-info"><h3>천관사</h3><div class="region">전남 장흥 · 천관산 자락</div></div>
+      <span class="badge-live"><span class="badge-dot"></span>LIVE</span>
+    </a>
+    <a href="/borimsa" class="temple-card live">
+      <div class="temple-info"><h3>보림사</h3><div class="region">전남 장흥 · 선종의 종가</div></div>
+      <span class="badge-live"><span class="badge-dot"></span>LIVE</span>
+    </a>
+  </div>
+  <div class="section-label dim">○ 확장 예정</div>
+  <div class="temple-list">
+    <div class="temple-card disabled">
+      <div class="temple-info"><h3>조계사</h3><div class="region">서울 종로 · 조계종 총본산</div></div>
+      <span class="badge-soon">준비중</span>
     </div>
-    <div class="robot-panel">
-      <iframe
-        src="https://sketchfab.com/models/c5b92c281dc444448e64c0607719c7a2/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0&transparent=1"
-        class="robot-iframe"
-        allow="autoplay; fullscreen; xr-spatial-tracking"
-        loading="lazy"
-        title="AI 도우미 3D 로봇"
-      ></iframe>
-      <div class="robot-caption">AI 도우미 · 사찰 디지털 전환 파트너 · 3D Model: Shayan (CC BY)</div>
+    <div class="temple-card disabled">
+      <div class="temple-info"><h3>해인사</h3><div class="region">경남 합천 · 팔만대장경</div></div>
+      <span class="badge-soon">준비중</span>
+    </div>
+    <div class="temple-card disabled">
+      <div class="temple-info"><h3>불국사</h3><div class="region">경북 경주 · 유네스코 세계유산</div></div>
+      <span class="badge-soon">준비중</span>
+    </div>
+    <div class="temple-card disabled">
+      <div class="temple-info"><h3>선암사</h3><div class="region">전남 순천 · 천년 고찰</div></div>
+      <span class="badge-soon">준비중</span>
+    </div>
+    <div class="temple-card disabled">
+      <div class="temple-info"><h3>선운사</h3><div class="region">전북 고창 · 동백꽃 명소</div></div>
+      <span class="badge-soon">준비중</span>
     </div>
   </div>
-</section>
-
-<section class="coming-section">
-  <div class="coming-inner">
-    <h2>확장 예정 사찰</h2>
-    <p>전국 1080개 사찰 홈페이지를 순차적으로 구축합니다</p>
-    <div class="coming-grid">
-      <div class="coming-card"><h4>조계사</h4><p>서울 종로 · 조계종 총본산</p></div>
-      <div class="coming-card"><h4>해인사</h4><p>경남 합천 · 팔만대장경</p></div>
-      <div class="coming-card"><h4>불국사</h4><p>경북 경주 · 유네스코 세계유산</p></div>
-      <div class="coming-card"><h4>선암사</h4><p>전남 순천 · 천년 고찰</p></div>
-      <div class="coming-card"><h4>선운사</h4><p>전북 고창 · 동백꽃 명소</p></div>
-      <div class="coming-card"><h4>더 많은 사찰</h4><p>순차 확장 예정...</p></div>
-    </div>
-  </div>
-</section>
-
+</div>
 <footer class="footer">
-  <p>K-Buddhism © 2025 · 한국 사찰 통합 플랫폼 · Powered by AI</p>
+  <p>K-Buddhism © 2025 · 한국 사찰 통합 플랫폼</p>
 </footer>
-
 </body>
 </html>
