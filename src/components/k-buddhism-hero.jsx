@@ -11,9 +11,9 @@ const SERVICES = [
     desc: "산속 깊은 곳, 대중과의 소통을 위해 1080개 사찰의 디지털 인연을 잇습니다.",
     accentSolid: "#fbbf24",
     links: [
-      { name: "부산 문수사", url: "https://pen1002.github.io/munsu/", live: true },
-      { name: "장흥 천관사", url: "https://k-buddhism.vercel.app/chunkwansa", live: true },
-      { name: "장흥 보림사", url: "https://k-buddhism.vercel.app/borimsa", live: true },
+      { name: "부산 문수사", url: "/munsusa", live: true },
+      { name: "장흥 천관사", url: "/chunkwansa", live: true },
+      { name: "장흥 보림사", url: "/borimsa", live: true },
       { name: "더 많은 사찰 →", url: "#", live: false },
     ],
   },
