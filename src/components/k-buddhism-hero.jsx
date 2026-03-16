@@ -1,10 +1,7 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import Spline from '@splinetool/react-spline';
+import { useState, useEffect, useRef } from "react";
 import { ChevronRight, Sparkles, MapPin, ShoppingBag, Star, Moon, Volume2, Smartphone, Calendar, Heart, ExternalLink, Play, Pause } from "lucide-react";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
-const SPLINE_URL = "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
-
 const SERVICES = [
   {
     id: "temple",
@@ -120,7 +117,7 @@ function Spotlight({ activeService }) {
 }
 
 // ─── Moon Phase SVG ──────────────────────────────────────────────────────────
-function MoonPhase({ phase = 0.7, size = 120 }) {
+function MoonPhase({ size = 120 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 120 120" className="moon-svg">
       <defs>
@@ -276,7 +273,7 @@ function StatsBar() {
 // ─── Main Hero Component ─────────────────────────────────────────────────────
 export default function KBuddhismHero() {
   const [activeService, setActiveService] = useState("temple");
-  const [splineLoaded, setSplineLoaded] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -289,7 +286,7 @@ export default function KBuddhismHero() {
   const currentService = SERVICES.find((s) => s.id === activeService);
 
   return (
-    <>
+    <div className="hero-root">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Nanum+Myeongjo:wght@400;700;800&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap');
 
@@ -311,7 +308,6 @@ export default function KBuddhismHero() {
           color: #fff;
         }
 
-        /* ── Background Layers ── */
         .bg-grid {
           position: absolute;
           inset: 0;
@@ -336,7 +332,6 @@ export default function KBuddhismHero() {
           z-index: 1;
         }
 
-        /* ── Particles ── */
         .particles-container {
           position: absolute;
           inset: 0;
@@ -358,7 +353,6 @@ export default function KBuddhismHero() {
           100% { opacity: 0; transform: translateY(-120px) scale(0); }
         }
 
-        /* ── Moon ── */
         .moon-svg {
           position: absolute;
           top: 30px;
@@ -373,7 +367,6 @@ export default function KBuddhismHero() {
           50% { opacity: 0.5; transform: scale(1.05); }
         }
 
-        /* ── Layout ── */
         .hero-content {
           position: relative;
           z-index: 10;
@@ -383,7 +376,6 @@ export default function KBuddhismHero() {
           padding: 20px;
         }
 
-        /* ── Top Bar ── */
         .top-bar {
           display: flex;
           align-items: center;
@@ -425,7 +417,6 @@ export default function KBuddhismHero() {
           text-transform: uppercase;
         }
 
-        /* ── Service Navigation (Dynamic Island) ── */
         .service-nav {
           display: flex;
           gap: 4px;
@@ -478,7 +469,6 @@ export default function KBuddhismHero() {
           transition: all 0.3s ease;
         }
 
-        /* ── Main Content Area ── */
         .main-area {
           flex: 1;
           display: grid;
@@ -494,7 +484,6 @@ export default function KBuddhismHero() {
           }
         }
 
-        /* ── Left Panel ── */
         .left-panel {
           display: flex;
           flex-direction: column;
@@ -529,7 +518,6 @@ export default function KBuddhismHero() {
           to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ── Feature Chips ── */
         .feature-chips {
           display: flex;
           flex-wrap: wrap;
@@ -550,7 +538,6 @@ export default function KBuddhismHero() {
           backdrop-filter: blur(8px);
         }
 
-        /* ── Link Cards ── */
         .links-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -584,10 +571,7 @@ export default function KBuddhismHero() {
           cursor: default;
         }
 
-        .link-name {
-          flex: 1;
-          font-weight: 500;
-        }
+        .link-name { flex: 1; font-weight: 500; }
 
         .link-badge {
           font-size: 9px;
@@ -628,56 +612,47 @@ export default function KBuddhismHero() {
           transition: opacity 0.3s;
         }
 
-        .link-card:hover .link-arrow {
-          opacity: 0.8;
-        }
+        .link-card:hover .link-arrow { opacity: 0.8; }
 
-        /* ── Right Panel (3D + Stats) ── */
         .right-panel {
           position: relative;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          min-height: 350px;
+          min-height: 450px;
         }
 
         @media (min-width: 768px) {
-          .right-panel {
-            min-height: 500px;
-          }
+          .right-panel { min-height: 600px; }
         }
 
-        .spline-wrapper {
+        .model-wrapper {
           position: relative;
           width: 100%;
           height: 100%;
-          min-height: 350px;
+          min-height: 450px;
           border-radius: 20px;
           overflow: hidden;
         }
 
         @media (min-width: 768px) {
-          .spline-wrapper {
-            min-height: 480px;
-          }
+          .model-wrapper { min-height: 600px; }
         }
 
-        .spline-iframe {
+        .model-iframe {
           width: 100%;
           height: 100%;
-          min-height: 350px;
+          min-height: 450px;
           border: none;
           border-radius: 20px;
         }
 
         @media (min-width: 768px) {
-          .spline-iframe {
-            min-height: 480px;
-          }
+          .model-iframe { min-height: 600px; }
         }
 
-        .spline-loader {
+        .model-loader {
           position: absolute;
           inset: 0;
           display: flex;
@@ -691,7 +666,7 @@ export default function KBuddhismHero() {
           transition: opacity 0.5s ease;
         }
 
-        .spline-loader.hidden {
+        .model-loader.hidden {
           opacity: 0;
           pointer-events: none;
         }
@@ -705,9 +680,7 @@ export default function KBuddhismHero() {
           animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .loader-text {
           font-size: 12px;
@@ -715,7 +688,6 @@ export default function KBuddhismHero() {
           letter-spacing: 1px;
         }
 
-        /* ── Stats Bar ── */
         .stats-bar {
           display: flex;
           align-items: center;
@@ -752,7 +724,13 @@ export default function KBuddhismHero() {
           background: rgba(255,255,255,0.08);
         }
 
-        /* ── Payment Strip ── */
+        .credit-line {
+          text-align: center;
+          font-size: 10px;
+          color: rgba(255,255,255,0.2);
+          padding: 4px 0;
+        }
+
         .payment-strip {
           display: flex;
           align-items: center;
@@ -769,10 +747,7 @@ export default function KBuddhismHero() {
           letter-spacing: 1px;
         }
 
-        .payment-icons {
-          display: flex;
-          gap: 10px;
-        }
+        .payment-icons { display: flex; gap: 10px; }
 
         .payment-icon {
           display: flex;
@@ -786,7 +761,6 @@ export default function KBuddhismHero() {
           border: 1px solid rgba(255,255,255,0.04);
         }
 
-        /* ── Decorative Hanzi ── */
         .deco-hanzi {
           position: absolute;
           font-family: var(--font-accent);
@@ -799,197 +773,125 @@ export default function KBuddhismHero() {
           line-height: 1;
         }
 
-        .deco-hanzi.left {
-          bottom: 5%;
-          left: -2%;
-        }
+        .deco-hanzi.left { bottom: 5%; left: -2%; }
+        .deco-hanzi.right { top: 10%; right: -3%; }
 
-        .deco-hanzi.right {
-          top: 10%;
-          right: -3%;
-        }
-
-        /* ── Mobile Adjustments ── */
         @media (max-width: 767px) {
-          .hero-content {
-            padding: 12px;
-          }
-          .service-nav {
-            gap: 2px;
-            padding: 3px;
-          }
-          .service-nav-btn {
-            padding: 8px 12px;
-            font-size: 11px;
-          }
-          .links-grid {
-            grid-template-columns: 1fr;
-          }
-          .moon-svg {
-            top: 10px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-          }
-          .stats-bar {
-            gap: 16px;
-          }
-          .stat-number {
-            font-size: 18px;
-          }
-          .payment-icons {
-            flex-wrap: wrap;
-            justify-content: center;
-          }
-          .deco-hanzi {
-            font-size: 120px;
-          }
-          .brand-text {
-            font-size: 17px;
-          }
-          .right-panel {
-            order: -1;
-            min-height: 260px;
-          }
-          .spline-wrapper {
-            min-height: 260px;
-          }
-          .spline-iframe {
-            min-height: 260px;
-          }
-        }
-
-        /* ── Scroll indicator ── */
-        .scroll-indicator {
-          position: absolute;
-          bottom: 20px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 6px;
-          opacity: 0.3;
-          z-index: 10;
-          animation: bounce 2s ease-in-out infinite;
-        }
-
-        .scroll-indicator span {
-          font-size: 10px;
-          letter-spacing: 2px;
-          color: rgba(255,255,255,0.4);
-        }
-
-        .scroll-line {
-          width: 1px;
-          height: 24px;
-          background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
-        }
-
-        @keyframes bounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(6px); }
+          .hero-content { padding: 12px; }
+          .service-nav { gap: 2px; padding: 3px; }
+          .service-nav-btn { padding: 8px 12px; font-size: 11px; }
+          .links-grid { grid-template-columns: 1fr; }
+          .moon-svg { top: 10px; right: 20px; width: 60px; height: 60px; }
+          .stats-bar { gap: 16px; }
+          .stat-number { font-size: 18px; }
+          .payment-icons { flex-wrap: wrap; justify-content: center; }
+          .deco-hanzi { font-size: 120px; }
+          .brand-text { font-size: 17px; }
+          .right-panel { order: -1; min-height: 320px; }
+          .model-wrapper { min-height: 320px; }
+          .model-iframe { min-height: 320px; }
         }
       `}</style>
 
-      <section className="hero-root">
-        {/* Background layers */}
-        <div className="bg-grid" />
-        <div className="bg-vignette" />
-        <Spotlight activeService={activeService} />
-        <Particles color={currentService.accentSolid} />
+      {/* Background layers */}
+      <div className="bg-grid" />
+      <div className="bg-vignette" />
+      <Spotlight activeService={activeService} />
+      <Particles color={currentService.accentSolid} />
 
-        {/* Decorative Chinese characters */}
-        <div className="deco-hanzi left">禪</div>
-        <div className="deco-hanzi right">佛</div>
+      {/* Decorative Chinese characters */}
+      <div className="deco-hanzi left">禪</div>
+      <div className="deco-hanzi right">佛</div>
 
-        {/* Moon */}
-        {!isMobile && <MoonPhase />}
+      {/* Moon */}
+      {!isMobile && <MoonPhase />}
 
-        {/* Main Content */}
-        <div className="hero-content">
-          {/* Top Bar */}
-          <header className="top-bar">
-            <div className="brand">
-              <div className="brand-icon">☸</div>
-              <div>
-                <div className="brand-text">K-Buddhism</div>
-                <div className="brand-sub">한국 사찰 통합 플랫폼</div>
-              </div>
-            </div>
-          </header>
-
-          {/* Dynamic Island Navigation */}
-          <ServiceNav active={activeService} onChange={setActiveService} />
-
-          {/* Main Area */}
-          <div className="main-area">
-            {/* Left: Content */}
-            <div className="left-panel" key={activeService}>
-              <h1 className="hero-tagline">
-                <span
-                  className="gradient-text"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${currentService.accentSolid}, #fff)`,
-                  }}
-                >
-                  {currentService.tagline}
-                </span>
-              </h1>
-
-              <p className="hero-desc">{currentService.desc}</p>
-
-              {/* App-specific feature chips */}
-              {currentService.features && (
-                <FeatureChips
-                  features={currentService.features}
-                  color={currentService.accentSolid}
-                />
-              )}
-
-              {/* Service Links */}
-              <div className="links-grid">
-                {currentService.links.map((link) => (
-                  <LinkCard
-                    key={link.name}
-                    link={link}
-                    accentColor={currentService.accentSolid}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Right: 3D Robot */}
-            <div className="right-panel">
-              <div className="spline-wrapper">
-                <Spline
-                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                  onLoad={() => setSplineLoaded(true)}
-                  style={{ width: '100%', height: '100%' }}
-                />
-                <div className={cn("spline-loader", splineLoaded && "hidden")}>
-                  <div className="loader-ring" />
-                  <div className="loader-text">3D 로봇 로딩 중...</div>
-                </div>
-              </div>
+      {/* Main Content */}
+      <div className="hero-content">
+        {/* Top Bar */}
+        <header className="top-bar">
+          <div className="brand">
+            <div className="brand-icon">☸</div>
+            <div>
+              <div className="brand-text">K-Buddhism</div>
+              <div className="brand-sub">한국 사찰 통합 플랫폼</div>
             </div>
           </div>
+        </header>
 
-          {/* Bottom: Stats & Payment */}
-          <StatsBar />
-          <div className="payment-strip">
-            <span className="payment-label">결제수단</span>
-            <div className="payment-icons">
-              {PAYMENT_METHODS.map((pm) => (
-                <div key={pm.name} className="payment-icon">
-                  <span>{pm.icon}</span>
-                  <span>{pm.name}</span>
-                </div>
+        {/* Dynamic Island Navigation */}
+        <ServiceNav active={activeService} onChange={setActiveService} />
+
+        {/* Main Area */}
+        <div className="main-area">
+          {/* Left: Content */}
+          <div className="left-panel" key={activeService}>
+            <h1 className="hero-tagline">
+              <span
+                className="gradient-text"
+                style={{
+                  backgroundImage: `linear-gradient(135deg, ${currentService.accentSolid}, #fff)`,
+                }}
+              >
+                {currentService.tagline}
+              </span>
+            </h1>
+
+            <p className="hero-desc">{currentService.desc}</p>
+
+            {currentService.features && (
+              <FeatureChips
+                features={currentService.features}
+                color={currentService.accentSolid}
+              />
+            )}
+
+            <div className="links-grid">
+              {currentService.links.map((link) => (
+                <LinkCard
+                  key={link.name}
+                  link={link}
+                  accentColor={currentService.accentSolid}
+                />
               ))}
             </div>
           </div>
+
+          {/* Right: 3D 금동미륵보살반가사유상 */}
+          <div className="right-panel">
+            <div className="model-wrapper">
+              <iframe
+                title="금동미륵보살반가사유상 - 국보 제83호"
+                src="https://sketchfab.com/models/9c25e4ebd9c3458d9a1a70f19493217e/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_controls=0&ui_stop=0&ui_watermark=0&ui_watermark_link=0"
+                className="model-iframe"
+                allow="autoplay; fullscreen; xr-spatial-tracking"
+                onLoad={() => setModelLoaded(true)}
+              />
+              <div className={cn("model-loader", modelLoaded && "hidden")}>
+                <div className="loader-ring" />
+                <div className="loader-text">반가사유상 로딩 중...</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>
-    </>
+
+        {/* Bottom */}
+        <StatsBar />
+        <div className="credit-line">
+          3D 모델 출처: 국립중앙박물관 | 국보 제83호 금동미륵보살반가사유상
+        </div>
+        <div className="payment-strip">
+          <span className="payment-label">결제수단</span>
+          <div className="payment-icons">
+            {PAYMENT_METHODS.map((pm) => (
+              <div key={pm.name} className="payment-icon">
+                <span>{pm.icon}</span>
+                <span>{pm.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
