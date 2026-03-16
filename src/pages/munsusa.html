@@ -1313,12 +1313,23 @@ function initSlides() {
   const viewport = document.getElementById('slideViewport');
   const dots = document.getElementById('slideDots');
 
+  const slideImages = [
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0001_tkbm8k',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0002_tcxbg9',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0003_fjt4wn',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0004_jqfhan',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0005_tsgxhs',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0006_zrm8ne',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0007_f79wiz',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0008_bbz1eq',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0009_u848c7',
+    'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0010_s5eemc',
+  ];
+
   viewport.innerHTML = '';
   for (let i = 0; i < slideCount; i++) {
-    const num = String(i + 1).padStart(2, '0');
     const img = document.createElement('img');
-    // PDF 슬라이드를 이미지로 변환하여 /images/munsusa-slide-XX.jpg 에 저장하세요
-    img.src = `/images/munsusa-slide-${num}.jpg`;
+    img.src = slideImages[i];
     img.alt = slideTitles[i];
     img.className = i === 0 ? 'active' : '';
     img.dataset.slide = i;
