@@ -14,7 +14,7 @@ const SERVICES = [
       { name: "부산 문수사", url: "/munsusa", live: true },
       { name: "장흥 천관사", url: "/chunkwansa", live: true },
       { name: "장흥 보림사", url: "/borimsa", live: true },
-      { name: "더 많은 사찰 →", url: "#", live: false },
+      { name: "더 많은 사찰 →", url: "/temples", live: true },
     ],
   },
   {
