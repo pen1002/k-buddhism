@@ -234,9 +234,11 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
    EVENTS / PROGRAMS
    ============================================ */
 .events-grid {
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  display:flex; flex-wrap:wrap;
   gap:24px; margin-top:48px;
 }
+.events-grid .event-card { flex:1 1 280px; max-width:calc(50% - 12px); order:1; }
+@media(max-width:768px){ .events-grid .event-card { max-width:100%; } }
 .event-card {
   background:var(--color-card); border:1px solid var(--color-border);
   border-radius:var(--radius-lg); padding:32px 28px;
@@ -258,6 +260,51 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   font-size:.78rem; font-weight:600; color:var(--color-gold-dark);
   padding-top:12px; border-top:1px solid var(--color-border);
 }
+
+/* ============================================
+   ACTIVE EVENT — PULSE & GOLD HIGHLIGHT
+   ============================================ */
+.event-card.event-active {
+  border-color:var(--color-gold) !important;
+  background:linear-gradient(135deg, rgba(184,137,62,.08), rgba(212,169,78,.04));
+  box-shadow:0 0 0 2px rgba(184,137,62,.15), 0 4px 24px rgba(184,137,62,.12);
+  animation:eventPulse 2.5s ease-in-out infinite;
+  position:relative;
+  order:-1 !important;
+}
+.event-card.event-active::before {
+  content:'📣 진행 중';
+  position:absolute; top:-10px; right:16px;
+  background:var(--color-gold); color:#fff;
+  padding:3px 12px; border-radius:10px;
+  font-size:.65rem; font-weight:700; letter-spacing:.04em;
+  box-shadow:0 2px 8px rgba(184,137,62,.3);
+}
+.event-card.event-active .event-tag {
+  background:rgba(184,137,62,.15); color:var(--color-gold-dark);
+}
+.event-card.event-active h3 { color:var(--color-gold-dark); }
+@keyframes eventPulse {
+  0%, 100% { box-shadow:0 0 0 2px rgba(184,137,62,.15), 0 4px 24px rgba(184,137,62,.12); }
+  50% { box-shadow:0 0 0 4px rgba(184,137,62,.25), 0 6px 32px rgba(184,137,62,.2); transform:translateY(-2px); }
+}
+
+/* 진행 예정 (D-7 이내) */
+.event-card.event-upcoming {
+  border-color:var(--color-accent) !important;
+  background:rgba(43,107,127,.03);
+  position:relative;
+  order:0 !important;
+}
+.event-card.event-upcoming::before {
+  content:'곧 시작';
+  position:absolute; top:-10px; right:16px;
+  background:var(--color-accent); color:#fff;
+  padding:3px 12px; border-radius:10px;
+  font-size:.65rem; font-weight:700;
+}
+
+/* Grid에서 order 적용되도록 flex로 전환됨 (상단 .events-grid 참고) */
 
 /* ============================================
    ABOUT / INTRO
@@ -645,7 +692,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   .donate-card { padding:24px 16px; }
   .visit-info dd { font-size:.85rem; }
   .about-info { grid-template-columns:1fr; gap:10px; }
-  .events-grid { grid-template-columns:1fr; }
+  .events-grid .event-card { max-width:100%; }
   .event-card { padding:24px 20px; }
 }
 @media(max-width:480px){
@@ -790,64 +837,64 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <p class="section-label">Events & Dharma Services</p>
     <h2 class="section-title">법회 · 기도 · 행사</h2>
     <p class="section-desc">문수사의 평화로운 도량에서 마음의 안정과 깊은 기도를 경험하세요</p>
-    <div class="events-grid">
-      <div class="event-card fade-in">
+    <div class="events-grid" id="eventsGrid">
+      <div class="event-card fade-in" data-schedule="lunar-monthly" data-lunar-days="1,2,3">
         <div class="event-icon">🌕</div>
         <span class="event-tag">Monthly</span>
         <h3>정기법회</h3>
         <p>매월 초하루법회<br>매월 1일(음) · 3일간 인등, 신장기도</p>
         <div class="event-meta">정기법회 · 매월</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="lunar-monthly" data-lunar-days="15,24" data-solar-days="1,2,3">
         <div class="event-icon">🙏</div>
         <span class="event-tag">Regular</span>
         <h3>보름 · 지장기도 · 관음재일 · 다라니</h3>
         <p>보름 · 지장기도: 매월 15일(음)<br>관음재일기도: 매월 24일(음)<br>다라니기도: 매월 1일~3일(양)</p>
         <div class="event-meta">정기기도 · 매월</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="lunar-range" data-lunar-month="1" data-lunar-start="7" data-lunar-end="9">
         <div class="event-icon">🎍</div>
         <span class="event-tag">Seasonal</span>
         <h3>정초안택 관음기도</h3>
         <p>음력 1월 7일~9일 (3일간)</p>
         <div class="event-meta">신년 기도</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="lunar-range" data-lunar-month="1" data-lunar-start="9" data-lunar-end="15">
         <div class="event-icon">📿</div>
         <span class="event-tag">Seasonal</span>
         <h3>삼재신장기도</h3>
         <p>음력 1월 9일~15일 (7일간)</p>
         <div class="event-meta">신년 기도</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="lunar-range" data-lunar-month="2" data-lunar-start="15" data-lunar-end="15">
         <div class="event-icon">🐟</div>
         <span class="event-tag">Seasonal</span>
         <h3>방생법회</h3>
         <p>음력 2월 15일</p>
         <div class="event-meta">방생 · 연 1회</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="lunar-range" data-lunar-month="5,6,7" data-lunar-start="26" data-lunar-end="15" data-multi-month="true">
         <div class="event-icon">🪔</div>
         <span class="event-tag">Seasonal</span>
         <h3>백중 49일 기도</h3>
-        <p>음력 5월 26일 ~ 7월 17일</p>
-        <div class="event-meta">여름안거 · 49일간</div>
+        <p>음력 5월 26일 ~ 7월 15일</p>
+        <div class="event-meta">여름안거 · 3개월</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="solar-range" data-solar-month="12" data-solar-start="7" data-solar-end="22">
         <div class="event-icon">❄️</div>
         <span class="event-tag">Seasonal</span>
         <h3>동지기도 · 성도절 철야정진</h3>
         <p>동지기도: 양력 12월 21~22일경<br>성도절 철야용맹정진기도: 음력 12월 7~8일</p>
         <div class="event-meta">동안거 · 특별기도</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="weekly-wed" data-weeks="2,4">
         <div class="event-icon">🍜</div>
         <span class="event-tag">Weekly</span>
         <h3>수요 무료 국수 공양</h3>
         <p>매월 2주·4주째 수요일<br>문수보현봉사단 자원봉사</p>
         <div class="event-meta">수요 나눔 · 무료</div>
       </div>
-      <div class="event-card fade-in">
+      <div class="event-card fade-in" data-schedule="weekly-wed-all">
         <div class="event-icon">🎵</div>
         <span class="event-tag">모집</span>
         <h3>문수사 마야합창단</h3>
@@ -1095,7 +1142,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">문수사에서 드리는 기도불사는?</div>
-          <div class="faq-a"><p>정기법회(매월 초하루, 3일간 인등·신장기도), 보름·지장기도(매월 음 15일), 관음재일기도(매월 음 24일), 다라니기도(매월 양 1~3일)를 봉행합니다. 절기별로 정초안택관음기도(음 1.7~9), 삼재신장기도(음 1.9~15), 방생법회(음 2.15), 백중49일기도(음 5.26~7.17), 동지기도(양 12.21~22), 성도절 철야용맹정진기도(음 12.7~8)가 있습니다. 문수사 마야합창단(매주 수요 오전 10:30~)도 상시 모집합니다.</p></div>
+          <div class="faq-a"><p>정기법회(매월 초하루, 3일간 인등·신장기도), 보름·지장기도(매월 음 15일), 관음재일기도(매월 음 24일), 다라니기도(매월 양 1~3일)를 봉행합니다. 절기별로 정초안택관음기도(음 1.7~9), 삼재신장기도(음 1.9~15), 방생법회(음 2.15), 백중49일기도(음 5.26~7.15), 동지기도(양 12.21~22), 성도절 철야용맹정진기도(음 12.7~8)가 있습니다. 문수사 마야합창단(매주 수요 오전 10:30~)도 상시 모집합니다.</p></div>
         </div>
       </div>
     </div>
@@ -1556,6 +1603,133 @@ window.addEventListener('resize', () => {
   }
 });
 
+// ===== EVENT SCHEDULER — 자동 정렬 & 펄스 강조 엔진 =====
+function getLunarDate() {
+  try {
+    // 브라우저 내장 음력 변환 (Intl API, Chinese calendar)
+    const now = new Date();
+    const fmt = new Intl.DateTimeFormat('en-u-ca-chinese', {
+      month: 'numeric', day: 'numeric'
+    });
+    const parts = fmt.formatToParts(now);
+    const lunarMonth = parseInt(parts.find(p => p.type === 'month')?.value) || 0;
+    const lunarDay = parseInt(parts.find(p => p.type === 'day')?.value) || 0;
+    return { month: lunarMonth, day: lunarDay };
+  } catch(e) {
+    return { month: 0, day: 0 };
+  }
+}
+
+function getWeekOfMonth(date) {
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  return Math.ceil((date.getDate() + firstDay) / 7);
+}
+
+function checkEventActive(card) {
+  const now = new Date();
+  const solarMonth = now.getMonth() + 1;
+  const solarDay = now.getDate();
+  const dayOfWeek = now.getDay(); // 0=Sun, 3=Wed
+  const weekNum = getWeekOfMonth(now);
+  const lunar = getLunarDate();
+  const schedule = card.dataset.schedule;
+
+  // 1. 음력 매월 반복 (초하루, 보름 등)
+  if(schedule === 'lunar-monthly') {
+    const lunarDays = (card.dataset.lunarDays || '').split(',').map(Number);
+    const solarDays = (card.dataset.solarDays || '').split(',').map(Number).filter(Boolean);
+    if(lunarDays.includes(lunar.day)) return 'active';
+    if(solarDays.includes(solarDay)) return 'active';
+    // D-2 이내 예고
+    for(const d of lunarDays) { if(d - lunar.day > 0 && d - lunar.day <= 2) return 'upcoming'; }
+    for(const d of solarDays) { if(d - solarDay > 0 && d - solarDay <= 2) return 'upcoming'; }
+  }
+
+  // 2. 음력 기간 이벤트 (정초기도, 방생법회 등)
+  if(schedule === 'lunar-range') {
+    const months = (card.dataset.lunarMonth || '').split(',').map(Number);
+    const start = parseInt(card.dataset.lunarStart) || 0;
+    const end = parseInt(card.dataset.lunarEnd) || 0;
+    const isMulti = card.dataset.multiMonth === 'true';
+
+    if(isMulti) {
+      // 다월 기간 (백중 등): 해당 월 범위에 있으면 활성
+      if(months.includes(lunar.month)) {
+        if(lunar.month === months[0] && lunar.day >= start) return 'active';
+        if(lunar.month === months[months.length-1] && lunar.day <= end) return 'active';
+        if(lunar.month > months[0] && lunar.month < months[months.length-1]) return 'active';
+      }
+      // D-7 예고 (시작월의 시작일 7일 전)
+      if(lunar.month === months[0] && start - lunar.day > 0 && start - lunar.day <= 7) return 'upcoming';
+    } else {
+      if(months.includes(lunar.month) && lunar.day >= start && lunar.day <= end) return 'active';
+      // D-3 예고
+      if(months.includes(lunar.month) && start - lunar.day > 0 && start - lunar.day <= 3) return 'upcoming';
+    }
+  }
+
+  // 3. 양력 기간 이벤트 (동지 등)
+  if(schedule === 'solar-range') {
+    const sm = parseInt(card.dataset.solarMonth) || 0;
+    const ss = parseInt(card.dataset.solarStart) || 0;
+    const se = parseInt(card.dataset.solarEnd) || 0;
+    if(solarMonth === sm && solarDay >= ss && solarDay <= se) return 'active';
+    if(solarMonth === sm && ss - solarDay > 0 && ss - solarDay <= 5) return 'upcoming';
+  }
+
+  // 4. 매월 2,4주 수요일
+  if(schedule === 'weekly-wed') {
+    const weeks = (card.dataset.weeks || '').split(',').map(Number);
+    if(dayOfWeek === 3 && weeks.includes(weekNum)) return 'active';
+    // 내일이 해당 수요일이면 예고
+    const tmr = new Date(now); tmr.setDate(tmr.getDate() + 1);
+    if(tmr.getDay() === 3 && weeks.includes(getWeekOfMonth(tmr))) return 'upcoming';
+  }
+
+  // 5. 매주 수요일
+  if(schedule === 'weekly-wed-all') {
+    if(dayOfWeek === 3) return 'active';
+    if(dayOfWeek === 2) return 'upcoming'; // 화요일 = 내일 수요일
+  }
+
+  return null;
+}
+
+function initEventScheduler() {
+  const grid = document.getElementById('eventsGrid');
+  if(!grid) return;
+
+  const cards = Array.from(grid.querySelectorAll('.event-card'));
+  let hasActive = false;
+
+  cards.forEach(card => {
+    const status = checkEventActive(card);
+    if(status === 'active') {
+      card.classList.add('event-active');
+      hasActive = true;
+    } else if(status === 'upcoming') {
+      card.classList.add('event-upcoming');
+    }
+  });
+
+  // Flex order로 자동 정렬: active → upcoming → 나머지
+  // (CSS order: active=-1, upcoming=0, normal=1)
+
+  // 스크롤 유도: 활성 이벤트가 있으면 부드럽게 스크롤 안내
+  if(hasActive) {
+    const activeCard = grid.querySelector('.event-active');
+    if(activeCard) {
+      // 뱃지에 오늘 음력 날짜 표시
+      const lunar = getLunarDate();
+      if(lunar.month > 0) {
+        const badge = activeCard.querySelector('.event-active::before');
+        // CSS pseudo로 처리되므로 data 속성 활용
+        activeCard.dataset.todayLunar = `음력 ${lunar.month}월 ${lunar.day}일`;
+      }
+    }
+  }
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   const firstFaq = document.querySelector('.faq-item');
@@ -1564,7 +1738,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // 페이지 오픈 시 파티클 1회 자동 재생
   setTimeout(() => {
     startParticleHero();
-  }, 600); // 히어로 애니메이션 후 시작
+  }, 600);
+
+  // 이벤트 스케줄러 실행 (날짜 기반 자동 정렬 & 강조)
+  initEventScheduler();
 });
 </script>
 
