@@ -237,8 +237,8 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   display:flex; flex-wrap:wrap;
   gap:24px; margin-top:48px;
 }
-.events-grid .event-card { flex:1 1 280px; max-width:calc(50% - 12px); order:1; }
-@media(max-width:768px){ .events-grid .event-card { max-width:100%; } }
+.events-grid .event-card { flex:0 1 calc(50% - 12px); min-width:280px; order:1; }
+@media(max-width:768px){ .events-grid .event-card { flex:0 1 100%; min-width:0; } }
 .event-card {
   background:var(--color-card); border:1px solid var(--color-border);
   border-radius:var(--radius-lg); padding:32px 28px;
@@ -273,12 +273,19 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   order:-1 !important;
 }
 .event-card.event-active::before {
-  content:'📣 진행 중';
-  position:absolute; top:-10px; right:16px;
-  background:var(--color-gold); color:#fff;
-  padding:3px 12px; border-radius:10px;
-  font-size:.65rem; font-weight:700; letter-spacing:.04em;
-  box-shadow:0 2px 8px rgba(184,137,62,.3);
+  content:'🔔 오늘의 문수사 행사';
+  position:absolute; top:12px; right:12px;
+  background:linear-gradient(135deg, var(--color-gold), var(--color-gold-dark));
+  color:#fff;
+  padding:6px 16px; border-radius:20px;
+  font-size:.72rem; font-weight:800; letter-spacing:.02em;
+  box-shadow:0 3px 12px rgba(184,137,62,.35);
+  z-index:2;
+  animation:badgePulse 2s ease-in-out infinite;
+}
+@keyframes badgePulse {
+  0%, 100% { box-shadow:0 3px 12px rgba(184,137,62,.35); }
+  50% { box-shadow:0 4px 20px rgba(184,137,62,.5); transform:scale(1.03); }
 }
 .event-card.event-active .event-tag {
   background:rgba(184,137,62,.15); color:var(--color-gold-dark);
@@ -873,6 +880,13 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
         <p>음력 2월 15일</p>
         <div class="event-meta">방생 · 연 1회</div>
       </div>
+      <div class="event-card fade-in" data-schedule="lunar-range" data-lunar-month="3,4" data-lunar-start="1" data-lunar-end="8" data-multi-month="true">
+        <div class="event-icon">🪷</div>
+        <span class="event-tag">Seasonal · 봉축</span>
+        <h3>부처님오신날 봉축법요식</h3>
+        <p>봉축법요식: 음력 4월 8일<br>봉축연등 접수: 음력 3월 1일 ~ 4월 8일</p>
+        <div class="event-meta">봉축대법회 · 연등 접수</div>
+      </div>
       <div class="event-card fade-in" data-schedule="lunar-range" data-lunar-month="5,6,7" data-lunar-start="26" data-lunar-end="15" data-multi-month="true">
         <div class="event-icon">🪔</div>
         <span class="event-tag">Seasonal</span>
@@ -1142,7 +1156,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
         </div>
         <div class="faq-item">
           <div class="faq-q" onclick="toggleFaq(this)">문수사에서 드리는 기도불사는?</div>
-          <div class="faq-a"><p>정기법회(매월 초하루, 3일간 인등·신장기도), 보름·지장기도(매월 음 15일), 관음재일기도(매월 음 24일), 다라니기도(매월 양 1~3일)를 봉행합니다. 절기별로 정초안택관음기도(음 1.7~9), 삼재신장기도(음 1.9~15), 방생법회(음 2.15), 백중49일기도(음 5.26~7.15), 동지기도(양 12.21~22), 성도절 철야용맹정진기도(음 12.7~8)가 있습니다. 문수사 마야합창단(매주 수요 오전 10:30~)도 상시 모집합니다.</p></div>
+          <div class="faq-a"><p>정기법회(매월 초하루, 3일간 인등·신장기도), 보름·지장기도(매월 음 15일), 관음재일기도(매월 음 24일), 다라니기도(매월 양 1~3일)를 봉행합니다. 절기별로 정초안택관음기도(음 1.7~9), 삼재신장기도(음 1.9~15), 방생법회(음 2.15), 부처님오신날 봉축법요식(음 4.8, 봉축연등접수 음 3.1~4.8), 백중49일기도(음 5.26~7.15), 동지기도(양 12.21~22), 성도절 철야용맹정진기도(음 12.7~8)가 있습니다. 문수사 마야합창단(매주 수요 오전 10:30~)도 상시 모집합니다.</p></div>
         </div>
       </div>
     </div>
