@@ -1,0 +1,24 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.xn--z92bu3hg5a.com"
+        }
+      ],
+      "destination": "/munsusa"
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "xn--z92bu3hg5a.com"
+        }
+      ],
+      "destination": "/munsusa"
+    }
+  ]
+}
