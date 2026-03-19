@@ -882,17 +882,21 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 }
 
 /* ============================================
-   PARTICLE HERO (auto-play once, no toggle)
+   PARTICLE HERO (1회 자동, 대웅전 전환)
    ============================================ */
 #particleCanvas {
   position:absolute; left:0; top:0; width:100%; height:100%;
-  z-index:2; pointer-events:none;
+  z-index:4; pointer-events:none;
+  transition:opacity 1.5s ease;
 }
-.hero-content { position:relative; z-index:3; }
-.hero-content h1,
-.hero-content .hero-hanja { visibility:hidden; }
-.hero-content.particle-done h1,
-.hero-content.particle-done .hero-hanja { visibility:visible; }
+#particleCanvas.fade-out { opacity:0; }
+.hero-content h1, .hero-content .hero-hanja {
+  opacity:0; transition:opacity 1s ease;
+}
+.hero.revealed .hero-content h1,
+.hero.revealed .hero-content .hero-hanja { opacity:1; }
+.hero.revealed .hero-bg { opacity:1; transition:opacity 1.5s ease; }
+.hero .hero-bg { opacity:0.15; transition:opacity 1.5s ease; }
 </style>
 </head>
 <body>
@@ -1947,100 +1951,110 @@ function switchBulsa(name, btn) {
   btn.classList.add('active');
 }
 
-// ===== PARTICLE HERO (auto-play once, no toggle) =====
+// ===== PARTICLE HERO (1회 "보림사" → 대웅전 사진 전환) =====
 (function(){
-  const WORDS = ['보림사', '寶林寺'];
-  const HOLD = 150, SCATTER = 60;
-  let pts=[], animId, phase='assemble', wIdx=0, fc=0, cv, cx;
+  var cv, cx, pts=[], done=false;
+  var PHASE='gather', timer=0;
 
-  class P {
-    constructor(tx,ty,w,h){
-      const a=Math.random()*Math.PI*2, m=(w+h)/2;
-      this.x=w/2+Math.cos(a)*m; this.y=h/2+Math.sin(a)*m;
-      this.vx=0;this.vy=0;this.tx=tx;this.ty=ty;
-      this.sz=Math.random()*2.2+1.2;
-      this.spd=Math.random()*8+10; this.frc=this.spd*0.06;
-      const g=[[196,173,116],[155,134,84],[220,200,140],[255,235,180],[180,160,100]];
-      const c=g[Math.floor(Math.random()*g.length)];
-      this.r=c[0];this.g=c[1];this.b=c[2];this.a=1;
-    }
-    seek(){
-      const dx=this.tx-this.x,dy=this.ty-this.y,d=Math.sqrt(dx*dx+dy*dy);
-      const p=d<80?d/80:1,mg=d||1;
-      const sx=(dx/mg)*this.spd*p-this.vx,sy=(dy/mg)*this.spd*p-this.vy;
-      const sm=Math.sqrt(sx*sx+sy*sy)||1;
-      this.vx+=(sx/sm)*this.frc;this.vy+=(sy/sm)*this.frc;
-      this.x+=this.vx;this.y+=this.vy;
-    }
-    flee(w,h){
-      const a=Math.random()*Math.PI*2;
-      this.tx=w/2+Math.cos(a)*(w+h);this.ty=h/2+Math.sin(a)*(w+h);
-      this.spd=Math.random()*6+6;this.frc=this.spd*0.04;
-    }
-    draw(c){c.fillStyle=`rgba(${this.r},${this.g},${this.b},${this.a})`;c.fillRect(this.x,this.y,this.sz,this.sz);}
+  function Pt(tx,ty,cw,ch){
+    var a=Math.random()*6.28, r=(cw+ch)*0.6;
+    this.x=cw/2+Math.cos(a)*r;
+    this.y=ch/2+Math.sin(a)*r;
+    this.tx=tx; this.ty=ty;
+    this.vx=0; this.vy=0;
+    this.s=Math.random()*2+1.5;
+    var gs=[[196,173,116],[220,200,140],[255,235,180],[155,134,84],[180,160,100]];
+    var c=gs[Math.floor(Math.random()*gs.length)];
+    this.r=c[0]; this.g=c[1]; this.b=c[2];
   }
+  Pt.prototype.step=function(){
+    var dx=this.tx-this.x, dy=this.ty-this.y;
+    this.vx+= dx*0.06; this.vy+= dy*0.06;
+    this.vx*=0.85; this.vy*=0.85;
+    this.x+=this.vx; this.y+=this.vy;
+  };
+  Pt.prototype.draw=function(c){
+    c.fillStyle='rgb('+this.r+','+this.g+','+this.b+')';
+    c.fillRect(this.x,this.y,this.s,this.s);
+  };
 
-  function makeWord(w){
-    const o=document.createElement('canvas');o.width=cv.width;o.height=cv.height;
-    const c=o.getContext('2d'), fs=Math.min(cv.width*0.16,160);
-    c.fillStyle='#fff';c.font=`900 ${fs}px "Noto Serif KR",serif`;
-    c.textAlign='center';c.textBaseline='middle';
-    c.fillText(w,cv.width/2,cv.height*0.38);
-    const d=c.getImageData(0,0,cv.width,cv.height).data,co=[];
-    for(let i=0;i<d.length;i+=16) if(d[i+3]>0) co.push(i);
-    for(let i=co.length-1;i>0;i--){const j=0|Math.random()*(i+1);[co[i],co[j]]=[co[j],co[i]];}
+  function build(){
+    var o=document.createElement('canvas');
+    o.width=cv.width; o.height=cv.height;
+    var c=o.getContext('2d');
+    var fs=Math.min(cv.width*0.15,150);
+    c.fillStyle='#fff';
+    c.font='900 '+fs+'px "Noto Serif KR",serif';
+    c.textAlign='center'; c.textBaseline='middle';
+    c.fillText('보림사',cv.width/2,cv.height*0.42);
+    var d=c.getImageData(0,0,cv.width,cv.height).data;
     pts=[];
-    for(const ci of co){
-      const px=(ci/4)%cv.width,py=Math.floor(ci/4/cv.width);
-      pts.push(new P(px,py,cv.width,cv.height));
+    for(var i=0;i<d.length;i+=20){
+      if(d[i+3]>128){
+        var px=(i/4)%cv.width;
+        var py=Math.floor(i/4/cv.width);
+        pts.push(new Pt(px,py,cv.width,cv.height));
+      }
     }
-  }
-
-  function init(){
-    const hero=document.getElementById('hero');
-    cv=document.getElementById('particleCanvas');
-    if(!cv||!hero)return false;
-    const dp=window.devicePixelRatio>1?1.5:1;
-    cv.width=hero.offsetWidth*dp;cv.height=hero.offsetHeight*dp;
-    cv.style.width='100%';cv.style.height='100%';
-    cx=cv.getContext('2d');return true;
   }
 
   function loop(){
-    if(!cx)return;
-    cx.fillStyle='rgba(0,0,0,0.12)';cx.fillRect(0,0,cv.width,cv.height);
+    if(done) return;
+    cx.fillStyle='rgba(0,0,0,0.15)';
+    cx.fillRect(0,0,cv.width,cv.height);
 
-    if(phase==='assemble'){
-      for(const p of pts){p.seek();p.draw(cx);}
-      fc++;
-      if(fc>40){let s=0;for(const p of pts){if(Math.sqrt((p.x-p.tx)**2+(p.y-p.ty)**2)<3)s++;}
-        if(s>pts.length*0.85||fc>120){phase='hold';fc=0;}}
-    }else if(phase==='hold'){
-      for(const p of pts)p.draw(cx);fc++;
-      if(fc>=HOLD){phase='scatter';fc=0;for(const p of pts)p.flee(cv.width,cv.height);}
-    }else if(phase==='scatter'){
-      for(const p of pts){p.seek();p.a=Math.max(0,p.a-0.015);p.draw(cx);}
-      fc++;
-      if(fc>=SCATTER){wIdx++;
-        if(wIdx<WORDS.length){phase='assemble';fc=0;cx.clearRect(0,0,cv.width,cv.height);makeWord(WORDS[wIdx]);}
-        else{phase='done';cx.clearRect(0,0,cv.width,cv.height);
-          const c=document.querySelector('.hero-content');if(c)c.classList.add('particle-done');
-          cancelAnimationFrame(animId);return;}}
+    if(PHASE==='gather'){
+      for(var i=0;i<pts.length;i++){pts[i].step();pts[i].draw(cx);}
+      timer++;
+      if(timer>90){
+        var ok=0;
+        for(var i=0;i<pts.length;i++){
+          var dx=pts[i].x-pts[i].tx, dy=pts[i].y-pts[i].ty;
+          if(dx*dx+dy*dy<4) ok++;
+        }
+        if(ok>pts.length*0.9 || timer>150){PHASE='hold';timer=0;}
+      }
     }
-    animId=requestAnimationFrame(loop);
+    else if(PHASE==='hold'){
+      for(var i=0;i<pts.length;i++) pts[i].draw(cx);
+      timer++;
+      if(timer>120){PHASE='fadeout';timer=0;cv.classList.add('fade-out');}
+    }
+    else if(PHASE==='fadeout'){
+      for(var i=0;i<pts.length;i++) pts[i].draw(cx);
+      timer++;
+      if(timer>60){
+        done=true;
+        document.getElementById('hero').classList.add('revealed');
+        return;
+      }
+    }
+    requestAnimationFrame(loop);
   }
 
-  function start(){if(!init())return;pts=[];wIdx=0;phase='assemble';fc=0;makeWord(WORDS[0]);loop();}
+  function start(){
+    var hero=document.getElementById('hero');
+    cv=document.getElementById('particleCanvas');
+    if(!cv||!hero)return;
+    var dp=window.devicePixelRatio>1?1.5:1;
+    cv.width=hero.offsetWidth*dp;
+    cv.height=hero.offsetHeight*dp;
+    cv.style.width='100%';cv.style.height='100%';
+    cx=cv.getContext('2d');
+    build();loop();
+  }
 
-  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(start,200));}
-  else{window.addEventListener('load',()=>setTimeout(start,400));}
-  window.addEventListener('resize',()=>{if(phase!=='done'){init();pts=[];makeWord(WORDS[wIdx]);}});
+  if(document.fonts&&document.fonts.ready){
+    document.fonts.ready.then(function(){setTimeout(start,300);});
+  }else{
+    window.addEventListener('load',function(){setTimeout(start,500);});
+  }
 })();
 
 // ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-  const firstFaq = document.querySelector('.faq-item');
-  if(firstFaq) firstFaq.classList.add('open');
+document.addEventListener('DOMContentLoaded', function(){
+  var f=document.querySelector('.faq-item');
+  if(f) f.classList.add('open');
 });
 </script>
 
