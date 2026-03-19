@@ -125,7 +125,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   position:absolute; inset:0; z-index:1;
   background:
     linear-gradient(180deg, rgba(20,18,14,.3) 0%, rgba(20,18,14,.15) 40%, rgba(20,18,14,.6) 80%, rgba(20,18,14,.95) 100%),
-    url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/1280px-Borimsa_Daeungjeon_11-05025.JPG') center/cover no-repeat;
+    url('https://res.cloudinary.com/db3izttcy/image/upload/brs-dharmahall_jggvn9') center/cover no-repeat;
 }
 .hero-content {
   position:relative; z-index:3; text-align:center; padding:120px 24px 80px;
@@ -640,7 +640,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   position:relative; padding:120px 24px; text-align:center;
   background:
     linear-gradient(rgba(20,18,14,.7), rgba(20,18,14,.7)),
-    url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/1280px-Borimsa_Daeungjeon_11-05025.JPG') center/cover no-repeat fixed;
+    url('https://res.cloudinary.com/db3izttcy/image/upload/brs-dharmahall_jggvn9') center/cover no-repeat fixed;
 }
 .quote-banner h2 {
   font-family:var(--font-serif); font-size:clamp(1.5rem,3vw,2.5rem);
@@ -782,48 +782,117 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 }
 
 /* ============================================
-   PARTICLE HERO
+   GREETING (주지스님 인사말)
    ============================================ */
-.hero-toggle {
-  position:absolute; top:20px; right:20px; z-index:10;
-  display:flex; align-items:center; gap:8px;
-  background:rgba(0,0,0,.45); backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.15); border-radius:24px;
-  padding:6px 16px; cursor:pointer; transition:var(--transition);
+.greeting-section { background:var(--color-bg-alt); }
+.greeting-layout {
+  display:grid; grid-template-columns:240px 1fr; gap:48px;
+  align-items:start; margin-top:48px;
 }
-.hero-toggle:hover { background:rgba(0,0,0,.6); border-color:rgba(255,255,255,.3); }
-.hero-toggle-label { font-size:.7rem; color:rgba(255,255,255,.7); letter-spacing:.04em; font-weight:500; }
-.hero-toggle-switch {
-  width:36px; height:20px; border-radius:10px;
-  background:rgba(255,255,255,.2); position:relative; transition:var(--transition);
+@media(max-width:768px){ .greeting-layout { grid-template-columns:1fr; gap:28px; text-align:center; } }
+.greeting-photo {
+  text-align:center;
 }
-.hero-toggle-switch::after {
-  content:''; position:absolute; top:2px; left:2px;
-  width:16px; height:16px; border-radius:50%;
-  background:#fff; transition:var(--transition);
+.greeting-photo img {
+  width:180px; height:180px; border-radius:50%; object-fit:cover;
+  border:4px solid var(--color-gold-light); box-shadow:var(--shadow-md);
+  margin-bottom:16px;
 }
-.hero-toggle.active .hero-toggle-switch { background:var(--color-gold); }
-.hero-toggle.active .hero-toggle-switch::after { left:18px; }
-.hero-toggle.active .hero-toggle-label { color:var(--color-gold-light); }
+.greeting-photo .name {
+  font-family:var(--font-serif); font-size:1.1rem; font-weight:700; color:var(--color-dark);
+}
+.greeting-photo .role { font-size:.82rem; color:var(--color-text-light); }
+.greeting-text {
+  font-family:var(--font-serif); font-size:.95rem; line-height:2.1;
+  color:var(--color-text);
+}
+.greeting-text p { margin-bottom:16px; text-indent:1em; }
+.greeting-text .signature {
+  margin-top:24px; text-indent:0; text-align:right;
+  font-weight:600; color:var(--color-accent-dark);
+}
 
-#particleCanvas {
-  position:absolute; inset:0; z-index:2;
-  width:100%; height:100%;
-  opacity:0; transition:opacity .6s ease;
-  pointer-events:none;
+/* ============================================
+   BULSA DONGCHAM (불사동참 4탭)
+   ============================================ */
+.bulsa-tabs {
+  display:flex; gap:8px; margin-top:40px; flex-wrap:wrap;
 }
-.hero.particle-mode #particleCanvas { opacity:1; pointer-events:auto; }
-.hero.particle-mode .hero-bg { opacity:.2; transition:opacity .6s ease; }
-.hero.particle-mode .hero-content h1,
-.hero.particle-mode .hero-content .hero-hanja { opacity:0; transition:opacity .4s ease; }
+.bulsa-tab {
+  padding:12px 24px; border-radius:24px; font-size:.88rem; font-weight:600;
+  border:1.5px solid rgba(255,255,255,.2); color:rgba(255,255,255,.7);
+  transition:var(--transition); background:rgba(255,255,255,.06);
+}
+.bulsa-tab:hover { border-color:var(--color-gold); color:var(--color-gold-light); }
+.bulsa-tab.active { background:var(--color-gold); color:#fff; border-color:var(--color-gold); }
+.bulsa-panel { display:none; margin-top:32px; }
+.bulsa-panel.active { display:block; }
+.bulsa-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;
+}
+.bulsa-card {
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+  border-radius:var(--radius-lg); padding:28px 20px; text-align:center;
+  transition:var(--transition);
+}
+.bulsa-card:hover { background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.2); }
+.bulsa-card h4 { font-size:.95rem; font-weight:600; margin-bottom:8px; color:#fff; }
+.bulsa-card .price {
+  font-family:var(--font-display); font-size:1.6rem; font-weight:700;
+  color:var(--color-gold-light); margin:8px 0;
+}
+.bulsa-card p { font-size:.78rem; color:rgba(255,255,255,.55); line-height:1.6; }
+
+/* Heritage compact cards for small treasures */
+.heritage-compact-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px; margin-top:32px;
+}
+.heritage-compact {
+  background:var(--color-card); border:1px solid var(--color-border);
+  border-radius:var(--radius-lg); overflow:hidden; transition:var(--transition);
+}
+.heritage-compact:hover { box-shadow:var(--shadow-md); border-color:var(--color-gold-light); }
+.heritage-compact-img { height:200px; overflow:hidden; position:relative; }
+.heritage-compact-img img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+.heritage-compact:hover .heritage-compact-img img { transform:scale(1.05); }
+.heritage-compact-body { padding:20px; }
+.heritage-compact-body h4 {
+  font-family:var(--font-serif); font-size:1rem; font-weight:700;
+  color:var(--color-dark); margin-bottom:8px;
+}
+.heritage-compact-body p { font-size:.82rem; color:var(--color-text-light); line-height:1.75; }
+.heritage-compact-body .badge-row { display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap; }
+.heritage-compact-body .badge-row span {
+  font-size:.65rem; font-weight:600; padding:3px 10px; border-radius:12px;
+  background:rgba(44,95,45,.08); color:var(--color-accent);
+}
 
 @media(max-width:768px){
-  .hero-toggle { top:12px; right:12px; padding:5px 12px; }
-  .hero-toggle-label { font-size:.65rem; }
-  .hero-toggle-switch { width:30px; height:16px; }
-  .hero-toggle-switch::after { width:12px; height:12px; }
-  .hero-toggle.active .hero-toggle-switch::after { left:16px; }
+  .bulsa-tabs { gap:6px; }
+  .bulsa-tab { padding:10px 16px; font-size:.8rem; }
+  .bulsa-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+  .bulsa-card { padding:20px 14px; }
+  .bulsa-card .price { font-size:1.3rem; }
+  .heritage-compact-grid { grid-template-columns:1fr; }
 }
+@media(max-width:480px){
+  .bulsa-grid { grid-template-columns:1fr; }
+}
+
+/* ============================================
+   PARTICLE HERO (auto-play once, no toggle)
+   ============================================ */
+#particleCanvas {
+  position:absolute; left:0; top:0; width:100%; height:100%;
+  z-index:2; pointer-events:none;
+}
+.hero-content { position:relative; z-index:3; }
+.hero-content h1,
+.hero-content .hero-hanja { visibility:hidden; }
+.hero-content.particle-done h1,
+.hero-content.particle-done .hero-hanja { visibility:visible; }
 </style>
 </head>
 <body>
@@ -839,7 +908,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
       <a href="#history">연혁</a>
       <a href="#components">학습관</a>
       <a href="#templestay">템플스테이</a>
-      <a href="#indung">인등불사</a>
+      <a href="#indung">불사동참</a>
       <a href="#visit">오시는길</a>
       <a href="tel:061-864-2055" class="nav-cta">📞 문의</a>
     </div>
@@ -856,7 +925,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   <a href="#history" onclick="closeMobile()">📜 연혁</a>
   <a href="#components" onclick="closeMobile()">📚 학습관</a>
   <a href="#templestay" onclick="closeMobile()">🍵 템플스테이</a>
-  <a href="#indung" onclick="closeMobile()">🕯 인등불사</a>
+  <a href="#indung" onclick="closeMobile()">🕯 불사동참</a>
   <a href="#visit" onclick="closeMobile()">🗺 오시는길</a>
   <a href="tel:061-864-2055">📞 061-864-2055</a>
 </div>
@@ -865,10 +934,6 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
   <canvas id="particleCanvas"></canvas>
-  <div class="hero-toggle" id="heroToggle" onclick="toggleParticleHero()">
-    <span class="hero-toggle-label">✦ 파티클</span>
-    <div class="hero-toggle-switch"></div>
-  </div>
   <div class="hero-content">
     <div class="hero-badge">☸ 교학에서 선(禪)으로 · 가지산문의 종가</div>
     <h1>보림사</h1>
@@ -951,6 +1016,24 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 </section>
 
 <!-- ==================== ABOUT ==================== -->
+
+<!-- ==================== GREETING (주지스님 인사말) ==================== -->
+<section class="section greeting-section">
+  <div class="section-inner">
+    <p class="section-label">Greeting from Abbot</p>
+    <h2 class="section-title">주지스님 인사말</h2>
+    <div class="greeting-layout fade-in" style="grid-template-columns:1fr;">
+      <div class="greeting-text">
+        <p>보림(寶林)은 보배로운 숲이라는 뜻입니다. 도량 일대 가지산 자락을 거닐자면 그 수식어가 결코 허황되지 않음을 느낍니다. 비자림의 신선한 공기에 섞여 감도는 차 향기는 지금으로부터 1,400년 전 선사들께서 중국에서 들여와 심어두셨던 그 차나무들의 숨결입니다.</p>
+        <p>대한불교조계종의 종조 도의국사께서 개창한 가지산문 중심 사찰인 저희 보림사는 달마의 선법(禪法)을 이어받아 그 오롯한 수행의 정신을 지켜 온 아홉 갈래 선문(禪門) 중 제1의 선문으로, 우리나라 불교에 선禪을 뿌리내린 시작점이자 선종대가람, 즉 선의 종가라 할 수 있습니다.</p>
+        <p>조선의 억불과 6.25 전란, 근현대의 역사적 부침 속에서 전각 손실과 사찰 토지 대부분의 망실을 겪었지만, 대적광전 무쇠 비로자나불의 강인함과 부처님의 진신사리가 깃든 한 쌍의 삼층 석탑이 꿋꿋한 석등의 빛을 타고 새벽녘 절 마당을 두루 깨울 때, 이 터의 보배로움에 크나큰 책임감을 느낍니다.</p>
+        <p class="signature">합장 — 보림사 주지 정응 배상</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ABOUT ==================== -->
 <section class="section" id="intro" style="background:var(--color-bg-alt);">
   <div class="section-inner">
     <p class="section-label">About Temple</p>
@@ -984,7 +1067,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
         </div>
       </div>
       <div class="about-images fade-in">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/800px-Borimsa_Daeungjeon_11-05025.JPG"
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-dharmahall_jggvn9"
              alt="보림사 대웅보전" style="width:100%;">
       </div>
     </div>
@@ -1004,133 +1087,128 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 
     <div class="heritage-grid">
 
-      <!-- 철조비로자나불좌상 -->
+      <!-- 국보 제117호: 철조비로자나불좌상 -->
       <div class="heritage-card fade-in">
         <div class="heritage-card-inner">
           <div class="heritage-img">
-            <img src="https://res.cloudinary.com/db3izttcy/image/upload/Borimsa_Iron_Buddha1_khhlv3"
-                 alt="철조비로자나불좌상" loading="lazy">
-            <div class="heritage-badge">
-              <span>국보 제117호</span>
-              <span>858년 조성</span>
-            </div>
+            <img src="https://res.cloudinary.com/db3izttcy/image/upload/Borimsa_Iron_Buddha1_khhlv3" alt="철조비로자나불좌상" loading="lazy">
+            <div class="heritage-badge"><span>국보 제117호</span><span>858년 조성</span></div>
           </div>
           <div class="heritage-body">
             <h3>절대 연대를 품은 최초의 철불<br>— 철조비로자나불좌상</h3>
-            <p>
-              한국에서 제작 연대가 확실한 가장 오래된 철불입니다.
-              불상 왼팔 뒷면에 858년 장사현 부수 김언경이 철 2,500근을 시주하여
-              조성했다는 명문이 새겨져 있어, 한국 금속공예사와 미술사의
-              절대적 기준점이 됩니다.
-            </p>
-            <blockquote>
-              왼손 검지를 오른손으로 감싸 쥔 지권인(智拳印)은 중생과 부처,
-              번뇌와 깨달음이 본래 하나라는 선종의 핵심 철학을 철로 주조해 시각화한 것입니다.
-            </blockquote>
-            <p>
-              개인의 지극한 신심이 천년의 국보를 탄생시킨 사례로,
-              관리 한 사람의 봉급을 아껴 시주한 정성이 오늘날까지 빛나고 있습니다.
-            </p>
-            <div class="heritage-detail">
-              <span>비로자나불</span><span>지권인 수인</span><span>김언경 시주</span><span>대적광전 봉안</span>
-            </div>
+            <p>한국에서 제작 연대가 확실한 가장 오래된 철불입니다. 불상 왼팔 뒷면에 858년 장사현 부수 김언경이 철 2,500근을 시주하여 조성했다는 명문이 새겨져 있어, 한국 금속공예사와 미술사의 절대적 기준점이 됩니다.</p>
+            <blockquote>왼손 검지를 오른손으로 감싸 쥔 지권인(智拳印)은 중생과 부처, 번뇌와 깨달음이 본래 하나라는 선종의 핵심 철학을 철로 주조해 시각화한 것입니다.</blockquote>
+            <div class="heritage-detail"><span>비로자나불</span><span>지권인 수인</span><span>김언경 시주</span><span>대적광전 봉안</span></div>
           </div>
         </div>
       </div>
 
-      <!-- 남·북 삼층석탑 및 석등 -->
+      <!-- 국보 제44호: 남·북 삼층석탑 및 석등 -->
       <div class="heritage-card fade-in">
         <div class="heritage-card-inner">
           <div class="heritage-img">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Borimsa_Seoktap_11-05026.JPG/640px-Borimsa_Seoktap_11-05026.JPG"
-                 alt="남북 삼층석탑 및 석등" loading="lazy">
-            <div class="heritage-badge">
-              <span>국보 제44호</span>
-              <span>870년 건립</span>
-            </div>
+            <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-nt44_vmceyo" alt="남북 삼층석탑 및 석등" loading="lazy">
+            <div class="heritage-badge"><span>국보 제44호</span><span>870년 건립</span></div>
           </div>
           <div class="heritage-body">
             <h3>완벽한 비례미의 결정체<br>— 남·북 삼층석탑과 석등</h3>
-            <p>
-              대적광전 앞마당에 남·북으로 나란히 선 쌍탑과 그 사이의 석등은
-              통일신라 석조 예술의 전형을 보여주는 국보입니다.
-              남탑 5.4m, 북탑 5.9m로 기단부터 상륜부까지 훼손 없이
-              완벽히 보존되어 있습니다.
-            </p>
-            <blockquote>
-              1933년 북탑 해체 보수 시 내부에서 발견된 납석제 석탑지(石塔誌)에
-              870년(경문왕 10년)이라는 명확한 건립 연대가 기록되어 있어,
-              후대 수리 기록까지 품은 '타임캡슐'과 같은 유물입니다.
-            </blockquote>
-            <p>
-              화사석 석등은 부처의 지혜가 온 세상을 비춘다는 상징을
-              섬세한 8각 조형미로 승화시켰습니다.
-            </p>
-            <div class="heritage-detail">
-              <span>통일신라 석탑 전형</span><span>석탑지 발견</span><span>경문왕 10년</span>
-            </div>
+            <p>대적광전 앞마당에 남·북으로 나란히 선 쌍탑과 그 사이의 석등은 통일신라 석조 예술의 전형을 보여주는 국보입니다. 남탑 5.4m, 북탑 5.9m로 기단부터 상륜부까지 훼손 없이 완벽히 보존되어 있습니다.</p>
+            <blockquote>1933년 북탑 해체 보수 시 내부에서 발견된 납석제 석탑지(石塔誌)에 870년(경문왕 10년)이라는 명확한 건립 연대와 후대 수리 기록이 담겨 있어, '돌 속의 타임캡슐'과 같습니다.</blockquote>
+            <div class="heritage-detail"><span>통일신라 석탑 전형</span><span>석탑지 발견</span><span>3점 (석탑 2기 + 석등 1기)</span></div>
           </div>
         </div>
       </div>
 
-      <!-- 목조 사천왕상 -->
+      <!-- 보물 제1254호: 목조사천왕상 -->
       <div class="heritage-card fade-in">
         <div class="heritage-card-inner">
           <div class="heritage-img">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Borimsa_Sacheonwang_11-05168.JPG/640px-Borimsa_Sacheonwang_11-05168.JPG"
-                 alt="목조 사천왕상" loading="lazy">
-            <div class="heritage-badge">
-              <span>보물 제1254호</span>
-              <span>1515년 제작</span>
-            </div>
+            <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t1254-1_cwvugo" alt="목조 사천왕상" loading="lazy">
+            <div class="heritage-badge"><span>보물 제1254호</span><span>조선시대</span></div>
           </div>
           <div class="heritage-body">
             <h3>조선 목조각의 걸작<br>— 목조 사천왕상</h3>
-            <p>
-              임진왜란 이전에 제작된 유일한 목조 사천왕상으로,
-              높이 3.7m의 당당한 위용을 자랑합니다.
-              험악함 대신 인자하고 부드러운 미소를 머금고 있으며,
-              유리로 만든 녹색 눈동자가 생생한 생명감을 불어넣습니다.
-            </p>
-            <blockquote>
-              1995년 해체 보수 중 사천왕상 내부에서 《월인석보》 등
-              227종 345권의 조선 전기 고문헌이 발견되었습니다.
-              500년간 전란 속에서 불교 문화의 정수를 지켜낸 '성스러운 도서관'이었던 셈입니다.
-            </blockquote>
-            <div class="heritage-detail">
-              <span>임진왜란 이전 유일</span><span>복장 유물 345권</span><span>월인석보 발견</span>
-            </div>
+            <p>임진왜란 이전에 제작된 유일한 목조 사천왕상으로, 높이 3.7m의 당당한 위용에 인자하고 부드러운 미소를 머금고 있습니다. 유리로 만든 녹색 눈동자가 생생한 생명감을 불어넣습니다.</p>
+            <blockquote>1995년 해체 보수 중 사천왕상 내부에서 《월인석보》(보물 제745-9호), 《금강경삼가해》(보물 제772-3호), 《상교정본자비도량참법》(보물 제1252호) 등 227종 345권의 조선 전기 고문헌이 발견되었습니다.</blockquote>
+            <div class="heritage-detail"><span>임진왜란 이전 유일</span><span>4구</span><span>복장 유물 345권</span></div>
           </div>
         </div>
       </div>
 
-      <!-- 보조선사 창성탑비 -->
+      <!-- 보물 제158호: 보조선사 창성탑비 -->
       <div class="heritage-card fade-in">
         <div class="heritage-card-inner">
-          <div class="heritage-img" style="background:linear-gradient(135deg, var(--color-bg-alt), var(--color-border)); display:flex; align-items:center; justify-content:center; min-height:280px;">
-            <div style="text-align:center; padding:32px;">
-              <div style="font-size:4rem; margin-bottom:16px;">🗿</div>
-              <div style="font-family:var(--font-serif); font-size:1.1rem; color:var(--color-text-light);">보물 제158호</div>
-            </div>
+          <div class="heritage-img">
+            <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t158_ysw0n9" alt="보조선사 창성탑비" loading="lazy">
+            <div class="heritage-badge"><span>보물 제158호</span><span>884년 건립</span></div>
           </div>
           <div class="heritage-body">
             <h3>창건의 주역을 기리다<br>— 보조선사 창성탑비</h3>
-            <p>
-              884년에 건립된 이 비석은 보조선사 체징의 생애와
-              가지산문의 법맥 계승 과정을 생생히 기록하고 있습니다.
-              신라 하대 선종 사상의 흐름을 담은 역사서이자,
-              서예사적으로도 매우 중요한 유물입니다.
-            </p>
-            <p>
-              철불을 시주했던 김언경이 행서(行書)로 새긴 비문으로,
-              글씨를 쓴 사람의 이름이 기록된 가장 오래된 예 중 하나입니다.
-              거북 받침돌 위의 용 조각은 신라 하대 석비 양식의
-              장엄함과 뛰어난 조각 기술의 결정체를 보여줍니다.
-            </p>
-            <div class="heritage-detail">
-              <span>884년 건립</span><span>김언경 행서</span><span>선종 역사 기록</span>
-            </div>
+            <p>884년에 건립된 이 비석은 보조선사 체징의 생애와 가지산문의 법맥 계승 과정을 생생히 기록한 역사서입니다. 철불을 시주했던 김언경이 행서(行書)로 새긴 비문으로, 글씨를 쓴 사람의 이름이 기록된 가장 오래된 예 중 하나입니다.</p>
+            <div class="heritage-detail"><span>통일신라</span><span>김언경 행서</span><span>선종 역사 기록</span></div>
           </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 추가 문화유산 (보물) -->
+    <div style="margin-top:48px;">
+      <h3 style="font-family:var(--font-serif); font-size:1.3rem; font-weight:700; color:var(--color-dark); margin-bottom:8px;">보림사의 보물들</h3>
+      <p style="font-size:.88rem; color:var(--color-text-light); margin-bottom:24px;">가지산문의 법맥을 잇는 소중한 유산들이 경내 곳곳에 배치되어 있습니다</p>
+    </div>
+
+    <div class="heritage-compact-grid">
+
+      <!-- 보물 제157호: 보조선사탑 -->
+      <div class="heritage-compact fade-in">
+        <div class="heritage-compact-img">
+          <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t157_ldejw7" alt="보조선사탑" loading="lazy">
+        </div>
+        <div class="heritage-compact-body">
+          <div class="badge-row"><span>보물 제157호</span><span>통일신라</span></div>
+          <h4>보조선사 창성탑 (부도)</h4>
+          <p>보조선사 체징의 사리를 모신 승탑으로, 팔각원당형의 단아한 형태가 통일신라 후기 석조 기술의 높은 수준을 보여줍니다. 기단부의 사자와 구름 조각이 섬세합니다.</p>
+        </div>
+      </div>
+
+      <!-- 보물 제155호: 동 승탑 -->
+      <div class="heritage-compact fade-in">
+        <div class="heritage-compact-img">
+          <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t155_lcdngb" alt="동 승탑" loading="lazy">
+        </div>
+        <div class="heritage-compact-body">
+          <div class="badge-row"><span>보물 제155호</span><span>통일신라</span></div>
+          <h4>동 승탑 (東僧塔)</h4>
+          <p>보림사 동쪽에 위치한 팔각원당형 부도로, 통일신라 후기의 전형적인 승탑 양식을 보여줍니다. 기단과 탑신의 조각이 정교하며, 상륜부까지 비교적 완전한 형태를 유지하고 있습니다.</p>
+        </div>
+      </div>
+
+      <!-- 보물 제156호: 서 승탑 -->
+      <div class="heritage-compact fade-in">
+        <div class="heritage-compact-img">
+          <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t156_epe5g3" alt="서 승탑" loading="lazy">
+        </div>
+        <div class="heritage-compact-body">
+          <div class="badge-row"><span>보물 제156호</span><span>고려시대</span></div>
+          <h4>서 승탑 (西僧塔)</h4>
+          <p>고려시대에 제작된 2기의 승탑으로, 동 승탑과 함께 보림사의 법맥이 고려까지 이어졌음을 증명합니다. 섬세한 조각미가 돋보이는 팔각원당형 부도입니다.</p>
+        </div>
+      </div>
+
+      <!-- 복장 유물 (월인석보·금강경삼가해·상교정본자비도량참법) -->
+      <div class="heritage-compact fade-in">
+        <div class="heritage-compact-img" style="background:linear-gradient(135deg,var(--color-accent-dark),#2a3a28); display:flex; align-items:center; justify-content:center;">
+          <div style="text-align:center; color:#fff; padding:24px;">
+            <div style="font-size:2.5rem; margin-bottom:8px;">📚</div>
+            <span style="font-size:.85rem; font-weight:600;">사천왕상 복장 유물</span><br>
+            <span style="font-size:.72rem; opacity:.7;">보물 3건 · 조선시대 전적류</span>
+          </div>
+        </div>
+        <div class="heritage-compact-body">
+          <div class="badge-row"><span>보물 제745-9호</span><span>보물 제772-3호</span><span>보물 제1252호</span></div>
+          <h4>월인석보 · 금강경삼가해 · 자비도량참법</h4>
+          <p>사천왕상 내부(복장)에서 발견된 국보급 전적류. 《월인석보》(권25), 《금강경삼가해》(권1), 《상교정본자비도량참법》(권9·10) 등 500년간 전란 속에서 보존된 불교 문화의 정수입니다.</p>
         </div>
       </div>
 
@@ -1399,39 +1477,149 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   </div>
 </section>
 
-<!-- ==================== INDUNG (인등불사) ==================== -->
+<!-- ==================== 불사동참 ==================== -->
 <section class="section indung-section" id="indung">
   <div class="section-inner">
-    <p class="section-label">Offering of Light</p>
-    <h2 class="section-title">인등불사</h2>
-    <p class="section-desc">가지산 천년 도량에 불을 밝혀 소원을 이루세요</p>
-    <div class="indung-grid">
-      <div class="indung-card">
-        <div style="font-size:2rem; margin-bottom:8px;">🕯️</div>
-        <h4>기본 인등</h4>
-        <div class="price">₩30,000<span style="font-size:.8rem; font-weight:400;">/월</span></div>
-        <p>매일 법회 시 스님이 직접 독송<br>월 1회 기도 회향 및 문자 발송</p>
+    <p class="section-label">Buddhist Offerings</p>
+    <h2 class="section-title">불사 동참</h2>
+    <p class="section-desc">천일기도 · 연등 · 땅한평사기 등 가지산 보림사 불사에 동참하세요</p>
+
+    <div class="bulsa-tabs" id="bulsaTabs">
+      <button class="bulsa-tab active" onclick="switchBulsa('lantern',this)">🪔 연등 · 인등</button>
+      <button class="bulsa-tab" onclick="switchBulsa('prayer',this)">🙏 기도</button>
+      <button class="bulsa-tab" onclick="switchBulsa('annual',this)">📿 년중기도</button>
+      <button class="bulsa-tab" onclick="switchBulsa('land',this)">🏔 땅한평사기</button>
+    </div>
+
+    <!-- 폴더1: 연등·인등 -->
+    <div class="bulsa-panel active" id="bulsa-lantern">
+      <div class="bulsa-grid">
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🏮</div>
+          <h4>대웅전 사업번창등</h4>
+          <div class="price">₩1,000,000</div>
+          <p>사업 번창과 가정 안녕을 위한<br>대웅전 특별 봉헌등</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🕯️</div>
+          <h4>대웅보전 대등</h4>
+          <div class="price">₩500,000</div>
+          <p>대웅보전 중앙에 봉안되는<br>대형 기원등</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🪔</div>
+          <h4>대웅보전 연등</h4>
+          <div class="price">₩150,000</div>
+          <p>대웅보전 연등으로<br>가족 건강과 행복 기원</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🌙</div>
+          <h4>명부전 영가등</h4>
+          <div class="price">₩50,000</div>
+          <p>선망 영가의<br>극락왕생 기원</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">✨</div>
+          <h4>대적광전 인등</h4>
+          <div class="price">₩50,000</div>
+          <p>국보 철불 앞 인등으로<br>소원 성취 기원</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">⛩️</div>
+          <h4>삼성각 연등</h4>
+          <div class="price">₩100,000</div>
+          <p>삼성각 봉안 연등으로<br>삼보 귀의 기원</p>
+        </div>
       </div>
-      <div class="indung-card">
-        <div style="font-size:2rem; margin-bottom:8px;">🌟</div>
-        <h4>삼구 인등</h4>
-        <div class="price">₩80,000<span style="font-size:.8rem; font-weight:400;">/월</span></div>
-        <p>가족 3인 동시 기원<br>분기별 회향 증명서 발송</p>
-        <span class="tag">Family</span>
+    </div>
+
+    <!-- 폴더2: 기도 -->
+    <div class="bulsa-panel" id="bulsa-prayer">
+      <div class="bulsa-grid">
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🔥</div>
+          <h4>천일기도</h4>
+          <div class="price">₩1,000,000</div>
+          <p>1,000일간 매일 스님이<br>독경·기도 회향</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">⭐</div>
+          <h4>특별기도</h4>
+          <div class="price">₩500,000</div>
+          <p>특별한 소원 성취를 위한<br>집중 기도 회향</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">📅</div>
+          <h4>일년기도</h4>
+          <div class="price">₩300,000</div>
+          <p>365일 매일 법회 시<br>기도 봉독 및 회향</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">💫</div>
+          <h4>백일기도</h4>
+          <div class="price">₩100,000</div>
+          <p>100일간 정진 기도<br>회향 문자 발송</p>
+        </div>
       </div>
-      <div class="indung-card">
-        <div style="font-size:2rem; margin-bottom:8px;">📿</div>
-        <h4>연간 인등</h4>
-        <div class="price">₩300,000<span style="font-size:.8rem; font-weight:400;">/년</span></div>
-        <p>1년 등록 시 2개월 무료<br>정기 법회 우선 참석권</p>
-        <span class="tag">2개월 무료</span>
+    </div>
+
+    <!-- 폴더3: 년중기도 -->
+    <div class="bulsa-panel" id="bulsa-annual">
+      <div class="bulsa-grid">
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🎍</div>
+          <h4>정초기도</h4>
+          <div class="price">₩50,000</div>
+          <p>새해 첫 기도로<br>한 해 무병장수 기원</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🌕</div>
+          <h4>초하루기도</h4>
+          <div class="price">₩30,000</div>
+          <p>매월 음력 1일<br>새 달 기도 동참</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🛡️</div>
+          <h4>삼재기도</h4>
+          <div class="price">₩50,000</div>
+          <p>삼재 소멸과<br>재앙 퇴치 기원</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">🏮</div>
+          <h4>백중기도</h4>
+          <div class="price">₩50,000</div>
+          <p>음력 7월 15일<br>조상 천도 기원</p>
+        </div>
+        <div class="bulsa-card">
+          <div style="font-size:1.8rem; margin-bottom:6px;">❄️</div>
+          <h4>동지기도</h4>
+          <div class="price">₩50,000</div>
+          <p>동지 팥죽과 함께<br>액운 소멸 기원</p>
+        </div>
       </div>
-      <div class="indung-card">
-        <div style="font-size:2rem; margin-bottom:8px;">🙏</div>
-        <h4>49재·천도재</h4>
-        <div class="price" style="font-size:1.2rem;">별도 문의</div>
-        <p>선망 영가 극락왕생 기원<br>사전 예약 필수</p>
+    </div>
+
+    <!-- 폴더4: 땅한평사기 -->
+    <div class="bulsa-panel" id="bulsa-land">
+      <div class="bulsa-grid" style="max-width:400px;">
+        <div class="bulsa-card" style="padding:40px 28px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">🏔</div>
+          <h4>땅 한 평 사기</h4>
+          <div class="price">₩200,000<span style="font-size:.7rem; font-weight:400; color:rgba(255,255,255,.5);"> / 1평</span></div>
+          <p style="margin-top:12px; font-size:.85rem; color:rgba(255,255,255,.7); line-height:1.8;">
+            가지산 보림사 도량의 땅 한 평을<br>
+            불자님의 이름으로 봉헌합니다.<br>
+            선종대가람의 복원과 천년 법맥의<br>
+            이음에 동참하시는 귀한 불사입니다.
+          </p>
+        </div>
       </div>
+    </div>
+
+    <div style="margin-top:40px; text-align:center; position:relative; z-index:1;">
+      <p style="font-size:.82rem; color:rgba(255,255,255,.5); margin-bottom:16px;">
+        문의 및 접수: <a href="tel:061-864-2055" style="color:var(--color-gold-light); font-weight:600;">061-864-2055</a>
+      </p>
     </div>
   </div>
 </section>
@@ -1444,7 +1632,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <p class="section-desc">천년 고찰의 사계와 문화유산</p>
     <div class="gallery-grid">
       <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Borimsa_Daeungjeon_11-05025.JPG/640px-Borimsa_Daeungjeon_11-05025.JPG" alt="보림사 대웅보전" loading="lazy">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-dharmahall_jggvn9" alt="보림사 대웅보전" loading="lazy">
         <div class="gallery-overlay"><span>대웅보전</span></div>
       </div>
       <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
@@ -1452,26 +1640,20 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
         <div class="gallery-overlay"><span>철조비로자나불좌상 · 국보</span></div>
       </div>
       <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Borimsa_Seoktap_11-05026.JPG/640px-Borimsa_Seoktap_11-05026.JPG" alt="삼층석탑" loading="lazy">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-nt44_vmceyo" alt="삼층석탑" loading="lazy">
         <div class="gallery-overlay"><span>남·북 삼층석탑 · 국보</span></div>
       </div>
       <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Borimsa_Sacheonwang_11-05168.JPG/640px-Borimsa_Sacheonwang_11-05168.JPG" alt="사천왕상" loading="lazy">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t1254-1_cwvugo" alt="사천왕상" loading="lazy">
         <div class="gallery-overlay"><span>목조 사천왕상 · 보물</span></div>
       </div>
-      <div class="gallery-item" style="background:linear-gradient(135deg,#2C5F2D,#4A8B4C); display:flex; align-items:center; justify-content:center;">
-        <div style="text-align:center; color:#fff; padding:24px;">
-          <div style="font-size:2.5rem; margin-bottom:8px;">🌿</div>
-          <span style="font-size:.9rem; font-weight:600;">비자나무 숲</span><br>
-          <span style="font-size:.75rem; opacity:.7;">수령 300년 치유의 숲</span>
-        </div>
+      <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2026-03-20_%EC%98%A4%EC%A0%84_12.29.22_zyc7hl" alt="비자나무 숲" loading="lazy">
+        <div class="gallery-overlay"><span>비자나무 숲 · 수령 300년</span></div>
       </div>
-      <div class="gallery-item" style="background:linear-gradient(135deg,var(--color-gold-dark),var(--color-gold)); display:flex; align-items:center; justify-content:center;">
-        <div style="text-align:center; color:#fff; padding:24px;">
-          <div style="font-size:2.5rem; margin-bottom:8px;">🍵</div>
-          <span style="font-size:.9rem; font-weight:600;">다선일미</span><br>
-          <span style="font-size:.75rem; opacity:.7;">야생 차나무밭 차 명상</span>
-        </div>
+      <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t157_ldejw7" alt="보조선사탑" loading="lazy">
+        <div class="gallery-overlay"><span>보조선사 창성탑 · 보물</span></div>
       </div>
     </div>
   </div>
@@ -1523,7 +1705,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     </div>
     <div class="footer-col">
       <h4>수행 · 체험</h4>
-      <a href="#indung">인등불사</a>
+      <a href="#indung">불사동참</a>
       <a href="#templestay">템플스테이</a>
       <a href="#components">학습관</a>
       <a href="https://www.templestay.com" target="_blank">한국 템플스테이</a>
@@ -1532,7 +1714,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
       <h4>연락처</h4>
       <a href="tel:061-864-2055">📞 061-864-2055</a>
       <a href="#visit">📍 전남 장흥 유치면</a>
-      <a href="#indung">🕯 인등불사 신청</a>
+      <a href="#indung">🕯 불사동참 신청</a>
       <a href="#templestay">🏔 템플스테이 예약</a>
     </div>
   </div>
@@ -1757,187 +1939,106 @@ function updateSlideCounter() {
   if(c) c.textContent = `${slideIdx + 1} / ${slideCount}`;
 }
 
-// ===== PARTICLE HERO ENGINE =====
-let particleActive = false;
-let particleAnimId = null;
-let particles = [];
-let particleWordIdx = 0;
-const particleWords = ['보림사', '寶林寺'];
-let particleFrameCount = 0;
+// ===== BULSA TABS =====
+function switchBulsa(name, btn) {
+  document.querySelectorAll('.bulsa-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.bulsa-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('bulsa-' + name).classList.add('active');
+  btn.classList.add('active');
+}
 
-class HeroParticle {
-  constructor() {
-    this.x = 0; this.y = 0;
-    this.vx = 0; this.vy = 0;
-    this.tx = 0; this.ty = 0;
-    this.size = 2;
-    this.maxSpd = 12; // fast
-    this.maxForce = 0.6;
-    this.cr = 196; this.cg = 173; this.cb = 116; // gold color
-    this.tcr = 196; this.tcg = 173; this.tcb = 116;
-    this.cw = 0;
-    this.dead = false;
+// ===== PARTICLE HERO (auto-play once, no toggle) =====
+(function(){
+  const WORDS = ['보림사', '寶林寺'];
+  const HOLD = 150, SCATTER = 60;
+  let pts=[], animId, phase='assemble', wIdx=0, fc=0, cv, cx;
+
+  class P {
+    constructor(tx,ty,w,h){
+      const a=Math.random()*Math.PI*2, m=(w+h)/2;
+      this.x=w/2+Math.cos(a)*m; this.y=h/2+Math.sin(a)*m;
+      this.vx=0;this.vy=0;this.tx=tx;this.ty=ty;
+      this.sz=Math.random()*2.2+1.2;
+      this.spd=Math.random()*8+10; this.frc=this.spd*0.06;
+      const g=[[196,173,116],[155,134,84],[220,200,140],[255,235,180],[180,160,100]];
+      const c=g[Math.floor(Math.random()*g.length)];
+      this.r=c[0];this.g=c[1];this.b=c[2];this.a=1;
+    }
+    seek(){
+      const dx=this.tx-this.x,dy=this.ty-this.y,d=Math.sqrt(dx*dx+dy*dy);
+      const p=d<80?d/80:1,mg=d||1;
+      const sx=(dx/mg)*this.spd*p-this.vx,sy=(dy/mg)*this.spd*p-this.vy;
+      const sm=Math.sqrt(sx*sx+sy*sy)||1;
+      this.vx+=(sx/sm)*this.frc;this.vy+=(sy/sm)*this.frc;
+      this.x+=this.vx;this.y+=this.vy;
+    }
+    flee(w,h){
+      const a=Math.random()*Math.PI*2;
+      this.tx=w/2+Math.cos(a)*(w+h);this.ty=h/2+Math.sin(a)*(w+h);
+      this.spd=Math.random()*6+6;this.frc=this.spd*0.04;
+    }
+    draw(c){c.fillStyle=`rgba(${this.r},${this.g},${this.b},${this.a})`;c.fillRect(this.x,this.y,this.sz,this.sz);}
   }
-  move() {
-    const dx = this.tx - this.x, dy = this.ty - this.y;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    const prox = dist < 80 ? dist / 80 : 1;
-    const mag = Math.sqrt(dx*dx + dy*dy) || 1;
-    const sx = (dx/mag) * this.maxSpd * prox - this.vx;
-    const sy = (dy/mag) * this.maxSpd * prox - this.vy;
-    const sm = Math.sqrt(sx*sx + sy*sy) || 1;
-    this.vx += (sx/sm) * this.maxForce;
-    this.vy += (sy/sm) * this.maxForce;
-    this.x += this.vx; this.y += this.vy;
-    if(this.cw < 1) this.cw = Math.min(this.cw + 0.02, 1);
-  }
-  draw(ctx) {
-    const r = Math.round(this.cr + (this.tcr - this.cr) * this.cw);
-    const g = Math.round(this.cg + (this.tcg - this.cg) * this.cw);
-    const b = Math.round(this.cb + (this.tcb - this.cb) * this.cw);
-    ctx.fillStyle = `rgb(${r},${g},${b})`;
-    ctx.fillRect(this.x, this.y, this.size, this.size);
-  }
-  kill(w, h) {
-    if(!this.dead) {
-      const angle = Math.random() * Math.PI * 2;
-      const mag = (w + h) / 2;
-      this.tx = w/2 + Math.cos(angle) * mag;
-      this.ty = h/2 + Math.sin(angle) * mag;
-      this.tcr = 0; this.tcg = 0; this.tcb = 0;
-      this.cr += (this.tcr - this.cr) * this.cw;
-      this.cg += (this.tcg - this.cg) * this.cw;
-      this.cb += (this.tcb - this.cb) * this.cw;
-      this.cw = 0;
-      this.dead = true;
+
+  function makeWord(w){
+    const o=document.createElement('canvas');o.width=cv.width;o.height=cv.height;
+    const c=o.getContext('2d'), fs=Math.min(cv.width*0.16,160);
+    c.fillStyle='#fff';c.font=`900 ${fs}px "Noto Serif KR",serif`;
+    c.textAlign='center';c.textBaseline='middle';
+    c.fillText(w,cv.width/2,cv.height*0.38);
+    const d=c.getImageData(0,0,cv.width,cv.height).data,co=[];
+    for(let i=0;i<d.length;i+=16) if(d[i+3]>0) co.push(i);
+    for(let i=co.length-1;i>0;i--){const j=0|Math.random()*(i+1);[co[i],co[j]]=[co[j],co[i]];}
+    pts=[];
+    for(const ci of co){
+      const px=(ci/4)%cv.width,py=Math.floor(ci/4/cv.width);
+      pts.push(new P(px,py,cv.width,cv.height));
     }
   }
-}
 
-function spawnWord(word, canvas) {
-  const off = document.createElement('canvas');
-  off.width = canvas.width; off.height = canvas.height;
-  const oc = off.getContext('2d');
-  const fontSize = Math.min(canvas.width * 0.18, 180);
-  oc.fillStyle = '#fff';
-  oc.font = `900 ${fontSize}px "Noto Serif KR", serif`;
-  oc.textAlign = 'center';
-  oc.textBaseline = 'middle';
-  oc.fillText(word, canvas.width / 2, canvas.height / 2);
-  const imgData = oc.getImageData(0, 0, canvas.width, canvas.height).data;
-  const step = 4;
-  const gold = [
-    {r:196,g:173,b:116}, {r:155,g:134,b:84}, {r:220,g:200,b:140},
-    {r:180,g:160,b:100}, {r:255,g:235,b:180}
-  ];
-  const clr = gold[Math.floor(Math.random() * gold.length)];
-  const coords = [];
-  for(let i = 0; i < imgData.length; i += step * 4) {
-    if(imgData[i+3] > 0) coords.push(i);
+  function init(){
+    const hero=document.getElementById('hero');
+    cv=document.getElementById('particleCanvas');
+    if(!cv||!hero)return false;
+    const dp=window.devicePixelRatio>1?1.5:1;
+    cv.width=hero.offsetWidth*dp;cv.height=hero.offsetHeight*dp;
+    cv.style.width='100%';cv.style.height='100%';
+    cx=cv.getContext('2d');return true;
   }
-  // shuffle
-  for(let i = coords.length -1; i > 0; i--) {
-    const j = Math.floor(Math.random()*(i+1));
-    [coords[i], coords[j]] = [coords[j], coords[i]];
-  }
-  let pi = 0;
-  for(const ci of coords) {
-    const px = (ci/4) % canvas.width;
-    const py = Math.floor(ci / 4 / canvas.width);
-    let p;
-    if(pi < particles.length) {
-      p = particles[pi]; p.dead = false; pi++;
-    } else {
-      p = new HeroParticle();
-      const angle = Math.random() * Math.PI * 2;
-      const mag = (canvas.width + canvas.height) / 2;
-      p.x = canvas.width/2 + Math.cos(angle) * mag;
-      p.y = canvas.height/2 + Math.sin(angle) * mag;
-      p.maxSpd = Math.random() * 8 + 8;
-      p.maxForce = p.maxSpd * 0.06;
-      p.size = Math.random() * 2.5 + 1.5;
-      particles.push(p);
+
+  function loop(){
+    if(!cx)return;
+    cx.fillStyle='rgba(0,0,0,0.12)';cx.fillRect(0,0,cv.width,cv.height);
+
+    if(phase==='assemble'){
+      for(const p of pts){p.seek();p.draw(cx);}
+      fc++;
+      if(fc>40){let s=0;for(const p of pts){if(Math.sqrt((p.x-p.tx)**2+(p.y-p.ty)**2)<3)s++;}
+        if(s>pts.length*0.85||fc>120){phase='hold';fc=0;}}
+    }else if(phase==='hold'){
+      for(const p of pts)p.draw(cx);fc++;
+      if(fc>=HOLD){phase='scatter';fc=0;for(const p of pts)p.flee(cv.width,cv.height);}
+    }else if(phase==='scatter'){
+      for(const p of pts){p.seek();p.a=Math.max(0,p.a-0.015);p.draw(cx);}
+      fc++;
+      if(fc>=SCATTER){wIdx++;
+        if(wIdx<WORDS.length){phase='assemble';fc=0;cx.clearRect(0,0,cv.width,cv.height);makeWord(WORDS[wIdx]);}
+        else{phase='done';cx.clearRect(0,0,cv.width,cv.height);
+          const c=document.querySelector('.hero-content');if(c)c.classList.add('particle-done');
+          cancelAnimationFrame(animId);return;}}
     }
-    p.cr += (p.tcr - p.cr) * p.cw;
-    p.cg += (p.tcg - p.cg) * p.cw;
-    p.cb += (p.tcb - p.cb) * p.cw;
-    p.tcr = clr.r; p.tcg = clr.g; p.tcb = clr.b;
-    p.cw = 0;
-    p.tx = px; p.ty = py;
+    animId=requestAnimationFrame(loop);
   }
-  for(let i = pi; i < particles.length; i++) particles[i].kill(canvas.width, canvas.height);
-}
 
-function particleLoop() {
-  const canvas = document.getElementById('particleCanvas');
-  if(!canvas || !particleActive) return;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = 'rgba(0,0,0,0.12)';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  for(let i = particles.length - 1; i >= 0; i--) {
-    particles[i].move();
-    particles[i].draw(ctx);
-    if(particles[i].dead) {
-      if(particles[i].x < -50 || particles[i].x > canvas.width+50 ||
-         particles[i].y < -50 || particles[i].y > canvas.height+50) {
-        particles.splice(i, 1);
-      }
-    }
-  }
-  particleFrameCount++;
-  if(particleFrameCount % 180 === 0) { // switch every 3 sec
-    particleWordIdx = (particleWordIdx + 1) % particleWords.length;
-    spawnWord(particleWords[particleWordIdx], canvas);
-  }
-  particleAnimId = requestAnimationFrame(particleLoop);
-}
+  function start(){if(!init())return;pts=[];wIdx=0;phase='assemble';fc=0;makeWord(WORDS[0]);loop();}
 
-function initParticleCanvas() {
-  const canvas = document.getElementById('particleCanvas');
-  const hero = document.getElementById('hero');
-  if(!canvas || !hero) return;
-  canvas.width = hero.offsetWidth * (window.devicePixelRatio > 1 ? 1.5 : 1);
-  canvas.height = hero.offsetHeight * (window.devicePixelRatio > 1 ? 1.5 : 1);
-  canvas.style.width = '100%';
-  canvas.style.height = '100%';
-}
-
-function toggleParticleHero() {
-  const hero = document.getElementById('hero');
-  const toggle = document.getElementById('heroToggle');
-  particleActive = !particleActive;
-  if(particleActive) {
-    hero.classList.add('particle-mode');
-    toggle.classList.add('active');
-    initParticleCanvas();
-    particles = [];
-    particleFrameCount = 0;
-    particleWordIdx = 0;
-    const canvas = document.getElementById('particleCanvas');
-    spawnWord(particleWords[0], canvas);
-    particleLoop();
-  } else {
-    hero.classList.remove('particle-mode');
-    toggle.classList.remove('active');
-    if(particleAnimId) cancelAnimationFrame(particleAnimId);
-    particleAnimId = null;
-    particles = [];
-    const canvas = document.getElementById('particleCanvas');
-    if(canvas) { const ctx = canvas.getContext('2d'); ctx.clearRect(0, 0, canvas.width, canvas.height); }
-  }
-}
-
-// Handle resize when particle is active
-window.addEventListener('resize', () => {
-  if(particleActive) {
-    initParticleCanvas();
-    spawnWord(particleWords[particleWordIdx], document.getElementById('particleCanvas'));
-  }
-});
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(()=>setTimeout(start,200));}
+  else{window.addEventListener('load',()=>setTimeout(start,400));}
+  window.addEventListener('resize',()=>{if(phase!=='done'){init();pts=[];makeWord(WORDS[wIdx]);}});
+})();
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Auto-open first FAQ
   const firstFaq = document.querySelector('.faq-item');
   if(firstFaq) firstFaq.classList.add('open');
 });
