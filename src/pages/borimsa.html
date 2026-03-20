@@ -813,20 +813,28 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 }
 
 /* ============================================
-   BULSA DONGCHAM (불사동참 4탭)
+   BULSA DONGCHAM (CSS-only tabs, no JS needed)
    ============================================ */
-.bulsa-tabs {
-  display:flex; gap:8px; margin-top:40px; flex-wrap:wrap;
-}
-.bulsa-tab {
+.bulsa-tabs-wrap { margin-top:40px; }
+.bulsa-tabs-wrap input[type="radio"] { display:none; }
+.bulsa-labels { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:32px; }
+.bulsa-label {
   padding:12px 24px; border-radius:24px; font-size:.88rem; font-weight:600;
   border:1.5px solid rgba(255,255,255,.2); color:rgba(255,255,255,.7);
-  transition:var(--transition); background:rgba(255,255,255,.06);
+  cursor:pointer; transition:var(--transition); background:rgba(255,255,255,.06);
 }
-.bulsa-tab:hover { border-color:var(--color-gold); color:var(--color-gold-light); }
-.bulsa-tab.active { background:var(--color-gold); color:#fff; border-color:var(--color-gold); }
-.bulsa-panel { display:none; margin-top:32px; }
-.bulsa-panel.active { display:block; }
+.bulsa-label:hover { border-color:var(--color-gold); color:var(--color-gold-light); }
+#btab1:checked ~ .bulsa-labels label[for="btab1"],
+#btab2:checked ~ .bulsa-labels label[for="btab2"],
+#btab3:checked ~ .bulsa-labels label[for="btab3"],
+#btab4:checked ~ .bulsa-labels label[for="btab4"] {
+  background:var(--color-gold); color:#fff; border-color:var(--color-gold);
+}
+.bulsa-panel-css { display:none; }
+#btab1:checked ~ #bp1,
+#btab2:checked ~ #bp2,
+#btab3:checked ~ #bp3,
+#btab4:checked ~ #bp4 { display:block; }
 .bulsa-grid {
   display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
   gap:16px;
@@ -1497,58 +1505,65 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <h2 class="section-title">기도 불사동참</h2>
     <p class="section-desc">천일기도 · 연등 · 땅한평사기 등 가지산 보림사 불사에 동참하세요</p>
 
-    <div class="bulsa-tabs" id="bulsaTabs">
-      <button class="bulsa-tab active" id="tab-lantern" onclick="switchBulsa('lantern')">🪔 연등 · 인등</button>
-      <button class="bulsa-tab" id="tab-prayer" onclick="switchBulsa('prayer')">🙏 기도</button>
-      <button class="bulsa-tab" id="tab-annual" onclick="switchBulsa('annual')">📿 년중기도</button>
-      <button class="bulsa-tab" id="tab-land" onclick="switchBulsa('land')">🏔 땅한평사기</button>
-    </div>
+    <div class="bulsa-tabs-wrap">
+      <input type="radio" name="bulsatab" id="btab1" checked>
+      <input type="radio" name="bulsatab" id="btab2">
+      <input type="radio" name="bulsatab" id="btab3">
+      <input type="radio" name="bulsatab" id="btab4">
 
-    <!-- 폴더1: 연등·인등 -->
-    <div class="bulsa-panel active" id="bulsa-lantern">
-      <div class="bulsa-grid">
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🏮</div><h4>대웅전 사업번창등</h4><div class="price">₩1,000,000</div><p>사업 번창과 가정 안녕을 위한<br>대웅전 특별 봉헌등</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🕯️</div><h4>대웅보전 대등</h4><div class="price">₩500,000</div><p>대웅보전 중앙에 봉안되는<br>대형 기원등</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🪔</div><h4>대웅보전 연등</h4><div class="price">₩150,000</div><p>대웅보전 연등으로<br>가족 건강과 행복 기원</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🌙</div><h4>명부전 영가등</h4><div class="price">₩50,000</div><p>선망 영가의<br>극락왕생 기원</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">✨</div><h4>대적광전 인등</h4><div class="price">₩50,000</div><p>국보 철불 앞 인등으로<br>소원 성취 기원</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">⛩️</div><h4>삼성각 연등</h4><div class="price">₩100,000</div><p>삼성각 봉안 연등으로<br>삼보 귀의 기원</p></div>
+      <div class="bulsa-labels">
+        <label for="btab1" class="bulsa-label">🪔 연등 · 인등</label>
+        <label for="btab2" class="bulsa-label">🙏 기도</label>
+        <label for="btab3" class="bulsa-label">📿 년중기도</label>
+        <label for="btab4" class="bulsa-label">🏔 땅한평사기</label>
       </div>
-    </div>
 
-    <!-- 폴더2: 기도 -->
-    <div class="bulsa-panel" id="bulsa-prayer">
-      <div class="bulsa-grid">
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🔥</div><h4>천일기도</h4><div class="price">₩1,000,000</div><p>1,000일간 매일 스님이<br>독경·기도 회향</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">⭐</div><h4>특별기도</h4><div class="price">₩500,000</div><p>특별한 소원 성취를 위한<br>집중 기도 회향</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">📅</div><h4>일년기도</h4><div class="price">₩300,000</div><p>365일 매일 법회 시<br>기도 봉독 및 회향</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">💫</div><h4>백일기도</h4><div class="price">₩100,000</div><p>100일간 정진 기도<br>회향 문자 발송</p></div>
+      <!-- 폴더1: 연등·인등 -->
+      <div class="bulsa-panel-css" id="bp1">
+        <div class="bulsa-grid">
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🏮</div><h4>대웅전 사업번창등</h4><div class="price">₩1,000,000</div><p>사업 번창과 가정 안녕을 위한<br>대웅전 특별 봉헌등</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🕯️</div><h4>대웅보전 대등</h4><div class="price">₩500,000</div><p>대웅보전 중앙에 봉안되는<br>대형 기원등</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🪔</div><h4>대웅보전 연등</h4><div class="price">₩150,000</div><p>대웅보전 연등으로<br>가족 건강과 행복 기원</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🌙</div><h4>명부전 영가등</h4><div class="price">₩50,000</div><p>선망 영가의<br>극락왕생 기원</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">✨</div><h4>대적광전 인등</h4><div class="price">₩50,000</div><p>국보 철불 앞 인등으로<br>소원 성취 기원</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">⛩️</div><h4>삼성각 연등</h4><div class="price">₩100,000</div><p>삼성각 봉안 연등으로<br>삼보 귀의 기원</p></div>
+        </div>
       </div>
-    </div>
 
-    <!-- 폴더3: 년중기도 -->
-    <div class="bulsa-panel" id="bulsa-annual">
-      <div class="bulsa-grid">
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🎍</div><h4>정초기도</h4><div class="price">₩50,000</div><p>새해 첫 기도로<br>한 해 무병장수 기원</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🌕</div><h4>초하루기도</h4><div class="price">₩30,000</div><p>매월 음력 1일<br>새 달 기도 동참</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🛡️</div><h4>삼재기도</h4><div class="price">₩50,000</div><p>삼재 소멸과<br>재앙 퇴치 기원</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🏮</div><h4>백중기도</h4><div class="price">₩50,000</div><p>음력 7월 15일<br>조상 천도 기원</p></div>
-        <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">❄️</div><h4>동지기도</h4><div class="price">₩50,000</div><p>동지 팥죽과 함께<br>액운 소멸 기원</p></div>
+      <!-- 폴더2: 기도 -->
+      <div class="bulsa-panel-css" id="bp2">
+        <div class="bulsa-grid">
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🔥</div><h4>천일기도</h4><div class="price">₩1,000,000</div><p>1,000일간 매일 스님이<br>독경·기도 회향</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">⭐</div><h4>특별기도</h4><div class="price">₩500,000</div><p>특별한 소원 성취를 위한<br>집중 기도 회향</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">📅</div><h4>일년기도</h4><div class="price">₩300,000</div><p>365일 매일 법회 시<br>기도 봉독 및 회향</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">💫</div><h4>백일기도</h4><div class="price">₩100,000</div><p>100일간 정진 기도<br>회향 문자 발송</p></div>
+        </div>
       </div>
-    </div>
 
-    <!-- 폴더4: 땅한평사기 -->
-    <div class="bulsa-panel" id="bulsa-land">
-      <div class="bulsa-grid" style="max-width:400px;">
-        <div class="bulsa-card" style="padding:40px 28px;">
-          <div style="font-size:2.5rem;margin-bottom:12px;">🏔</div>
-          <h4>땅 한 평 사기</h4>
-          <div class="price">₩200,000<span style="font-size:.7rem;font-weight:400;color:rgba(255,255,255,.5);"> / 1평</span></div>
-          <p style="margin-top:12px;font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.8;">
-            일제시기 소실된 보림사 땅 되찾기 불사.<br>
-            가지산 선종대가람의 복원과 천년 법맥의<br>
-            이음에 불자님의 이름으로 동참합니다.
-          </p>
+      <!-- 폴더3: 년중기도 -->
+      <div class="bulsa-panel-css" id="bp3">
+        <div class="bulsa-grid">
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🎍</div><h4>정초기도</h4><div class="price">₩50,000</div><p>새해 첫 기도로<br>한 해 무병장수 기원</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🌕</div><h4>초하루기도</h4><div class="price">₩30,000</div><p>매월 음력 1일<br>새 달 기도 동참</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🛡️</div><h4>삼재기도</h4><div class="price">₩50,000</div><p>삼재 소멸과<br>재앙 퇴치 기원</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">🏮</div><h4>백중기도</h4><div class="price">₩50,000</div><p>음력 7월 15일<br>조상 천도 기원</p></div>
+          <div class="bulsa-card"><div style="font-size:1.8rem;margin-bottom:6px;">❄️</div><h4>동지기도</h4><div class="price">₩50,000</div><p>동지 팥죽과 함께<br>액운 소멸 기원</p></div>
+        </div>
+      </div>
+
+      <!-- 폴더4: 땅한평사기 -->
+      <div class="bulsa-panel-css" id="bp4">
+        <div class="bulsa-grid" style="max-width:400px;">
+          <div class="bulsa-card" style="padding:40px 28px;">
+            <div style="font-size:2.5rem;margin-bottom:12px;">🏔</div>
+            <h4>땅 한 평 사기</h4>
+            <div class="price">₩200,000<span style="font-size:.7rem;font-weight:400;color:rgba(255,255,255,.5);"> / 1평</span></div>
+            <p style="margin-top:12px;font-size:.85rem;color:rgba(255,255,255,.7);line-height:1.8;">
+              일제시기 소실된 보림사 땅 되찾기 불사.<br>
+              가지산 선종대가람의 복원과 천년 법맥의<br>
+              이음에 불자님의 이름으로 동참합니다.
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -1883,18 +1898,6 @@ function updateSlideCounter() {
 }
 
 // ===== BULSA TABS =====
-function switchBulsa(name) {
-  var panels = document.querySelectorAll('.bulsa-panel');
-  var tabs = document.querySelectorAll('.bulsa-tab');
-  var target = document.getElementById('bulsa-' + name);
-  var btn = document.getElementById('tab-' + name);
-  if(!target || !btn) return;
-  for(var i=0;i<panels.length;i++) panels[i].classList.remove('active');
-  for(var i=0;i<tabs.length;i++) tabs[i].classList.remove('active');
-  target.classList.add('active');
-  btn.classList.add('active');
-}
-
 // ===== PARTICLE HERO (1회 "보림사" → 대웅전 사진 전환) =====
 (function(){
   var cv, cx, pts=[], done=false;
