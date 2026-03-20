@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- BORIMSA VERSION: 2026-03-20-v6 -->
 <title>보림사 寶林寺 — 한국 선종의 종가, 장흥 가지산</title>
 <meta name="description" content="한국 선종의 시작점이자 조계종의 모태인 보림사. 국보 철조비로자나불좌상, 삼층석탑, 목조사천왕상 등 천년 문화유산의 보고.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -835,6 +836,28 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 #btab2:checked ~ #bp2,
 #btab3:checked ~ #bp3,
 #btab4:checked ~ #bp4 { display:block; }
+
+/* Events tabs (same radio approach) */
+.evt-tabs-wrap { margin-top:40px; }
+.evt-tabs-wrap input[type="radio"] { display:none; }
+.evt-labels { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:28px; }
+.evt-label {
+  padding:10px 20px; border-radius:20px; font-size:.85rem; font-weight:600;
+  border:1.5px solid var(--color-border); color:var(--color-text-light);
+  cursor:pointer; transition:var(--transition); background:var(--color-card);
+}
+.evt-label:hover { border-color:var(--color-accent); color:var(--color-accent); }
+#etab1:checked ~ .evt-labels label[for="etab1"],
+#etab2:checked ~ .evt-labels label[for="etab2"],
+#etab3:checked ~ .evt-labels label[for="etab3"],
+#etab4:checked ~ .evt-labels label[for="etab4"] {
+  background:var(--color-accent); color:#fff; border-color:var(--color-accent);
+}
+.evt-panel { display:none; }
+#etab1:checked ~ #ep1,
+#etab2:checked ~ #ep2,
+#etab3:checked ~ #ep3,
+#etab4:checked ~ #ep4 { display:block; }
 .bulsa-grid {
   display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
   gap:16px;
@@ -862,8 +885,8 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   border-radius:var(--radius-lg); overflow:hidden; transition:var(--transition);
 }
 .heritage-compact:hover { box-shadow:var(--shadow-md); border-color:var(--color-gold-light); }
-.heritage-compact-img { height:200px; overflow:hidden; position:relative; }
-.heritage-compact-img img { width:100%; height:100%; object-fit:cover; transition:var(--transition); }
+.heritage-compact-img { height:240px; overflow:hidden; position:relative; }
+.heritage-compact-img img { width:100%; height:100%; object-fit:contain; background:var(--color-bg-alt); transition:var(--transition); }
 .heritage-compact:hover .heritage-compact-img img { transform:scale(1.05); }
 .heritage-compact-body { padding:20px; }
 .heritage-compact-body h4 {
@@ -997,34 +1020,109 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <p class="section-label">Events & Programs</p>
     <h2 class="section-title">주요 행사 · 법회</h2>
     <p class="section-desc">가지산의 맑은 기운 아래 천년의 기도와 수행이 이어집니다</p>
-    <div class="events-grid">
-      <div class="event-card fade-in">
-        <div class="event-icon">🌕</div>
-        <span class="event-tag">Monthly</span>
-        <h3>초하루·보름 법회</h3>
-        <p>매월 음력 1일·15일 오전 10:00<br>관음보살 기도 및 스님 법문</p>
-        <div class="event-meta">정기법회 · 무료</div>
+
+    <div class="evt-tabs-wrap">
+      <input type="radio" name="evttab" id="etab1" checked>
+      <input type="radio" name="evttab" id="etab2">
+      <input type="radio" name="evttab" id="etab3">
+      <input type="radio" name="evttab" id="etab4">
+
+      <div class="evt-labels">
+        <label for="etab1" class="evt-label">🌕 일요법회</label>
+        <label for="etab2" class="evt-label">🙏 기도</label>
+        <label for="etab3" class="evt-label">📿 연중기도</label>
+        <label for="etab4" class="evt-label">🎶 기타 행사</label>
       </div>
-      <div class="event-card fade-in">
-        <div class="event-icon">🪔</div>
-        <span class="event-tag">Annual</span>
-        <h3>부처님 오신 날</h3>
-        <p>음력 4월 8일 대법회<br>연등 행렬 · 대적광전 점등식</p>
-        <div class="event-meta">대법회 · 연 1회</div>
+
+      <!-- 탭1: 일요법회 -->
+      <div class="evt-panel" id="ep1">
+        <div class="events-grid">
+          <div class="event-card fade-in">
+            <div class="event-icon">🌕</div>
+            <span class="event-tag">Regular</span>
+            <h3>일요법회</h3>
+            <p>매월 첫째, 셋째 일요일<br>오전 10:00 · 스님 법문</p>
+            <div class="event-meta">정기법회 · 무료</div>
+          </div>
+        </div>
       </div>
-      <div class="event-card fade-in">
-        <div class="event-icon">🍵</div>
-        <span class="event-tag">Temple Stay</span>
-        <h3>가지산 템플스테이</h3>
-        <p>비자나무 숲 명상·새벽 예불<br>다선일미 차 명상 프로그램</p>
-        <div class="event-meta">₩ 40,000~ / 1박</div>
+
+      <!-- 탭2: 기도 -->
+      <div class="evt-panel" id="ep2">
+        <div class="events-grid">
+          <div class="event-card fade-in">
+            <div class="event-icon">🔥</div><span class="event-tag">1,000일</span>
+            <h3>천일기도</h3><p>1,000일간 매일 독경·회향</p>
+            <div class="event-meta">₩1,000,000</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">📅</div><span class="event-tag">365일</span>
+            <h3>일년기도</h3><p>매일 법회 시 기도 봉독</p>
+            <div class="event-meta">₩300,000</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">💫</div><span class="event-tag">100일</span>
+            <h3>백일기도</h3><p>100일 정진 기도 회향</p>
+            <div class="event-meta">₩100,000</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">⭐</div><span class="event-tag">Special</span>
+            <h3>특별기도</h3><p>특별 소원 성취 집중 기도</p>
+            <div class="event-meta">₩500,000</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">🛡️</div><span class="event-tag">삼재</span>
+            <h3>삼재기도</h3><p>삼재 소멸·재앙 퇴치</p>
+            <div class="event-meta">₩50,000</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">🏮</div><span class="event-tag">백중</span>
+            <h3>백중기도</h3><p>음력 7월 15일 조상 천도</p>
+            <div class="event-meta">₩50,000</div>
+          </div>
+        </div>
       </div>
-      <div class="event-card fade-in">
-        <div class="event-icon">🌿</div>
-        <span class="event-tag">Seasonal</span>
-        <h3>비자림 치유 산책</h3>
-        <p>수령 300년 비자나무 숲길<br>사계절 피톤치드 명상 포행</p>
-        <div class="event-meta">상시 운영 · 무료</div>
+
+      <!-- 탭3: 연중기도 -->
+      <div class="evt-panel" id="ep3">
+        <div class="events-grid">
+          <div class="event-card fade-in">
+            <div class="event-icon">🪔</div><span class="event-tag">Annual</span>
+            <h3>부처님 오신 날</h3>
+            <p>음력 4월 8일 대법회<br>연등 행렬 · 대적광전 점등식</p>
+            <div class="event-meta">대법회 · 연 1회</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 탭4: 기타 행사 -->
+      <div class="evt-panel" id="ep4">
+        <div class="events-grid">
+          <div class="event-card fade-in">
+            <div class="event-icon">🎵</div><span class="event-tag">Festival</span>
+            <h3>비자림 음악축제</h3>
+            <p>수령 300년 비자나무 숲에서<br>문학·음악이 어우러지는 축제</p>
+            <div class="event-meta">연 1회</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">🕯️</div><span class="event-tag">Memorial</span>
+            <h3>위령제</h3>
+            <p>6·25 전란 희생자 및<br>선망 영가를 위한 위령 법회</p>
+            <div class="event-meta">연 1회</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">🌿</div><span class="event-tag">Temple Stay</span>
+            <h3>비자숲 명상 템플스테이</h3>
+            <p>비자나무 숲길 걷기·차 명상<br>자연 치유 프로그램</p>
+            <div class="event-meta">상시 운영</div>
+          </div>
+          <div class="event-card fade-in">
+            <div class="event-icon">🧘</div><span class="event-tag">Temple Stay</span>
+            <h3>선명상 템플스테이</h3>
+            <p>참선·108배·타종 체험<br>전통 수행 프로그램</p>
+            <div class="event-meta">상시 운영</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -1190,7 +1288,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
       <!-- 보물 제155호: 동 승탑 -->
       <div class="heritage-compact fade-in">
         <div class="heritage-compact-img">
-          <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t155_lcdngb" alt="동 승탑" loading="lazy">
+          <img src="https://res.cloudinary.com/db3izttcy/image/upload/c_fill,h_400,w_600/brs-t155_p5lj8p" alt="동 승탑" loading="lazy">
         </div>
         <div class="heritage-compact-body">
           <div class="badge-row"><span>보물 제155호</span><span>통일신라</span></div>
@@ -1202,7 +1300,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
       <!-- 보물 제156호: 서 승탑 -->
       <div class="heritage-compact fade-in">
         <div class="heritage-compact-img">
-          <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-t156_epe5g3" alt="서 승탑" loading="lazy">
+          <img src="https://res.cloudinary.com/db3izttcy/image/upload/c_fill,h_400,w_600/brs-t156_epe5g3" alt="서 승탑" loading="lazy">
         </div>
         <div class="heritage-compact-body">
           <div class="badge-row"><span>보물 제156호</span><span>고려시대</span></div>
@@ -1606,7 +1704,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
         <div class="gallery-overlay"><span>목조 사천왕상 · 보물</span></div>
       </div>
       <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
-        <img src="https://res.cloudinary.com/db3izttcy/image/upload/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2026-03-20_%EC%98%A4%EC%A0%84_12.29.22_zyc7hl" alt="비자나무 숲" loading="lazy">
+        <img src="https://res.cloudinary.com/db3izttcy/image/upload/brs-_bizatrees_zy0sxf" alt="비자나무 숲" loading="lazy">
         <div class="gallery-overlay"><span>비자나무 숲 · 수령 300년</span></div>
       </div>
       <div class="gallery-item" onclick="openLightbox(this.querySelector('img').src)">
