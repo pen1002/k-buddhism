@@ -615,8 +615,14 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 .comp-panel.active { display:block; }
 
 /* ============================================
-   PARTICLE HERO
+   PARTICLE HERO + LANTERN ANIMATION
    ============================================ */
+/* hero-bg: HTML 로드 시 완전 투명, .revealed 추가 후 서서히 등장 */
+.hero-bg { opacity:0; transition: opacity 1.6s ease 0.4s; }
+.hero.revealed .hero-bg { opacity:1; }
+/* 연등 캔버스: 항상 표시, 파티클 아래 레이어 */
+#lanternCanvas { position:absolute; left:0; top:0; width:100%; height:100%; z-index:2; pointer-events:none; }
+/* 파티클 캔버스: 연등·히어로컨텐츠 위 */
 #particleCanvas { position:absolute; left:0; top:0; width:100%; height:100%; z-index:4; pointer-events:none; transition:opacity 1.5s ease; }
 #particleCanvas.fade-out { opacity:0; }
 .hero-content h1, .hero-content .hero-hanja, .hero-content .hero-badge, .hero-content .hero-desc, .hero-content .hero-btns { opacity:0; transition:opacity 1.2s ease; }
@@ -661,6 +667,7 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 <!-- ==================== HERO ==================== -->
 <section class="hero" id="hero">
   <div class="hero-bg"></div>
+  <canvas id="lanternCanvas"></canvas>
   <canvas id="particleCanvas"></canvas>
   <div class="hero-content">
     <div class="hero-badge">☸ 교학에서 선(禪)으로 · 가지산문의 종가</div>
@@ -1228,6 +1235,173 @@ function goSlide(idx) {
 function nextSlide() { goSlide((slideIdx+1) % slideCount); }
 function prevSlide() { goSlide((slideIdx-1+slideCount) % slideCount); }
 function updateSlideCounter() { const c=document.getElementById('slideCounter'); if(c) c.textContent=`${slideIdx+1} / ${slideCount}`; }
+
+// ===== LANTERN ANIMATION — 보림사 (숲·청동·황금 팔레트) =====
+(function() {
+  var canvas = document.getElementById('lanternCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W, H, lanterns = [], animId, tick = 0;
+
+  function resize() {
+    var hero = canvas.parentElement;
+    W = canvas.width  = hero.offsetWidth  || window.innerWidth;
+    H = canvas.height = hero.offsetHeight || window.innerHeight;
+  }
+
+  // 보림사 고유 팔레트: 사찰 단청(丹靑) + 가지산 숲빛 + 천년 황동
+  var PALETTES = [
+    { body1:'#A06C20', body2:'#C88C38', glow:'185,135,45', cap:'#7C5018', stripe:'#5E3C0C' }, // 황동
+    { body1:'#6C4A18', body2:'#8E6A30', glow:'145,105,50', cap:'#523810', stripe:'#3E2A08' }, // 황토
+    { body1:'#825414', body2:'#A8742C', glow:'168,115,35', cap:'#643E0C', stripe:'#4E3008' }, // 고동
+    { body1:'#3A5C26', body2:'#567E3C', glow:'80,130,60', cap:'#2A441C', stripe:'#1E3214' }, // 가지산 초록
+    { body1:'#7A3A18', body2:'#A05630', glow:'158,82,42', cap:'#5C2A10', stripe:'#461E08' }, // 홍단청
+  ];
+
+  function Lantern(onScreen) { this.init(onScreen); }
+  Lantern.prototype.init = function(onScreen) {
+    this.w  = Math.random() * 36 + 18;
+    this.h  = this.w * (1.5 + Math.random() * 0.5);
+    this.x  = Math.random() * W;
+    this.y  = onScreen ? (Math.random() * H * 0.88 + H * 0.06) : (H + this.h * 2.5 + Math.random() * 80);
+    this.vy = -(Math.random() * 0.4 + 0.16);
+    this.phase    = Math.random() * Math.PI * 2;
+    this.swayFreq = Math.random() * 0.013 + 0.006;
+    this.swayAmp  = Math.random() * 0.85 + 0.2;
+    this.alpha    = onScreen ? (Math.random() * 0.52 + 0.1) : 0;
+    this.maxAlpha = Math.random() * 0.46 + 0.20;
+    this.palette  = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+    this.gPhase   = Math.random() * Math.PI * 2;
+    this.gFreq    = Math.random() * 0.026 + 0.011;
+    this.rot      = (Math.random() - 0.5) * 0.06;
+    this.rotV     = (Math.random() - 0.5) * 0.0007;
+    this.age      = 0;
+  };
+  Lantern.prototype.update = function() {
+    this.age++;
+    this.y   += this.vy;
+    this.x   += Math.sin(this.age * this.swayFreq + this.phase) * this.swayAmp;
+    this.rot += this.rotV;
+    this.gPhase += this.gFreq;
+    if (this.alpha < this.maxAlpha) this.alpha = Math.min(this.alpha + 0.004, this.maxAlpha);
+    var topFade = H * 0.18 + this.h;
+    if (this.y < topFade) this.alpha = Math.max(0, this.maxAlpha * ((this.y + this.h) / topFade));
+    if (this.y < -this.h * 3) this.init(false);
+  };
+  Lantern.prototype.draw = function() {
+    if (this.alpha <= 0.004) return;
+    var x = this.x, y = this.y, w = this.w, h = this.h;
+    var hw = w / 2, hh = h / 2;
+    var gb = 0.26 + Math.sin(this.gPhase) * 0.09;
+    var p  = this.palette;
+
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(this.rot);
+    ctx.globalAlpha = this.alpha;
+
+    // 외부 아우라
+    var aura = ctx.createRadialGradient(0, 0, 0, 0, 0, hw * 2.7);
+    aura.addColorStop(0,   'rgba(' + p.glow + ',' + (gb * 0.88).toFixed(2) + ')');
+    aura.addColorStop(0.4, 'rgba(' + p.glow + ',' + (gb * 0.38).toFixed(2) + ')');
+    aura.addColorStop(1,   'rgba(' + p.glow + ',0)');
+    ctx.fillStyle = aura;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, hw * 2.7, hh * 1.9, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 매달린 줄
+    var strSwing = Math.sin(this.age * this.swayFreq * 0.55 + this.phase) * 2.2;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(170,135,65,0.48)';
+    ctx.lineWidth = 0.85;
+    ctx.beginPath();
+    ctx.moveTo(0, -hh);
+    ctx.quadraticCurveTo(strSwing * 0.3, -hh - hh * 0.4, strSwing * 0.55, -hh - hh * 0.72);
+    ctx.stroke();
+    ctx.restore();
+
+    // 몸통 그라디언트
+    var bodyG = ctx.createLinearGradient(-hw, 0, hw, 0);
+    bodyG.addColorStop(0,    p.cap);
+    bodyG.addColorStop(0.22, p.body1);
+    bodyG.addColorStop(0.5,  p.body2);
+    bodyG.addColorStop(0.78, p.body1);
+    bodyG.addColorStop(1,    p.cap);
+
+    function barrel() {
+      ctx.moveTo(-hw * 0.62, -hh);
+      ctx.bezierCurveTo(-hw * 1.1, -hh * 0.42, -hw * 1.1, hh * 0.42, -hw * 0.62, hh);
+      ctx.lineTo( hw * 0.62, hh);
+      ctx.bezierCurveTo( hw * 1.1, hh * 0.42,  hw * 1.1, -hh * 0.42,  hw * 0.62, -hh);
+      ctx.closePath();
+    }
+    ctx.fillStyle = bodyG;
+    ctx.beginPath(); barrel(); ctx.fill();
+
+    // 내부 촛불빛 (보림사 — 녹색기 도는 황금빛)
+    var ig = gb + 0.16;
+    var inner = ctx.createRadialGradient(0, hh * 0.1, 0, 0, hh * 0.1, hw * 0.92);
+    inner.addColorStop(0,   'rgba(235,210,120,' + Math.min(0.7, ig * 0.68).toFixed(2) + ')');
+    inner.addColorStop(0.5, 'rgba(190,160,60,' + Math.min(0.32, ig * 0.30).toFixed(2) + ')');
+    inner.addColorStop(1,   'rgba(' + p.glow + ',0)');
+    ctx.fillStyle = inner;
+    ctx.beginPath(); barrel(); ctx.fill();
+
+    // 가로 리브
+    ctx.lineWidth = 0.7;
+    ctx.strokeStyle = 'rgba(0,0,0,0.17)';
+    for (var ri = 0; ri <= 5; ri++) {
+      var t = ri / 5, ry = -hh + t * h;
+      var rw = hw * (0.62 + 0.48 * Math.sin(t * Math.PI));
+      ctx.beginPath(); ctx.ellipse(0, ry, rw, rw * 0.11, 0, 0, Math.PI * 2); ctx.stroke();
+    }
+
+    // 상하 캡
+    ctx.fillStyle = p.cap;
+    ctx.beginPath(); ctx.ellipse(0, -hh, hw * 0.62, hh * 0.13, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0, -hh - hh * 0.07, hw * 0.17, hh * 0.06, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0,  hh, hw * 0.62, hh * 0.13, 0, 0, Math.PI * 2); ctx.fill();
+
+    // 술 장식
+    var tN = 7, tLen = hh * 0.50;
+    ctx.lineWidth = 0.72;
+    for (var ti = 0; ti < tN; ti++) {
+      var tx = -hw * 0.52 + (ti / (tN - 1)) * hw * 1.04;
+      var sw = Math.sin(this.age * 0.046 + ti * 0.92 + this.phase) * hw * 0.11;
+      ctx.strokeStyle = 'rgba(160,110,38,' + (this.alpha * 0.82).toFixed(2) + ')';
+      ctx.beginPath();
+      ctx.moveTo(tx, hh + hh * 0.11);
+      ctx.quadraticCurveTo(tx + sw * 0.5, hh + tLen * 0.5, tx + sw, hh + tLen);
+      ctx.stroke();
+    }
+    ctx.restore();
+  };
+
+  function init() {
+    resize();
+    lanterns = [];
+    var cnt = Math.max(8, Math.min(Math.floor(W / 72), 22));
+    for (var i = 0; i < cnt; i++) lanterns.push(new Lantern(true));
+  }
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    tick++;
+    if (tick % 95 === 0 && lanterns.length < 26) lanterns.push(new Lantern(false));
+    for (var i = 0; i < lanterns.length; i++) { lanterns[i].update(); lanterns[i].draw(); }
+    animId = requestAnimationFrame(animate);
+  }
+
+  var resizeT;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeT);
+    resizeT = setTimeout(function() { cancelAnimationFrame(animId); init(); animate(); }, 220);
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { init(); animate(); });
+  } else { init(); animate(); }
+})();
 
 // ===== PARTICLE HERO =====
 (function(){

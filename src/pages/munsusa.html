@@ -127,8 +127,10 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   background:
     linear-gradient(180deg, rgba(20,18,14,.25) 0%, rgba(20,18,14,.1) 35%, rgba(20,18,14,.55) 75%, rgba(20,18,14,.92) 100%),
     linear-gradient(135deg, #1C4A5A 0%, #2B6B7F 40%, #3D92A8 100%);
-  opacity:0; /* 파티클 종료 전까지 숨김 */
+  opacity:0;                                 /* HTML 로드 시 완전 투명 */
+  animation: heroBgFadeIn 2.2s ease 0.5s both; /* 0.5s 후 서서히 등장 */
 }
+@keyframes heroBgFadeIn { to { opacity: 1; } }
 /* floating lotus petals */
 .hero-bg::after {
   content:''; position:absolute; inset:0; z-index:1;
@@ -752,14 +754,11 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   pointer-events:none;
 }
 .hero.particle-mode #particleCanvas { opacity:1; pointer-events:auto; }
-/* hero-bg는 초기부터 opacity:0 — particle-mode 진입 시 변화 없음 */
 .hero.particle-mode #lanternCanvas { opacity:.3; transition:opacity .6s ease; }
+/* h1·hanja: 파티클 활성 시 빠르게 숨김, 파티클 종료 후 base transition으로 부드럽게 복원 */
+.hero-content h1, .hero-content .hero-hanja { transition: opacity 0.8s ease 0.3s; }
 .hero.particle-mode .hero-content h1,
-.hero.particle-mode .hero-content .hero-hanja { opacity:0; transition:opacity .5s ease; }
-/* 파티클 종료 후 JS가 .revealed 클래스를 추가해 부드럽게 복원 */
-.hero-bg.revealed { opacity:1; transition:opacity 1.4s ease; }
-.hero-content h1.revealed,
-.hero-content .hero-hanja.revealed { opacity:1; transition:opacity 0.9s ease 0.3s; }
+.hero.particle-mode .hero-content .hero-hanja { opacity:0; transition: opacity .5s ease; }
 
 @media(max-width:768px){
   .hero-toggle { top:72px; right:12px; padding:5px 12px; }
@@ -1605,15 +1604,8 @@ function stopParticleHero() {
     }
     fadeOut();
   }
-  // 파티클 종료 후 hero-bg · h1 · hanja를 부드럽게 복원
-  // (particle-mode 제거 직후 한 프레임 뒤에 .revealed 추가 → CSS transition 정상 발동)
-  requestAnimationFrame(() => {
-    const heroBg = hero.querySelector('.hero-bg');
-    if(heroBg) heroBg.classList.add('revealed');
-    hero.querySelectorAll('.hero-content h1, .hero-content .hero-hanja').forEach(el => {
-      el.classList.add('revealed');
-    });
-  });
+  // hero-bg: CSS animation이 자동 처리 (heroBgFadeIn)
+  // h1·hanja: particle-mode 제거 후 base transition(0.8s 0.3s delay)으로 자동 복원
 }
 
 function startParticleHero() {
