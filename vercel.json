@@ -1,3 +1,10 @@
 {
-  "framework": "astro"
+  "framework": "astro",
+  "rewrites": [
+    {
+      "has": [{ "type": "host", "value": "(?:www\\.)?xn--z92bu3hg5a\\.com" }],
+      "source": "/",
+      "destination": "/munsusa"
+    }
+  ]
 }
