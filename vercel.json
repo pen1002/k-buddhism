@@ -1,10 +1,17 @@
 {
   "framework": "astro",
-  "rewrites": [
+  "redirects": [
     {
-      "has": [{ "type": "host", "value": "(?:www\\.)?xn--z92bu3hg5a\\.com" }],
       "source": "/",
-      "destination": "/munsusa"
+      "has": [{ "type": "host", "value": "www.xn--z92bu3hg5a.com" }],
+      "destination": "/munsusa",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "xn--z92bu3hg5a.com" }],
+      "destination": "/munsusa",
+      "permanent": false
     }
   ]
 }

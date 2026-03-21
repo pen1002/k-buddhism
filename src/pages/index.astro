@@ -6,6 +6,15 @@ import KBuddhismHero from '../components/k-buddhism-hero.jsx';
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>K-Buddhism | 한국 사찰 통합 플랫폼</title>
+  <script is:inline>
+    // 문수사.com 접속 시 /munsusa로 즉시 이동 (vercel.json 라우팅 백업)
+    (function() {
+      var h = location.hostname;
+      if (h.indexOf('xn--z92bu3hg5a') !== -1 || h.indexOf('\ubb38\uc218\uc0ac') !== -1) {
+        location.replace('/munsusa');
+      }
+    })();
+  </script>
 </head>
 <body style="margin:0; padding:0; background:#000;">
   <KBuddhismHero client:load />
