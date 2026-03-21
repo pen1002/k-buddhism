@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const indungType = z.object({
   label:  z.string(),
@@ -89,7 +90,10 @@ const templeSchema = z.object({
   page_type: z.enum(['template', 'custom']).optional().default('template'),
 });
 
-const temples = defineCollection({ type: 'content', schema: templeSchema });
+const temples = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/temples' }),
+  schema: templeSchema,
+});
 
 export const collections = { temples };
 export type TempleData = z.infer<typeof templeSchema> & { body?: string };
