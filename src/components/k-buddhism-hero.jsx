@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronRight, Sparkles, MapPin, ShoppingBag, Star, Moon, Volume2, Smartphone, Calendar, Heart, ExternalLink, Play, Pause } from "lucide-react";
+import { Sparkles, MapPin, ShoppingBag, Volume2, Smartphone, Calendar, Heart, ExternalLink } from "lucide-react";
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 const SERVICES = [
