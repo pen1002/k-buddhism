@@ -2166,5 +2166,19 @@ function escapeHtml(str) {
 }
 </script>
 
+<script>
+(async function() {
+  try {
+    const res = await fetch('https://temple-admin-zeta.vercel.app/api/temple/munsusa/public');
+    const data = await res.json();
+    if (data.gallery && data.gallery.length > 0) {
+      const img = data.gallery[0].url || data.gallery[0];
+      const el = document.getElementById('kv-gallery');
+      if (el) el.innerHTML = `<img src="${img}" style="width:100%;max-height:400px;object-fit:contain;border-radius:12px;">`;
+    }
+  } catch(e) {}
+})();
+</script>
+
 </body>
 </html>
