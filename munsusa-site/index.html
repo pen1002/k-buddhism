@@ -2110,8 +2110,8 @@ function renderKvNotice(data) {
 function renderKvDharma(data) {
   const container = document.getElementById('kvDharmaBox');
   if (!container) return;
-  const text = data.dharma_text;
-  const source = data.dharma_source;
+  const text = data.dharmaText || data.dharma_text;
+  const source = data.dharmaSource || data.dharma_source;
   if (!text) {
     container.innerHTML = '<p class="dharma-empty">등록된 법문이 없습니다.</p>';
     return;
