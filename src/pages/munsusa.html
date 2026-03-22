@@ -1027,7 +1027,9 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <h2 class="section-title">최근 사진</h2>
     <p class="section-desc">문수사의 아름다운 순간들을 담았습니다</p>
     <div class="kv-gallery-grid" id="kvGalleryGrid">
-      <p class="kv-gallery-empty" style="grid-column:1/-1;">사진을 불러오는 중입니다…</p>
+      <div id="kv-gallery">
+        <p class="kv-gallery-empty">등록된 사진이 없습니다.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -2189,7 +2191,7 @@ function escapeHtml(str) {
     const data = await res.json();
     if (data.gallery && data.gallery.length > 0) {
       const img = data.gallery[0];
-      const el = document.querySelector('#kvGalleryGrid');
+      const el = document.querySelector('#kv-gallery');
       if (el) el.innerHTML = `<img src="${img.url}" style="width:100%;max-height:400px;object-fit:contain;border-radius:12px;">`;
     }
   } catch(e) {}
