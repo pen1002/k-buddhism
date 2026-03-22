@@ -2140,7 +2140,7 @@ function renderKvGallery(data) {
     const alt = (typeof item === 'object' && item.alt) ? item.alt : `문수사 사진 ${i + 1}`;
     if (!src) return '';
     return `<div class="kv-gallery-item fade-in" onclick="openLightbox('${src.replace(/'/g,"\\'")}')">
-      <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy">
+      <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy" onerror="this.parentElement.style.display='none'">
     </div>`;
   }).join('');
   container.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
