@@ -2146,17 +2146,20 @@ function renderKvGallery(data) {
     container.innerHTML = '<p class="kv-gallery-empty" style="grid-column:1/-1;">등록된 사진이 없습니다.</p>';
     return;
   }
-  // 최신순 정렬
+  // 최신순 정렬 후 1장만 표시
   const sorted = [...photos].sort((a, b) => new Date(b.uploadedAt || 0) - new Date(a.uploadedAt || 0));
-  container.innerHTML = sorted.map((item, i) => {
-    const src = typeof item === 'string' ? item : item.url || item.src || '';
-    const caption = (typeof item === 'object' && item.caption) ? item.caption : '';
-    const alt = caption || `문수사 사진 ${i + 1}`;
-    if (!src) return '';
-    return `<div class="kv-gallery-item fade-in" onclick="openLightbox('${src.replace(/'/g,"\\'")}')">
-      <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy">
-    </div>`;
-  }).join('');
+  const latestPhoto = sorted[0];
+  const src = typeof latestPhoto === 'string' ? latestPhoto : latestPhoto.url || latestPhoto.src || '';
+  const caption = (typeof latestPhoto === 'object' && latestPhoto.caption) ? latestPhoto.caption : '';
+  const alt = caption || '문수사 최근 사진';
+  if (!src) {
+    container.innerHTML = '<p class="kv-gallery-empty" style="grid-column:1/-1;">등록된 사진이 없습니다.</p>';
+    return;
+  }
+  container.innerHTML = `<div class="kv-gallery-item fade-in" style="grid-column:1/-1;max-width:600px;margin:0 auto;" onclick="openLightbox('${src.replace(/'/g,"\\'")}')">
+    <img src="${escapeHtml(src)}" alt="${escapeHtml(alt)}" loading="lazy">
+    ${caption ? `<p style="text-align:center;margin-top:10px;font-size:.9rem;color:var(--color-text-light);">${escapeHtml(caption)}</p>` : ''}
+  </div>`;
   container.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 }
 
