@@ -1027,7 +1027,6 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
     <h2 class="section-title">최근 사진</h2>
     <p class="section-desc">문수사의 아름다운 순간들을 담았습니다</p>
     <div class="kv-gallery-grid" id="kvGalleryGrid">
-      <p class="kv-gallery-empty" style="grid-column:1/-1;">사진을 불러오는 중입니다…</p>
     </div>
   </div>
 </section>
@@ -2128,7 +2127,7 @@ function renderKvDharma(data) {
 function renderKvGallery(data) {
   const container = document.getElementById('kvGalleryGrid');
   if (!container) return;
-  let photos = data.gallery_recent;
+  let photos = Array.isArray(data.gallery) ? data.gallery : (data.gallery_recent || []);
   if (typeof photos === 'string') {
     try { photos = JSON.parse(photos); } catch(_) { photos = []; }
   }
