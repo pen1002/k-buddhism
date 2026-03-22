@@ -2189,7 +2189,7 @@ function escapeHtml(str) {
     const data = await res.json();
     if (data.gallery && data.gallery.length > 0) {
       const img = data.gallery[0];
-      const el = document.querySelector('#kv-gallery');
+      const el = document.querySelector('#kvGalleryGrid');
       if (el) el.innerHTML = `<img src="${img.url}" style="width:100%;max-height:400px;object-fit:contain;border-radius:12px;">`;
     }
   } catch(e) {}
