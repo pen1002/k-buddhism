@@ -19,6 +19,10 @@ dist/
 dist/
 .astro/
 
+# Next.js 빌드 산출물
+.next/
+*.tsbuildinfo
+
 # Node
 node_modules/
 .vercel

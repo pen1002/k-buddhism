@@ -27,6 +27,7 @@ model Temple {
   denomination   String?
   foundedYear    Int?
   abbotName      String?
+  tier           Int      @default(1) // 1=기본, 2=표준, 3=프리미엄
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
