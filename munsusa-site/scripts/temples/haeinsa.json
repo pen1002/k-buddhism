@@ -1,0 +1,199 @@
+{
+  "temple": {
+    "code": "haeinsa",
+    "name": "해인사",
+    "nameEn": "Haeinsa Temple",
+    "description": "해인사(海印寺)는 경상남도 합천군 가야면 가야산 기슭에 자리한 대한불교 조계종 제12교구 본사로, 신라 애장왕 3년(802년) 순응·이정 두 스님이 창건한 천년 고찰입니다. 불보(佛寶) 통도사, 승보(僧寶) 송광사와 함께 삼보사찰(三寶寺刹) 중 법보종찰(法寶宗刹)로 불리며, 고려 고종 23년(1236년)부터 16년간 조성된 팔만대장경판(81,258매)을 보관하는 장경판전(藏經板殿)은 1995년 유네스코 세계문화유산으로 등재되었습니다.",
+    "address": "경상남도 합천군 가야면 해인사길 122",
+    "phone": "055-934-3000",
+    "email": "haeinsa@buddhism.kr",
+    "denomination": "대한불교 조계종",
+    "abbotName": "현응 스님",
+    "foundedYear": 802,
+    "primaryColor": "#6B4226",
+    "secondaryColor": "#D4A017",
+    "tier": 3,
+    "isActive": true
+  },
+  "blocks": [
+    {
+      "blockType": "H-01",
+      "label": "파티클 히어로",
+      "order": 1,
+      "isVisible": true,
+      "config": {
+        "badge": "☸ 법보종찰(法寶宗刹) · 팔만대장경 보고 · 유네스코 세계문화유산",
+        "heroTitle": "해인사",
+        "heroHanja": "海 印 寺",
+        "heroDesc": "천년의 지혜가 새겨진 법보종찰\n팔만대장경판이 잠든 가야산의 영지(靈地)\n신라 802년 창건 · 세계문화유산 장경판전",
+        "cta1Label": "팔만대장경의 세계",
+        "cta1Href": "#intro",
+        "cta2Label": "오시는 길",
+        "cta2Href": "#visit",
+        "navBlogLabel": "해인사 공식 홈페이지",
+        "navBlogHref": "https://www.haeinsa.or.kr",
+        "ticker": [
+          "☸ 해인사",
+          "✦ 대한불교조계종 제12교구 본사",
+          "✦ 법보종찰(法寶宗刹)",
+          "✦ 팔만대장경 보고",
+          "✦ 유네스코 세계문화유산",
+          "✦ 가야산 해인사",
+          "✦ 삼보사찰",
+          "✦ 신라 애장왕 3년(802년) 창건",
+          "✦ 81,258매 고려대장경",
+          "✦ 경남 합천"
+        ],
+        "stats": [
+          { "value": "802년", "label": "신라 애장왕 창건" },
+          { "value": "81,258매", "label": "팔만대장경 경판 수" },
+          { "value": "1995년", "label": "유네스코 세계유산 등재" },
+          { "value": "법보(法寶)", "label": "삼보사찰 종찰" }
+        ],
+        "quoteText": "바다의 도장처럼 세상의 모든 이치를\n해인(海印) 속에 담아 비추나니,\n법의 보배가 이 산 속에 영원히 머문다",
+        "quoteAuthor": "— 해인사 장경판전 사자후",
+        "aboutImageUrl": "",
+        "aboutExtra": [
+          "장경판전(藏經板殿)은 15세기 조선 초기에 건립된 목조 건축물로, 수백 년간 팔만대장경을 완벽하게 보존해온 세계 최고의 보존 시스템입니다. 과학적인 통풍·습도 조절 구조 덕분에 현대 기술 없이도 경판 한 장 손상되지 않았습니다.",
+          "해인사는 선교양종(禪敎兩宗)의 전통을 이어받아 교학 수행과 선 수행을 함께 닦는 도량으로, 매년 국내외 수많은 수행자와 순례객이 찾는 한국 불교의 정신적 중심지입니다."
+        ],
+        "aboutInfoExtra": [
+          ["창건", "신라 애장왕 3년(802년) · 순응·이정 두 스님"],
+          ["문화재", "유네스코 세계유산 장경판전 · 팔만대장경"],
+          ["특징", "법보종찰 · 삼보사찰 중 법보를 간직한 도량"]
+        ]
+      }
+    },
+    {
+      "blockType": "E-01",
+      "label": "법회·행사",
+      "order": 2,
+      "isVisible": true,
+      "config": {
+        "sectionLabel": "Events & Dharma Services",
+        "sectionTitle": "법회 · 기도 · 행사",
+        "sectionDesc": "법보종찰 해인사에서 팔만대장경의 지혜와 함께하는 기도와 정진의 인연을 맺으세요",
+        "events": [
+          {
+            "icon": "📜",
+            "tag": "Monthly",
+            "title": "초하루 정기법회",
+            "desc": "매월 음력 1일\n대웅전 사시불공 및 초하루법회",
+            "meta": "정기법회 · 매월",
+            "schedule": "lunar-monthly",
+            "lunarDays": "1"
+          },
+          {
+            "icon": "🌕",
+            "tag": "Monthly",
+            "title": "보름 기도법회",
+            "desc": "매월 음력 15일\n보름 정기 기도 및 참회 의식",
+            "meta": "보름기도 · 매월",
+            "schedule": "lunar-monthly",
+            "lunarDays": "15"
+          },
+          {
+            "icon": "🪷",
+            "tag": "봉축",
+            "title": "부처님오신날 봉축대법회",
+            "desc": "봉축법요식: 음력 4월 8일\n연등 공양 접수: 음력 3월 1일~\n장경판전 특별 개방",
+            "meta": "봉축대법회",
+            "schedule": "lunar-range",
+            "lunarMonth": "3,4",
+            "lunarStart": "1",
+            "lunarEnd": "8",
+            "multiMonth": "true"
+          },
+          {
+            "icon": "🪔",
+            "tag": "Seasonal",
+            "title": "팔만대장경 조성 기념 대법회",
+            "desc": "음력 7월 (대장경 조성 시작 기념)\n장경판전 특별 순례 및 대장경 사경",
+            "meta": "대장경 기념법회 · 연 1회",
+            "schedule": "lunar-range",
+            "lunarMonth": "7",
+            "lunarStart": "1",
+            "lunarEnd": "15"
+          },
+          {
+            "icon": "☸️",
+            "tag": "Seasonal",
+            "title": "백중 천도재",
+            "desc": "음력 7월 15일\n선망 부모 및 조상 영가 천도 대재",
+            "meta": "백중재 · 연 1회",
+            "schedule": "lunar-range",
+            "lunarMonth": "7",
+            "lunarStart": "14",
+            "lunarEnd": "15"
+          },
+          {
+            "icon": "❄️",
+            "tag": "Seasonal",
+            "title": "동안거 결제 · 해제",
+            "desc": "음력 10월 15일 결제\n음력 1월 15일 해제\n가야산 선원 집중 수행 기간",
+            "meta": "동안거 · 선원 정진",
+            "schedule": "lunar-range",
+            "lunarMonth": "10,11,12,1",
+            "lunarStart": "15",
+            "lunarEnd": "15",
+            "multiMonth": "true"
+          }
+        ]
+      }
+    },
+    {
+      "blockType": "G-01",
+      "label": "갤러리",
+      "order": 3,
+      "isVisible": true,
+      "config": {
+        "title": "경내 풍경 · 장경판전",
+        "columns": 3,
+        "limit": 9,
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "D-01",
+      "label": "오늘의 법문",
+      "order": 4,
+      "isVisible": true,
+      "config": {
+        "title": "오늘의 법문",
+        "showSource": true,
+        "style": "quote",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "I-01",
+      "label": "공지사항",
+      "order": 5,
+      "isVisible": true,
+      "config": {
+        "title": "공지사항",
+        "limit": 5,
+        "showDate": true,
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "V-01",
+      "label": "오시는 길",
+      "order": 6,
+      "isVisible": true,
+      "config": {
+        "address": "경상남도 합천군 가야면 해인사길 122",
+        "transport": "대구서부터미널에서 해인사행 직행버스 이용 (약 1시간 20분)",
+        "bus": "합천터미널 → 해인사 직행버스 (1일 다수 운행)",
+        "parking": "해인사 주차장 이용 (유료)",
+        "mapLines": [
+          "📍 경상남도 합천군 가야면 해인사길 122",
+          "☎ 055-934-3000",
+          "🚌 대구서부터미널 → 해인사 직행 (약 80분)",
+          "🅿 해인사 주차장 이용 (유료 · 성수기 혼잡)"
+        ]
+      }
+    }
+  ]
+}
