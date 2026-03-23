@@ -2093,7 +2093,8 @@ async function loadKvData() {
 function renderKvNotice(data) {
   const container = document.getElementById('kvNoticeList');
   if (!container) return;
-  const items = [data.notice_1, data.notice_2, data.notice_3].filter(Boolean);
+  const notices = Array.isArray(data.notices) ? data.notices : [];
+  const items = notices.map(n => typeof n === 'string' ? n : (n.title || n.content || '')).filter(Boolean);
   if (!items.length) {
     container.innerHTML = '<p class="notice-empty">등록된 공지사항이 없습니다.</p>';
     return;
@@ -2165,19 +2166,6 @@ function escapeHtml(str) {
 }
 </script>
 
-<script>
-(async function() {
-  try {
-    const res = await fetch('https://temple-admin-zeta.vercel.app/api/temple/munsusa/public');
-    const data = await res.json();
-    if (data.gallery && data.gallery.length > 0) {
-      const img = data.gallery[0].url || data.gallery[0];
-      const el = document.getElementById('kvGalleryGrid');
-      if (el) el.innerHTML = `<img src="${img}" style="width:100%;max-height:400px;object-fit:contain;border-radius:12px;">`;
-    }
-  } catch(e) {}
-})();
-</script>
 
 </body>
 </html>
