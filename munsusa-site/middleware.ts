@@ -11,6 +11,8 @@ const DOMAIN_MAP: Record<string, string> = {
 const PLATFORM_DOMAINS = ['k-buddhism.vercel.app', 'k-buddhism.com', 'k-buddhism.kr'];
 const EXCLUDED_PATHS = ['/api/', '/_next/', '/_vercel/', '/favicon.ico', '/robots.txt'];
 const STATIC_EXT = /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|woff2?|ttf|eot|mp[34]|webm|pdf)$/i;
+// Vercel 배포 도메인은 플랫폼 도메인으로 처리 (서브도메인 오탐 방지)
+const PLATFORM_SUFFIXES = ['.vercel.app', '.now.sh'];
 
 async function lookupKV(domain: string): Promise<string | null> {
   const kvUrl = process.env.KV_REST_API_URL;
@@ -31,6 +33,7 @@ async function extractTempleCode(hostname: string, url: URL): Promise<string | n
   const cleanHost = host.startsWith('www.') ? host.slice(4) : host;
   if (host === 'localhost' || host === '127.0.0.1') return url.searchParams.get('site');
   if (PLATFORM_DOMAINS.includes(cleanHost)) return null;
+  if (PLATFORM_SUFFIXES.some(s => cleanHost.endsWith(s))) return null;
   const kvResult = await lookupKV(cleanHost);
   if (kvResult) return kvResult;
   if (DOMAIN_MAP[cleanHost]) return DOMAIN_MAP[cleanHost];
@@ -50,7 +53,8 @@ export async function middleware(request: NextRequest) {
   if (!templeCode) return NextResponse.next();
 
   const url = request.nextUrl.clone();
-  url.pathname = `/_sites/${templeCode}${pathname === '/' ? '' : pathname}`;
+  // /_sites/ 대신 /[slug] 라우트로 직접 rewrite
+  url.pathname = `/${templeCode}${pathname === '/' ? '' : pathname}`;
   const response = NextResponse.rewrite(url);
   response.headers.set('x-temple-code', templeCode);
   return response;
