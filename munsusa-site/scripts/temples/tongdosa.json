@@ -1,0 +1,139 @@
+{
+  "temple": {
+    "code": "tongdosa",
+    "name": "통도사",
+    "nameEn": "Tongdosa Temple",
+    "denomination": "대한불교 조계종",
+    "description": "통도사(通度寺)는 경상남도 양산시 하북면 지산리 영축산(靈鷲山) 기슭에 자리한 대한불교 조계종 제15교구 본사입니다. 신라 선덕여왕 15년(646년) 자장율사가 당나라에서 가져온 부처님의 진신사리와 금란가사를 봉안하며 창건하였습니다. 불보(佛寶) 통도사·법보(法寶) 해인사·승보(僧寶) 송광사의 삼보종찰(三寶宗刹) 중 불보종찰(佛寶宗刹)로, 대웅전에 불상 대신 금강계단(金剛戒壇)을 모시는 전국 유일의 성보도량입니다. 2018년 유네스코 세계문화유산으로 등재되었습니다.",
+    "address": "경상남도 양산시 하북면 통도사로 108",
+    "phone": "055-382-7182",
+    "email": "tongdosa@buddhism.kr",
+    "abbotName": "현문 스님",
+    "foundedYear": 646,
+    "primaryColor": "#8B0000",
+    "secondaryColor": "#D4AF37",
+    "tier": 3
+  },
+  "blocks": [
+    {
+      "blockType": "H-01",
+      "label": "파티클 히어로",
+      "order": 1,
+      "isVisible": true,
+      "config": {
+        "heroTitle": "통도사",
+        "heroHanja": "通 度 寺",
+        "badge": "☸ 불보종찰 · 대한불교조계종",
+        "heroDesc": "금강계단을 모신 불보종찰, 유네스코 세계문화유산",
+        "ticker": ["☸ 불보종찰 통도사", "✦ 신라 646년 자장율사 창건", "✦ 유네스코 세계문화유산 2018"],
+        "stats": [
+          { "value": "646년", "label": "창건" },
+          { "value": "1,379년", "label": "역사" },
+          { "value": "세계유산", "label": "UNESCO 등재" }
+        ]
+      }
+    },
+    {
+      "blockType": "T-02",
+      "label": "전각 상세 카드",
+      "order": 2,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "경내 전각",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "T-03",
+      "label": "문화재 갤러리",
+      "order": 3,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "국보·보물 문화재",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "T-04",
+      "label": "사찰 연혁",
+      "order": 4,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "통도사 연혁",
+        "milestones": [
+          { "year": "646", "text": "자장율사 창건·금강계단 봉안" },
+          { "year": "1085", "text": "고려 선종 2년 중창" },
+          { "year": "1601", "text": "임진왜란 후 사명대사 중건" },
+          { "year": "2018", "text": "유네스코 세계문화유산 등재" }
+        ]
+      }
+    },
+    {
+      "blockType": "L-01",
+      "label": "음력 달력",
+      "order": 5,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "법회 일정",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-01",
+      "label": "백일기도",
+      "order": 6,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "기도 · 불공",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-03",
+      "label": "천일기도",
+      "order": 7,
+      "isVisible": true,
+      "config": {
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "E-01",
+      "label": "행사 안내",
+      "order": 8,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "법회·행사 안내",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "B-01",
+      "label": "불사 목표 그래프",
+      "order": 9,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "불사 동참",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "G-01",
+      "label": "갤러리",
+      "order": 10,
+      "isVisible": true,
+      "config": {
+        "title": "영축산 통도사",
+        "columns": 3,
+        "limit": 9,
+        "source": "kv"
+      }
+    }
+  ],
+  "_meta": {
+    "준비일": "2026-03-24",
+    "상태": "대표님 낙점 대기",
+    "점안방법": "npx tsx scripts/add-temple.ts scripts/temples/tongdosa.json --pin 3754",
+    "비고": "삼보종찰 불보종찰 · Tier 3 · 블록 10개"
+  }
+}
