@@ -101,7 +101,7 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
               {!data ? (
                 <p className="kv-gallery-empty" style={{ gridColumn: '1/-1' }}>사진을 불러오는 중입니다…</p>
               ) : !data.gallery?.length ? (
-                <p className="kv-gallery-empty" style={{ gridColumn: '1/-1' }}>등록된 사진이 없습니다.</p>
+                <p className="kv-gallery-empty" style={{ gridColumn: '1/-1' }}>사진을 준비 중입니다. 곧 업데이트됩니다.</p>
               ) : (
                 (data.gallery as Array<{ url?: string; caption?: string } | string>)
                   .slice(0, 9)
