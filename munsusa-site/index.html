@@ -771,19 +771,50 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
 /* ============================================
    KV DYNAMIC SECTIONS (공지사항·법문·갤러리)
    ============================================ */
-/* --- 공지사항 --- */
+/* --- 공지사항 슬라이드 --- */
+.notice-slide-section {
+  background:var(--color-bg-alt, #F5EDD0);
+  border-radius:16px; padding:28px 32px;
+  margin:0 auto 0; max-width:var(--max-w); width:100%;
+  box-shadow:var(--shadow-sm);
+}
+.notice-slide-header { margin-bottom:18px; display:flex; align-items:center; gap:12px; }
+.notice-badge {
+  background:var(--color-accent, #8B4513); color:#fff;
+  padding:5px 14px; border-radius:20px;
+  font-size:.82rem; font-weight:600; letter-spacing:.04em;
+}
+@keyframes noticeFadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+.notice-slide-item { display:none; animation:noticeFadeIn .4s ease; }
+.notice-slide-item.active { display:block; }
+.notice-slide-title {
+  font-size:1.05rem; font-weight:700;
+  color:var(--color-text, #1a1a1a); margin:0 0 8px; line-height:1.4;
+}
+.notice-slide-content {
+  font-size:.9rem; color:var(--color-text-light, #555);
+  line-height:1.75; white-space:pre-line; margin:0 0 8px;
+}
+.notice-slide-date { font-size:.78rem; color:var(--color-accent, #8B4513); opacity:.7; }
+.notice-dots { display:flex; gap:8px; justify-content:center; margin-top:16px; }
+.notice-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:rgba(0,0,0,.18); cursor:pointer; border:none;
+  transition:all .3s; padding:0;
+}
+.notice-dot.active {
+  background:var(--color-accent, #8B4513);
+  width:22px; border-radius:4px;
+}
+/* fallback list styles (unused but kept for safety) */
 .notice-list { display:flex; flex-direction:column; gap:12px; margin-top:32px; }
 .notice-item {
   display:flex; align-items:flex-start; gap:14px;
   background:var(--color-card); border:1px solid var(--color-border);
-  border-radius:var(--radius); padding:16px 20px;
-  transition:var(--transition);
+  border-radius:var(--radius); padding:16px 20px; transition:var(--transition);
 }
 .notice-item:hover { border-color:var(--color-accent-light); box-shadow:var(--shadow-sm); }
-.notice-bullet {
-  flex-shrink:0; width:8px; height:8px; border-radius:50%;
-  background:var(--color-accent); margin-top:8px;
-}
+.notice-bullet { flex-shrink:0; width:8px; height:8px; border-radius:50%; background:var(--color-accent); margin-top:8px; }
 .notice-text { font-size:.95rem; color:var(--color-text); line-height:1.7; }
 .notice-empty { color:var(--color-text-light); font-size:.9rem; margin-top:24px; }
 
@@ -915,6 +946,28 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   </div>
 </div>
 
+<!-- ==================== 공지사항 슬라이드 (KV 동적) ==================== -->
+<div class="section" style="padding-top:32px; padding-bottom:0;">
+  <section id="notice-slide" class="notice-slide-section" style="display:none;">
+    <div class="notice-slide-header">
+      <span class="notice-badge">📢 공지사항</span>
+    </div>
+    <div id="noticeSlideContainer">
+      <div class="notice-slide-item active" id="noticeItem0">
+        <h3 class="notice-slide-title"></h3>
+        <p class="notice-slide-content"></p>
+        <span class="notice-slide-date"></span>
+      </div>
+      <div class="notice-slide-item" id="noticeItem1">
+        <h3 class="notice-slide-title"></h3>
+        <p class="notice-slide-content"></p>
+        <span class="notice-slide-date"></span>
+      </div>
+    </div>
+    <div class="notice-dots" id="noticeDots"></div>
+  </section>
+</div>
+
 <!-- ==================== EVENTS ==================== -->
 <section class="section" id="events">
   <div class="section-inner">
@@ -996,17 +1049,6 @@ button { border:none; background:none; cursor:pointer; font-family:inherit; }
   </div>
 </section>
 
-<!-- ==================== 공지사항 (KV 동적) ==================== -->
-<section class="section" id="notice">
-  <div class="section-inner">
-    <p class="section-label">Notice</p>
-    <h2 class="section-title">공지사항</h2>
-    <p class="section-desc">문수사의 최신 소식과 안내를 확인하세요</p>
-    <div class="notice-list" id="kvNoticeList">
-      <p class="notice-empty">공지사항을 불러오는 중입니다…</p>
-    </div>
-  </div>
-</section>
 
 <!-- ==================== 오늘의 법문 (KV 동적) ==================== -->
 <section class="section" id="dharma" style="background:var(--color-bg-alt);">
@@ -2091,21 +2133,64 @@ async function loadKvData() {
 }
 
 function renderKvNotice(data) {
-  const container = document.getElementById('kvNoticeList');
-  if (!container) return;
+  const section = document.getElementById('notice-slide');
+  if (!section) return;
   const notices = Array.isArray(data.notices) ? data.notices : [];
-  const items = notices.map(n => typeof n === 'string' ? n : (n.title || n.content || '')).filter(Boolean);
-  if (!items.length) {
-    container.innerHTML = '<p class="notice-empty">등록된 공지사항이 없습니다.</p>';
-    return;
+  if (!notices.length) return; // 공지 없으면 섹션 숨김 유지
+
+  const slideData = notices.slice(0, 2).map(n =>
+    typeof n === 'string'
+      ? { title: n, content: '', date: '' }
+      : {
+          title: n.title || '',
+          content: n.content || '',
+          date: n.createdAt ? new Date(n.createdAt).toLocaleDateString('ko-KR') : (n.date || ''),
+        }
+  );
+
+  // 슬라이드 항목 채우기
+  slideData.forEach((s, i) => {
+    const item = document.getElementById('noticeItem' + i);
+    if (!item) return;
+    item.querySelector('.notice-slide-title').textContent = s.title;
+    item.querySelector('.notice-slide-content').textContent = s.content;
+    item.querySelector('.notice-slide-date').textContent = s.date;
+  });
+
+  // 2번째 슬라이드 항목이 없으면 숨기기
+  if (slideData.length < 2) {
+    const item1 = document.getElementById('noticeItem1');
+    if (item1) item1.remove();
   }
-  container.innerHTML = items.map(text =>
-    `<div class="notice-item fade-in">
-      <span class="notice-bullet"></span>
-      <p class="notice-text">${escapeHtml(text)}</p>
-    </div>`
-  ).join('');
-  container.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // 도트 인디케이터 생성
+  const dotsEl = document.getElementById('noticeDots');
+  if (dotsEl && slideData.length > 1) {
+    dotsEl.innerHTML = slideData.map((_, i) =>
+      `<button class="notice-dot${i === 0 ? ' active' : ''}" data-idx="${i}" aria-label="공지 ${i+1}"></button>`
+    ).join('');
+  }
+
+  // 섹션 표시
+  section.style.display = '';
+
+  // 2개 이상이면 자동 전환
+  if (slideData.length > 1) {
+    let cur = 0;
+    const items = section.querySelectorAll('.notice-slide-item');
+    const dots = section.querySelectorAll('.notice-dot');
+
+    function goTo(idx) {
+      items[cur].classList.remove('active');
+      if (dots[cur]) dots[cur].classList.remove('active');
+      cur = idx;
+      items[cur].classList.add('active');
+      if (dots[cur]) dots[cur].classList.add('active');
+    }
+
+    dots.forEach(btn => btn.addEventListener('click', () => goTo(+btn.dataset.idx)));
+    setInterval(() => goTo((cur + 1) % slideData.length), 10000);
+  }
 }
 
 function renderKvDharma(data) {
@@ -2148,10 +2233,10 @@ function renderKvGallery(data) {
 }
 
 function setKvError() {
-  const notice = document.getElementById('kvNoticeList');
+  const notice = document.getElementById('notice-slide');
   const dharma = document.getElementById('kvDharmaBox');
   const gallery = document.getElementById('kvGalleryGrid');
-  if (notice) notice.innerHTML = '<p class="notice-empty">공지사항을 불러올 수 없습니다.</p>';
+  if (notice) notice.style.display = 'none';
   if (dharma) dharma.innerHTML = '<p class="dharma-empty">법문을 불러올 수 없습니다.</p>';
   if (gallery) gallery.innerHTML = '<p class="kv-gallery-empty" style="grid-column:1/-1;">사진을 불러올 수 없습니다.</p>';
 }
