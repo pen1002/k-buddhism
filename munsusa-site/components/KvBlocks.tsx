@@ -46,7 +46,8 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
                 (data.notices as Array<{ title?: string; content?: string; createdAt?: string } | string>)
                   .slice(0, 5)
                   .map((n, i) => {
-                    const title = typeof n === 'string' ? n : (n.title || n.content || '')
+                    const title = typeof n === 'string' ? n : (n.title || '')
+                    const content = typeof n === 'object' ? (n.content || '') : ''
                     const date = typeof n === 'object' && n.createdAt
                       ? new Date(n.createdAt).toLocaleDateString('ko-KR') : ''
                     return (
@@ -54,6 +55,7 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
                         <span className="notice-bullet" />
                         <div>
                           <p className="notice-text">{title}</p>
+                          {content && <p className="notice-content" style={{ marginTop: '4px', color: 'var(--color-text-light)', fontSize: '0.88rem', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{content}</p>}
                           {date && <p className="notice-date">{date}</p>}
                         </div>
                       </div>
