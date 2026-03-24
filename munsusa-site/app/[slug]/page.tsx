@@ -177,6 +177,9 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
+      {/* ── 공지사항 슬라이드 (I-01, E-01 바로 위) ── */}
+      <KvBlocks templeCode={slug} templeName={name} blocks={blocks} only="notice" />
+
       {/* ── EVENTS (E-01) ── */}
       {has(blocks, 'E-01') && events.length > 0 && (
         <section className="section" id="events">
@@ -212,8 +215,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </section>
       )}
 
-      {/* ── KV BLOCKS (I-01 · D-01 · G-01) ── */}
-      <KvBlocks templeCode={slug} templeName={name} blocks={blocks} />
+      {/* ── KV BLOCKS (D-01 · G-01) ── */}
+      <KvBlocks templeCode={slug} templeName={name} blocks={blocks} only="rest" />
 
       {/* ── QA SLIDE (QA-01) ── */}
       {has(blocks, 'QA-01') && (

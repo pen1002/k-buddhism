@@ -14,9 +14,10 @@ interface Props {
   templeCode: string
   templeName: string
   blocks: BlockCfg[]
+  only?: 'notice' | 'rest'  // notice: I-01만, rest: D-01+G-01만, undefined: 전체
 }
 
-export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
+export default function KvBlocks({ templeCode, templeName, blocks, only }: Props) {
   const [data, setData] = useState<KvData | null>(null)
   const [currentNotice, setCurrentNotice] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -52,31 +53,28 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
   return (
     <>
       {/* I-01 공지사항 슬라이드 */}
-      {has('I-01') && data && noticeSlides.length > 0 && (
+      {only !== 'rest' && has('I-01') && data && noticeSlides.length > 0 && (
         <div style={{ maxWidth: 'var(--max-w, 960px)', margin: '0 auto', padding: '32px 24px 0' }}>
           <section id="notice" style={{
-            background: 'var(--color-bg-alt)',
-            borderRadius: '16px',
-            padding: '28px 32px',
+            background: 'var(--color-card)',
+            borderRadius: 'var(--radius-lg)',
+            padding: '32px 28px',
             border: '1px solid var(--color-border)',
+            position: 'relative', overflow: 'hidden',
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-              <span style={{
-                background: 'var(--color-accent)', color: '#fff',
-                padding: '4px 14px', borderRadius: '20px',
-                fontSize: '.8rem', fontWeight: 600, letterSpacing: '.04em',
-              }}>📢 공지사항</span>
+            <div style={{ marginBottom: '16px' }}>
+              <span className="event-tag">📢 공지사항</span>
             </div>
 
             {/* 슬라이드 */}
             {noticeSlides.map((s, i) => (
               <div key={i} style={{ display: i === currentNotice ? 'block' : 'none' }}>
-                <p style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-text)', marginBottom: '8px', lineHeight: 1.4 }}>{s.title}</p>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '10px', color: 'var(--color-dark)' }}>{s.title}</h3>
                 {s.content && (
-                  <p style={{ fontSize: '.9rem', color: 'var(--color-text-light)', lineHeight: 1.75, whiteSpace: 'pre-line', marginBottom: '8px' }}>{s.content}</p>
+                  <p style={{ fontSize: '.88rem', color: 'var(--color-text-light)', lineHeight: 1.7, whiteSpace: 'pre-line', marginBottom: '12px' }}>{s.content}</p>
                 )}
                 {s.date && (
-                  <span style={{ fontSize: '.78rem', color: 'var(--color-accent)', opacity: .7 }}>{s.date}</span>
+                  <span style={{ fontSize: '.78rem', color: 'var(--color-text-light)', opacity: .7 }}>{s.date}</span>
                 )}
               </div>
             ))}
@@ -104,7 +102,7 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
       )}
 
       {/* D-01 오늘의 법문 */}
-      {has('D-01') && (
+      {only !== 'notice' && has('D-01') && (
         <section className="section" id="dharma" style={{ background: 'var(--color-bg-alt)' }}>
           <div className="section-inner">
             <p className="section-label">Today&apos;s Dharma</p>
@@ -129,7 +127,7 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
       )}
 
       {/* G-01 갤러리 */}
-      {has('G-01') && (
+      {only !== 'notice' && has('G-01') && (
         <section className="section" id="gallery">
           <div className="section-inner">
             <p className="section-label">Gallery</p>
@@ -142,6 +140,7 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
                 <p className="kv-gallery-empty" style={{ gridColumn: '1/-1' }}>사진을 준비 중입니다. 곧 업데이트됩니다.</p>
               ) : (
                 (data.gallery as Array<{ url?: string; caption?: string } | string>)
+                  .filter(item => typeof item === 'string' ? !!item : !!(item.url))
                   .slice(0, 9)
                   .map((item, i) => {
                     const src = typeof item === 'string' ? item : (item.url || '')
