@@ -147,7 +147,7 @@ function drawLantern(ctx: CanvasRenderingContext2D, l: Lantern, x: number, tick:
   ctx.restore()
 }
 
-export default function HeroCanvas() {
+export default function HeroCanvas({ words }: { words?: string[] }) {
   useEffect(() => {
     const hero = document.getElementById('hero')
     const particleCanvas = document.getElementById('particleCanvas') as HTMLCanvasElement|null
@@ -183,7 +183,7 @@ export default function HeroCanvas() {
     const PCTX = particleCanvas.getContext('2d')!
     let particles: Particle[] = [], particleActive = false
     let particleAnimId2 = 0, particleFrameCount = 0, particleWordIdx = 0
-    const particleWords = ['부산', '문수사']
+    const particleWords = (words && words.length > 0) ? words : ['☸']
 
     function initParticleCanvas() {
       const dpr = window.devicePixelRatio > 1 ? 1.5 : 1
@@ -256,7 +256,7 @@ export default function HeroCanvas() {
       if(particleAnimId2) cancelAnimationFrame(particleAnimId2)
       window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  }, [words])
 
   return null  // canvas elements are in the server-rendered HTML
 }

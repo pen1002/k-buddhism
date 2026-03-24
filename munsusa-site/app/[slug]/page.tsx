@@ -96,7 +96,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
           <div className="hero-bg" />
           <canvas id="lanternCanvas" />
           <canvas id="particleCanvas" />
-          <HeroCanvas />
+          <HeroCanvas words={Array.isArray(h01.particleWords) ? h01.particleWords : [name]} />
           <div className="hero-content">
             {h01.badge && <div className="hero-badge">{h01.badge}</div>}
             <h1>{heroTitle}</h1>
@@ -172,7 +172,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* ── KV BLOCKS (I-01 · D-01 · G-01) ── */}
-      <KvBlocks templeCode={slug} blocks={blocks} />
+      <KvBlocks templeCode={slug} templeName={name} blocks={blocks} />
 
       {/* ── ABOUT ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>

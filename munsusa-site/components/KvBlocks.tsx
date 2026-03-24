@@ -12,10 +12,11 @@ interface BlockCfg { blockType: string }
 
 interface Props {
   templeCode: string
+  templeName: string
   blocks: BlockCfg[]
 }
 
-export default function KvBlocks({ templeCode, blocks }: Props) {
+export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
   const [data, setData] = useState<KvData | null>(null)
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function KvBlocks({ templeCode, blocks }: Props) {
           <div className="section-inner">
             <p className="section-label">Notice</p>
             <h2 className="section-title">공지사항</h2>
-            <p className="section-desc">문수사의 최신 소식과 안내를 확인하세요</p>
+            <p className="section-desc">{templeName}의 최신 소식과 안내를 확인하세요</p>
             <div className="notice-list">
               {!data ? (
                 <p className="notice-empty">공지사항을 불러오는 중입니다…</p>
@@ -95,7 +96,7 @@ export default function KvBlocks({ templeCode, blocks }: Props) {
           <div className="section-inner">
             <p className="section-label">Gallery</p>
             <h2 className="section-title">최근 사진</h2>
-            <p className="section-desc">문수사의 아름다운 순간들을 담았습니다</p>
+            <p className="section-desc">{templeName}의 아름다운 순간들을 담았습니다</p>
             <div className="kv-gallery-grid">
               {!data ? (
                 <p className="kv-gallery-empty" style={{ gridColumn: '1/-1' }}>사진을 불러오는 중입니다…</p>
@@ -106,7 +107,7 @@ export default function KvBlocks({ templeCode, blocks }: Props) {
                   .slice(0, 9)
                   .map((item, i) => {
                     const src = typeof item === 'string' ? item : (item.url || '')
-                    const alt = typeof item === 'object' && item.caption ? item.caption : `문수사 사진 ${i + 1}`
+                    const alt = typeof item === 'object' && item.caption ? item.caption : `${templeName} 사진 ${i + 1}`
                     if (!src) return null
                     return (
                       <div
