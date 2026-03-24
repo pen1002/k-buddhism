@@ -360,7 +360,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             <h2 className="section-title">오시는 길</h2>
             {visitAddress && <p className="section-desc">{visitAddress}</p>}
             {has(blocks, 'V-01') && (
-              <div style={{ marginTop: '36px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+              <div className="visit-info-grid">
                 <div className="fade-in">
                   <dl className="about-info">
                     {[
@@ -373,6 +373,22 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
                       return <div key={k} className="about-info-item"><dt>{k}</dt><dd>{v}</dd></div>
                     })}
                   </dl>
+                  {v01.naverMapUrl && (
+                    <a
+                      href={v01.naverMapUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '6px',
+                        marginTop: '16px', padding: '10px 20px',
+                        background: '#03C75A', color: '#fff',
+                        borderRadius: '8px', fontSize: '.88rem', fontWeight: 600,
+                        textDecoration: 'none',
+                      }}
+                    >
+                      🗺️ 네이버 지도로 보기
+                    </a>
+                  )}
                 </div>
                 {mapLines.length > 0 && (
                   <div className="fade-in" style={{ background: 'var(--color-card)', borderRadius: 'var(--radius-lg)', padding: '24px', border: '1px solid var(--color-border)' }}>

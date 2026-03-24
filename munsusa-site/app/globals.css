@@ -131,7 +131,9 @@ button{border:none;background:none;cursor:pointer;font-family:inherit;}
 .about-info{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px;}
 .about-info-item{background:var(--color-bg-alt);padding:16px;border-radius:var(--radius);}
 .about-info-item dt{font-size:.72rem;font-weight:600;color:var(--color-gold);letter-spacing:.08em;margin-bottom:4px;}
-.about-info-item dd{font-size:.88rem;font-weight:600;color:var(--color-dark);}
+.about-info-item dd{font-size:.88rem;font-weight:600;color:var(--color-dark);word-break:keep-all;overflow-wrap:break-word;}
+.visit-info-grid{margin-top:36px;display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+@media(max-width:768px){.visit-info-grid{grid-template-columns:1fr;}.about-info{grid-template-columns:1fr;}}
 
 /* QUOTE */
 .quote-banner{position:relative;padding:120px 24px;text-align:center;background:linear-gradient(rgba(28,74,90,.85),rgba(28,74,90,.85)),linear-gradient(135deg,#1C4A5A,#3D92A8);}

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface KvData {
   notices?: Array<{ title?: string; content?: string; createdAt?: string } | string>
@@ -18,6 +18,8 @@ interface Props {
 
 export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
   const [data, setData] = useState<KvData | null>(null)
+  const [currentNotice, setCurrentNotice] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     fetch(`https://temple-admin-zeta.vercel.app/api/temple/${templeCode}/public`)
@@ -26,45 +28,79 @@ export default function KvBlocks({ templeCode, templeName, blocks }: Props) {
       .catch(() => setData({}))
   }, [templeCode])
 
+  // 공지 2개 이상이면 10초 자동 전환
+  useEffect(() => {
+    const count = Math.min(data?.notices?.length ?? 0, 2)
+    if (count <= 1) return
+    timerRef.current = setInterval(() => setCurrentNotice(c => (c + 1) % count), 10000)
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [data])
+
   const has = (t: string) => blocks.some(b => b.blockType === t)
+
+  // 공지 슬라이드 데이터 (최대 2개)
+  const noticeSlides = (data?.notices ?? []).slice(0, 2).map(n =>
+    typeof n === 'string'
+      ? { title: n, content: '', date: '' }
+      : {
+          title: n.title || '',
+          content: n.content || '',
+          date: n.createdAt ? new Date(n.createdAt).toLocaleDateString('ko-KR') : '',
+        }
+  )
 
   return (
     <>
-      {/* I-01 공지사항 */}
-      {has('I-01') && (
-        <section className="section" id="notice">
-          <div className="section-inner">
-            <p className="section-label">Notice</p>
-            <h2 className="section-title">공지사항</h2>
-            <p className="section-desc">{templeName}의 최신 소식과 안내를 확인하세요</p>
-            <div className="notice-list">
-              {!data ? (
-                <p className="notice-empty">공지사항을 불러오는 중입니다…</p>
-              ) : !data.notices?.length ? (
-                <p className="notice-empty">등록된 공지사항이 없습니다.</p>
-              ) : (
-                (data.notices as Array<{ title?: string; content?: string; createdAt?: string } | string>)
-                  .slice(0, 5)
-                  .map((n, i) => {
-                    const title = typeof n === 'string' ? n : (n.title || '')
-                    const content = typeof n === 'object' ? (n.content || '') : ''
-                    const date = typeof n === 'object' && n.createdAt
-                      ? new Date(n.createdAt).toLocaleDateString('ko-KR') : ''
-                    return (
-                      <div key={i} className="notice-item fade-in visible">
-                        <span className="notice-bullet" />
-                        <div>
-                          <p className="notice-text">{title}</p>
-                          {content && <p className="notice-content" style={{ marginTop: '4px', color: 'var(--color-text-light)', fontSize: '0.88rem', lineHeight: 1.6, whiteSpace: 'pre-line' }}>{content}</p>}
-                          {date && <p className="notice-date">{date}</p>}
-                        </div>
-                      </div>
-                    )
-                  })
-              )}
+      {/* I-01 공지사항 슬라이드 */}
+      {has('I-01') && data && noticeSlides.length > 0 && (
+        <div style={{ maxWidth: 'var(--max-w, 960px)', margin: '0 auto', padding: '32px 24px 0' }}>
+          <section id="notice" style={{
+            background: 'var(--color-bg-alt)',
+            borderRadius: '16px',
+            padding: '28px 32px',
+            border: '1px solid var(--color-border)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+              <span style={{
+                background: 'var(--color-accent)', color: '#fff',
+                padding: '4px 14px', borderRadius: '20px',
+                fontSize: '.8rem', fontWeight: 600, letterSpacing: '.04em',
+              }}>📢 공지사항</span>
             </div>
-          </div>
-        </section>
+
+            {/* 슬라이드 */}
+            {noticeSlides.map((s, i) => (
+              <div key={i} style={{ display: i === currentNotice ? 'block' : 'none' }}>
+                <p style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--color-text)', marginBottom: '8px', lineHeight: 1.4 }}>{s.title}</p>
+                {s.content && (
+                  <p style={{ fontSize: '.9rem', color: 'var(--color-text-light)', lineHeight: 1.75, whiteSpace: 'pre-line', marginBottom: '8px' }}>{s.content}</p>
+                )}
+                {s.date && (
+                  <span style={{ fontSize: '.78rem', color: 'var(--color-accent)', opacity: .7 }}>{s.date}</span>
+                )}
+              </div>
+            ))}
+
+            {/* dots (2개일 때만) */}
+            {noticeSlides.length > 1 && (
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginTop: '16px' }}>
+                {noticeSlides.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { if (timerRef.current) clearInterval(timerRef.current); setCurrentNotice(i) }}
+                    style={{
+                      width: i === currentNotice ? '22px' : '8px', height: '8px',
+                      borderRadius: '4px', border: 'none', cursor: 'pointer', padding: 0,
+                      background: i === currentNotice ? 'var(--color-accent)' : 'rgba(0,0,0,.18)',
+                      transition: 'all .3s',
+                    }}
+                    aria-label={`공지 ${i + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
       )}
 
       {/* D-01 오늘의 법문 */}
