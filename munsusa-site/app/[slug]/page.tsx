@@ -5,6 +5,9 @@ import KvBlocks from '@/components/KvBlocks'
 import MunsusaClient from '@/components/MunsusaClient'
 import QASlideBlock from '@/components/QASlideBlock'
 import InfoGraphicBlock from '@/components/InfoGraphicBlock'
+import HeroImageBlock from '@/components/hero/HeroImageBlock'
+import HeroSlideBlock from '@/components/hero/HeroSlideBlock'
+import HeroInfoBlock from '@/components/hero/HeroInfoBlock'
 
 export const revalidate = 300
 
@@ -32,7 +35,9 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (!temple) notFound()
 
   const blocks = temple.blockConfigs as BlockDef[]
-  const h01 = cfg(blocks, 'H-01')
+  // 활성 히어로 블록 타입 자동 감지 (H-01 ~ H-07)
+  const heroBlockType = (['H-01','H-02','H-03','H-04','H-05','H-06','H-07'] as const).find(t => has(blocks, t)) || 'H-01'
+  const h01 = cfg(blocks, heroBlockType)   // hero config (어떤 H-* 타입이든 동일하게 읽음)
   const e01 = cfg(blocks, 'E-01')
   const p01 = cfg(blocks, 'P-01')
   const w01 = cfg(blocks, 'W-01')
@@ -92,7 +97,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         )}
       </div>
 
-      {/* ── HERO (H-01) ── */}
+      {/* ── HERO (H-01: 파티클 연등형) ── */}
       {has(blocks, 'H-01') && (
         <section className="hero" id="hero">
           <div className="hero-bg" />
@@ -116,6 +121,21 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             </div>
           </div>
         </section>
+      )}
+
+      {/* ── HERO (H-02: 정지 이미지형) ── */}
+      {has(blocks, 'H-02') && (
+        <HeroImageBlock config={h01} temple={temple} />
+      )}
+
+      {/* ── HERO (H-03: 슬라이드형) ── */}
+      {has(blocks, 'H-03') && (
+        <HeroSlideBlock config={h01} temple={temple} />
+      )}
+
+      {/* ── HERO (H-07: 정보 결합형) ── */}
+      {has(blocks, 'H-07') && (
+        <HeroInfoBlock config={h01} temple={temple} />
       )}
 
       {/* ── TICKER ── */}
