@@ -8,6 +8,10 @@ import InfoGraphicBlock from '@/components/InfoGraphicBlock'
 import HeroImageBlock from '@/components/hero/HeroImageBlock'
 import HeroSlideBlock from '@/components/hero/HeroSlideBlock'
 import HeroInfoBlock from '@/components/hero/HeroInfoBlock'
+import HeroParticleBlock from '@/components/hero/HeroParticleBlock'
+import HeroLanternBlock from '@/components/hero/HeroLanternBlock'
+import HeroLampBlock from '@/components/hero/HeroLampBlock'
+import HeroMorphGridBlock from '@/components/hero/HeroMorphGridBlock'
 
 export const revalidate = 300
 
@@ -36,7 +40,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
 
   const blocks = temple.blockConfigs as BlockDef[]
   // 활성 히어로 블록 타입 자동 감지 (H-01 ~ H-07)
-  const heroBlockType = (['H-01','H-02','H-03','H-04','H-05','H-06','H-07'] as const).find(t => has(blocks, t)) || 'H-01'
+  const heroBlockType = (['H-01','H-02','H-03','H-04','H-05','H-06','H-07','H-08','H-09','H-10'] as const).find(t => has(blocks, t)) || 'H-01'
   const h01 = cfg(blocks, heroBlockType)   // hero config (어떤 H-* 타입이든 동일하게 읽음)
   const e01 = cfg(blocks, 'E-01')
   const p01 = cfg(blocks, 'P-01')
@@ -133,9 +137,24 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         <HeroSlideBlock config={h01} temple={temple} />
       )}
 
-      {/* ── HERO (H-07: 정보 결합형) ── */}
+      {/* ── HERO (H-04: 파티클 전용) ── */}
+      {has(blocks, 'H-04') && (
+        <HeroParticleBlock config={h01} temple={temple} />
+      )}
+
+      {/* ── HERO (H-05: 연등 전용) ── */}
+      {has(blocks, 'H-05') && (
+        <HeroLanternBlock config={h01} temple={temple} />
+      )}
+
+      {/* ── HERO (H-06: Lamp 광명형) ── */}
+      {has(blocks, 'H-06') && (
+        <HeroLampBlock config={h01} temple={temple} />
+      )}
+
+      {/* ── HERO (H-07: 원형→그리드 변환형) ── */}
       {has(blocks, 'H-07') && (
-        <HeroInfoBlock config={h01} temple={temple} />
+        <HeroMorphGridBlock config={h01} temple={temple} />
       )}
 
       {/* ── TICKER ── */}
