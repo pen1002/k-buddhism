@@ -3,6 +3,8 @@ import { db } from '@/lib/db'
 import HeroCanvas from '@/components/HeroCanvas'
 import KvBlocks from '@/components/KvBlocks'
 import MunsusaClient from '@/components/MunsusaClient'
+import QASlideBlock from '@/components/QASlideBlock'
+import InfoGraphicBlock from '@/components/InfoGraphicBlock'
 
 export const revalidate = 300
 
@@ -173,6 +175,16 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
 
       {/* ── KV BLOCKS (I-01 · D-01 · G-01) ── */}
       <KvBlocks templeCode={slug} templeName={name} blocks={blocks} />
+
+      {/* ── QA SLIDE (QA-01) ── */}
+      {has(blocks, 'QA-01') && (
+        <QASlideBlock config={cfg(blocks, 'QA-01')} />
+      )}
+
+      {/* ── INFOGRAPHIC (IG-01) ── */}
+      {has(blocks, 'IG-01') && (
+        <InfoGraphicBlock config={cfg(blocks, 'IG-01')} />
+      )}
 
       {/* ── ABOUT ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>
