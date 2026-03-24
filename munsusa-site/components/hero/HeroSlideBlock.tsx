@@ -12,7 +12,7 @@ interface SlideItem {
 
 interface Props {
   config: Cfg
-  temple: { name: string; nameEn?: string | null; denomination?: string | null; primaryColor: string; secondaryColor: string; heroImageUrl?: string | null }
+  temple: { code: string; name: string; nameEn?: string | null; denomination?: string | null; primaryColor: string; secondaryColor: string; heroImageUrl?: string | null }
 }
 
 function normalizeSlides(rawSlides: unknown, fallbackImage?: string | null): SlideItem[] {
@@ -32,8 +32,29 @@ export default function HeroSlideBlock({ config, temple }: Props) {
   const badge      = config.badge      || ''
   const heroDesc   = config.heroDesc   || ''
   const bgImage    = config.bgImage    || temple.heroImageUrl || ''
-  const slides     = normalizeSlides(config.slides, bgImage)
   const autoDelay  = config.autoDelay  || 5000
+
+  // config.slides에 실제 이미지가 있으면 그대로, 없으면 gallery API 자동 연동
+  const configSlides = normalizeSlides(config.slides, bgImage)
+  const hasRealImages = configSlides.some(s => s.image && s.image.startsWith('http'))
+  const [slides, setSlides] = useState<SlideItem[]>(configSlides)
+
+  useEffect(() => {
+    if (hasRealImages) return  // 이미 이미지 있으면 API 호출 불필요
+    fetch(`https://temple-admin-zeta.vercel.app/api/temple/${temple.code}/public`)
+      .then(r => r.json())
+      .then((d: { gallery?: Array<{ url?: string; caption?: string }> }) => {
+        const gallery = d.gallery || []
+        if (gallery.length > 0) {
+          const apiSlides: SlideItem[] = gallery
+            .filter(g => g.url)
+            .slice(0, 8)
+            .map(g => ({ image: g.url!, title: g.caption || '' }))
+          setSlides(apiSlides)
+        }
+      })
+      .catch(() => {})
+  }, [temple.code, hasRealImages])
 
   const [current, setCurrent] = useState(0)
   const [fading, setFading] = useState(false)
