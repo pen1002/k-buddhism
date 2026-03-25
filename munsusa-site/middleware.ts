@@ -63,6 +63,14 @@ export async function middleware(request: NextRequest) {
   const templeCode = await extractTempleCode(hostname, request.nextUrl);
   if (!templeCode) return NextResponse.next();
 
+  // ── 보림사: Astro 빌드 원본 HTML 정적 서빙 ──────────────────────────────
+  if (templeCode === 'borimsa' && pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/borimsa.html';
+    return NextResponse.rewrite(url);
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   const url = request.nextUrl.clone();
   // /_sites/ 대신 /[slug] 라우트로 직접 rewrite
   url.pathname = `/${templeCode}${pathname === '/' ? '' : pathname}`;
