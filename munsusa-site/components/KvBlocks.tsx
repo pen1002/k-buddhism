@@ -146,7 +146,7 @@ export default function KvBlocks({ templeCode, templeName, blocks, only }: Props
               ) : (
                 (data.gallery as Array<{ url?: string; caption?: string } | string>)
                   .filter(item => typeof item === 'string' ? !!item : !!(item.url))
-                  .slice(0, 9)
+                  .slice(0, 10)
                   .map((item, i) => {
                     const src = typeof item === 'string' ? item : (item.url || '')
                     const alt = typeof item === 'object' && item.caption ? item.caption : `${templeName} 사진 ${i + 1}`
