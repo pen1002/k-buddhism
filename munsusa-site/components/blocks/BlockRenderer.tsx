@@ -41,7 +41,7 @@ export default function BlockRenderer({ temple, blocks, only, except }: Props) {
           case 'D-01':
             return null // page.tsx에서 getTodayDharma()로 서버사이드 처리
           case 'G-01':
-            return <GalleryBlock key={idx} templeCode={temple.code} templeName={temple.name} />
+            return <GalleryBlock key={idx} templeCode={temple.code} templeName={temple.name} blockData={config} />
           case 'E-01':
             return <EventBlock key={idx} blockData={config} />
           case 'P-01':
