@@ -8,7 +8,8 @@ const DOMAIN_MAP: Record<string, string> = {
   'chunkwansa.com': 'chunkwansa',
 };
 
-const PLATFORM_DOMAINS = ['k-buddhism.vercel.app', 'k-buddhism.com', 'k-buddhism.kr'];
+const PLATFORM_DOMAINS = ['k-buddhism.vercel.app', 'k-buddhism.com'];
+// k-buddhism.kr 루트: PLATFORM_DOMAINS에서 제외 → Next.js 기본 라우팅(사찰 목록/랜딩)으로 처리
 const EXCLUDED_PATHS = ['/api/', '/_next/', '/_vercel/', '/favicon.ico', '/robots.txt'];
 const STATIC_EXT = /\.(png|jpg|jpeg|gif|svg|webp|ico|css|js|woff2?|ttf|eot|mp[34]|webm|pdf)$/i;
 // Vercel 배포 도메인은 플랫폼 도메인으로 처리 (서브도메인 오탐 방지)
@@ -34,6 +35,16 @@ async function extractTempleCode(hostname: string, url: URL): Promise<string | n
   if (host === 'localhost' || host === '127.0.0.1') return url.searchParams.get('site');
   if (PLATFORM_DOMAINS.includes(cleanHost)) return null;
   if (PLATFORM_SUFFIXES.some(s => cleanHost.endsWith(s))) return null;
+
+  // ── k-buddhism.kr 서브도메인 라우팅 ──────────────────────────────────────
+  // borimsa.k-buddhism.kr → slug = 'borimsa'  (DB에 없으면 [slug]/page.tsx에서 404)
+  // 향후 새 사찰은 DB 등록만으로 자동 라우팅, middleware 수정 불필요
+  if (cleanHost.endsWith('.k-buddhism.kr')) {
+    const sub = cleanHost.split('.')[0];
+    if (sub && sub !== 'www') return sub;
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+
   const kvResult = await lookupKV(cleanHost);
   if (kvResult) return kvResult;
   if (DOMAIN_MAP[cleanHost]) return DOMAIN_MAP[cleanHost];
