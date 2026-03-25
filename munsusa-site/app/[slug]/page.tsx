@@ -10,8 +10,10 @@ import HeroLanternBlock from '@/components/hero/HeroLanternBlock'
 import HeroLampBlock from '@/components/hero/HeroLampBlock'
 import HeroMorphGridBlock from '@/components/hero/HeroMorphGridBlock'
 import BlockRenderer from '@/components/blocks/BlockRenderer'
+import DharmaBlock from '@/components/blocks/DharmaBlock'
+import { getTodayDharma } from '@/lib/dharma-rotation'
 
-export const revalidate = 300
+export const revalidate = 86400
 
 // ── 타입 ───────────────────────────────────────────────────────────────────
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,6 +39,9 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (!temple) notFound()
 
   const blocks = temple.blockConfigs as BlockDef[]
+
+  // 법륜 로직: 오늘의 법문 서버사이드 조회
+  const dharma = has(blocks, 'D-01') ? await getTodayDharma(temple.code) : null
   // 활성 히어로 블록 타입 자동 감지 (H-01 ~ H-07)
   const heroBlockType = (['H-01','H-02','H-03','H-04','H-05','H-06','H-07','H-08','H-09','H-10'] as const).find(t => has(blocks, t)) || 'H-01'
   const h01 = cfg(blocks, heroBlockType)   // hero config (어떤 H-* 타입이든 동일하게 읽음)
@@ -172,7 +177,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       <BlockRenderer temple={temple} blocks={blocks} only={['E-01']} />
 
       {/* ── 4. 오늘의 법문 (D-01) ── */}
-      <BlockRenderer temple={temple} blocks={blocks} only={['D-01']} />
+      {dharma && <DharmaBlock blockData={{ dharma }} />}
 
       {/* ── 5. 사찰소개 About Temple ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>

@@ -7,7 +7,7 @@ import WelfareBlock from './WelfareBlock'
 import DonationBlock from './DonationBlock'
 import VisitBlock from './VisitBlock'
 import NoticeBlock from './NoticeBlock'
-import DharmaBlock from './DharmaBlock'
+// DharmaBlock은 page.tsx에서 서버사이드로 직접 처리 (법륜 로직)
 import GalleryBlock from './GalleryBlock'
 import QASlideBlock from '@/components/QASlideBlock'
 import InfoGraphicBlock from '@/components/InfoGraphicBlock'
@@ -39,7 +39,7 @@ export default function BlockRenderer({ temple, blocks, only, except }: Props) {
           case 'I-01':
             return <NoticeBlock key={idx} templeCode={temple.code} />
           case 'D-01':
-            return <DharmaBlock key={idx} templeCode={temple.code} />
+            return null // page.tsx에서 getTodayDharma()로 서버사이드 처리
           case 'G-01':
             return <GalleryBlock key={idx} templeCode={temple.code} templeName={temple.name} />
           case 'E-01':
