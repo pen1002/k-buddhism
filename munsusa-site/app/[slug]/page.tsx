@@ -218,23 +218,23 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── 7. 문수사 자료관 (QA-01) ── */}
+      {/* ── 7. 갤러리 (G-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['G-01']} />
+
+      {/* ── 8. 자료관 (QA-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['QA-01']} />
 
-      {/* ── 8. 숫자로 보는 문수사 (IG-01) ── */}
+      {/* ── 9. 숫자로 보는 사찰 (IG-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['IG-01']} />
 
-      {/* ── 9. 자비의 3대 실천 (P-01) ── */}
+      {/* ── 10. 자비의 3대 실천 (P-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['P-01']} />
 
-      {/* ── 10. 산하기관 (W-01) ── */}
+      {/* ── 11. 산하기관 (W-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['W-01']} />
 
-      {/* ── 11. 나눔동참 (DO-01) ── */}
+      {/* ── 12. 나눔동참 (DO-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['DO-01']} />
-
-      {/* ── 12. 갤러리 (G-01) ── */}
-      <BlockRenderer temple={temple} blocks={blocks} only={['G-01']} />
 
       {/* ── 13. 오시는길 (V-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['V-01']} />
