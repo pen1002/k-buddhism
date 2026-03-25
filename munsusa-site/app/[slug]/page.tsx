@@ -165,10 +165,16 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── TOP BLOCKS (I-01 · E-01 · D-01 · G-01 · QA-01 · IG-01) ── */}
-      <BlockRenderer temple={temple} blocks={blocks} except={['P-01', 'W-01', 'DO-01', 'V-01']} />
+      {/* ── 2. 공지사항 (I-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['I-01']} />
 
-      {/* ── ABOUT ── */}
+      {/* ── 3. 법회·기도·행사 (E-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['E-01']} />
+
+      {/* ── 4. 오늘의 법문 (D-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['D-01']} />
+
+      {/* ── 5. 사찰소개 About Temple ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>
         <div className="section-inner">
           <p className="section-label">About Temple</p>
@@ -204,7 +210,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
-      {/* ── QUOTE ── */}
+      {/* ── 6. 주지스님 인사말 (QUOTE) ── */}
       {h01.quoteText && (
         <div className="quote-banner">
           <h2 style={{ whiteSpace: 'pre-line' }}>&ldquo;{h01.quoteText}&rdquo;</h2>
@@ -212,8 +218,26 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── BOTTOM BLOCKS (P-01 · W-01 · DO-01 · V-01) ── */}
-      <BlockRenderer temple={temple} blocks={blocks} only={['P-01', 'W-01', 'DO-01', 'V-01']} />
+      {/* ── 7. 문수사 자료관 (QA-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['QA-01']} />
+
+      {/* ── 8. 숫자로 보는 문수사 (IG-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['IG-01']} />
+
+      {/* ── 9. 자비의 3대 실천 (P-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['P-01']} />
+
+      {/* ── 10. 산하기관 (W-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['W-01']} />
+
+      {/* ── 11. 나눔동참 (DO-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['DO-01']} />
+
+      {/* ── 12. 갤러리 (G-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['G-01']} />
+
+      {/* ── 13. 오시는길 (V-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['V-01']} />
 
       {/* ── FOOTER ── */}
       <footer className="footer">
