@@ -23,6 +23,9 @@ export default function DharmaBlock({ templeCode }: Props) {
       .catch(() => setLoaded(true))
   }, [templeCode])
 
+  // 로드 완료 후 법문 없으면 섹션 자체를 숨김
+  if (loaded && !dharmaText) return null
+
   return (
     <section className="section" id="dharma" style={{ background: 'var(--color-bg-alt)' }}>
       <div className="section-inner">
@@ -32,8 +35,6 @@ export default function DharmaBlock({ templeCode }: Props) {
         <div className="dharma-box">
           {!loaded ? (
             <p className="dharma-empty">법문을 불러오는 중입니다…</p>
-          ) : !dharmaText ? (
-            <p className="dharma-empty">등록된 법문이 없습니다.</p>
           ) : (
             <div className="fade-in visible">
               <blockquote className="dharma-quote">{dharmaText}</blockquote>

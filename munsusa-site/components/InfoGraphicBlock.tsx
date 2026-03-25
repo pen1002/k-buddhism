@@ -71,8 +71,8 @@ function StatCard({ stat, active }: { stat: StatItem; active: boolean }) {
 
 export default function InfoGraphicBlock({ config }: { config: Config }) {
   const stats = config.stats ?? DEFAULT_STATS
-  const sectionTitle = config.sectionTitle ?? '숫자로 보는 문수사'
-  const sectionDesc = config.sectionDesc ?? '문수복지재단과 위드아시아가 쌓아온 29년의 자비 실천'
+  const sectionTitle = config.sectionTitle ?? '숫자로 보는 사찰'
+  const sectionDesc = config.sectionDesc ?? ''
   const imageUrl = config.imageUrl ?? ''
   const imageCaption = config.imageCaption ?? ''
 

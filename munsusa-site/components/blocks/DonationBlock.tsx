@@ -10,6 +10,11 @@ interface Props {
 }
 
 export default function DonationBlock({ blockData, temple }: Props) {
+  // 계좌 정보가 전혀 없으면 빈 껍데기 숨김
+  const hasAccounts = Array.isArray(blockData.accounts) && blockData.accounts.length > 0
+  const hasLegacy = blockData.bankName || blockData.accountNumber
+  if (!hasAccounts && !hasLegacy) return null
+
   return (
     <section className="section" id="donate">
       <div className="section-inner">

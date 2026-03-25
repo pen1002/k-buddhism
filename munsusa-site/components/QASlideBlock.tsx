@@ -13,57 +13,22 @@ interface Config {
   infographicCaption?: string
 }
 
-const DEFAULT_FAQ: FaqItem[] = [
-  {
-    q: '문수사는 어떤 사찰인가요?',
-    a: '문수사는 1만여 평의 부지에 불자 신행도량과 자비 나눔 그리고 실천사상을 모토로 사회복지법인 문수복지재단과 사단법인 위드아시아를 운영하는 도심 속 열린 평화도량입니다.',
-  },
-  {
-    q: "'평화도량'이란 어떤 의미인가요?",
-    a: '문수사 반경 2km 내에 유엔묘지, 유엔평화공원, 유엔평화기념관, 일제강제동원역사관, 부산박물관, 부산문화회관 등이 밀집해 있습니다. 이 지역적 의미와 문수사의 동체대비(同體大悲) 정신이 결합되어 평화도량이라 불립니다.',
-  },
-  {
-    q: '문수복지재단은 어떤 활동을 하나요?',
-    a: '1996년 설립된 불교계 전문 복지 법인으로, 영유아부터 어르신까지 생애주기별 맞춤 돌봄을 실천합니다. 용호종합사회복지관, 문현노인복지관, 심청이문수노인복지센터, 남천재가노인서비스지원센터, 못골다함께돌봄센터 등 6개 시설을 운영합니다.',
-  },
-  {
-    q: '위드아시아는 어떤 단체인가요?',
-    a: '2003년 주지 지원스님이 설립한 외교부 등록 국제개발협력 NGO입니다. 캄보디아 빈곤 아동 공부방 및 생명의 우물 건립, 라오스 학교 개보수, 인도·태국 소수민족 학교 설립, 북한 어린이 영양 보충식 지원 등 국경을 넘는 자비를 실천합니다.',
-  },
-  {
-    q: '수요 무료 공양은 어떻게 진행되나요?',
-    a: '매월 2주·4주째 수요일에 지역주민을 위한 무료 국수 공양을 실시합니다. 문수보현봉사단의 자원봉사로 운영되며, 별도의 자격 조건 없이 누구나 방문하여 따뜻한 한 끼를 나눌 수 있습니다.',
-  },
-  {
-    q: '후원은 어떻게 하나요?',
-    a: '결연후원, 정기/일시후원, 기업/물품후원을 접수합니다. 투명한 경영 원칙 아래 기부금 영수증 발급과 연차보고서를 공개하여 후원금 사용 내역을 투명하게 안내합니다. 자원봉사도 상시 모집합니다.',
-  },
-  {
-    q: '문수사에서 드리는 기도불사는?',
-    a: '정기법회(매월 초하루, 3일간 인등·신장기도), 보름·지장기도(매월 음 15일), 관음재일기도(매월 음 24일), 다라니기도(매월 양 1~3일)를 봉행합니다. 절기별로 부처님오신날 봉축법요식, 백중49일기도, 동지기도, 성도절 철야용맹정진기도 등이 있습니다.',
-  },
-]
-
-const DEFAULT_SLIDES: Slide[] = [
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0001_tkbm8k', title: '자비의 확장: 도심 포교에서 지구촌 평화까지' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0002_tcxbg9', title: '철학의 전환: 산중에서 도심으로, 의례에서 실천으로' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0003_fjt4wn', title: '대상을 가리지 않는 자비의 3대 실천 네트워크' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0004_jqfhan', title: '요람에서 무덤까지, 빈틈없는 지역사회 보호망' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0005_tsgxhs', title: '상태와 욕구에 맞춘 3단계 노인 돌봄 시스템' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0006_zrm8ne', title: '국경과 이념을 넘어선 아시아 구호 연대' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0007_f79wiz', title: '단순 시혜를 넘어선 자조 공동체 완성 모델' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0008_bbz1eq', title: '잊혀진 역사의 상처를 치유하는 예언자적 연대' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0009_u848c7', title: '자비의 그물망을 움직이는 투명한 동력' },
-  { url: 'https://res.cloudinary.com/db3izttcy/image/upload/munsusa_slide_page-0010_s5eemc', title: '당신의 작은 관심이 세상을 엮는 그물이 됩니다' },
-]
+// 기본값 없음 — 사찰별 config에서 faqItems/slides 필드로 주입
+const DEFAULT_FAQ: FaqItem[] = []
+const DEFAULT_SLIDES: Slide[] = []
 
 type Tab = 'faq' | 'slides' | 'infographic'
 
 export default function QASlideBlock({ config }: { config: Config }) {
-  const faqItems = config.faqItems ?? DEFAULT_FAQ
+  // config.faqItems 또는 config.items(어드민 저장 키) 모두 허용
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const faqItems: FaqItem[] = config.faqItems ?? (config as any).items ?? DEFAULT_FAQ
   const slides = config.slides ?? DEFAULT_SLIDES
-  const sectionTitle = config.sectionTitle ?? '자료관'
+  const sectionTitle = config.sectionTitle ?? (config as any).title ?? '자료관'
   const sectionDesc = config.sectionDesc ?? '사찰과 산하기관의 활동을 다양한 방식으로 만나보세요'
+
+  // 데이터 없으면 렌더링 생략
+  if (faqItems.length === 0 && slides.length === 0 && !config.infographicUrl) return null
   const infographicUrl = config.infographicUrl ?? ''
   const infographicCaption = config.infographicCaption ?? '자비의 실천, 세상을 바꾸는 따뜻한 연대 — 인포그래픽'
 

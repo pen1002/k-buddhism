@@ -101,7 +101,7 @@ button{border:none;background:none;cursor:pointer;font-family:inherit;}
 .event-card p{font-size:.88rem;color:var(--color-text-light);line-height:1.7;margin-bottom:12px;}
 .event-meta{font-size:.78rem;font-weight:600;color:var(--color-gold-dark);padding-top:12px;border-top:1px solid var(--color-border);}
 .event-card.event-active{border-color:var(--color-gold)!important;background:linear-gradient(135deg,rgba(184,137,62,.08),rgba(212,169,78,.04));animation:eventPulse 2.5s ease-in-out infinite;order:-1!important;}
-.event-card.event-active::before{content:'🔔 오늘의 문수사 행사';position:absolute;top:12px;right:12px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-dark));color:#fff;padding:6px 16px;border-radius:20px;font-size:.72rem;font-weight:800;z-index:2;}
+.event-card.event-active::before{content:'🔔 오늘의 행사';position:absolute;top:12px;right:12px;background:linear-gradient(135deg,var(--color-gold),var(--color-gold-dark));color:#fff;padding:6px 16px;border-radius:20px;font-size:.72rem;font-weight:800;z-index:2;}
 .event-card.event-upcoming{border-color:var(--color-accent)!important;background:rgba(43,107,127,.03);order:0!important;}
 .event-card.event-upcoming::before{content:'곧 시작';position:absolute;top:-10px;right:16px;background:var(--color-accent);color:#fff;padding:3px 12px;border-radius:10px;font-size:.65rem;font-weight:700;}
 @keyframes eventPulse{0%,100%{box-shadow:0 0 0 2px rgba(184,137,62,.15),0 4px 24px rgba(184,137,62,.12);}50%{box-shadow:0 0 0 4px rgba(184,137,62,.25),0 6px 32px rgba(184,137,62,.2);transform:translateY(-2px);}}
