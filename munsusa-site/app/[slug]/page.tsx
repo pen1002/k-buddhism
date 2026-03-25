@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation'
 import { db } from '@/lib/db'
 import HeroCanvas from '@/components/HeroCanvas'
-import KvBlocks from '@/components/KvBlocks'
 import MunsusaClient from '@/components/MunsusaClient'
-import QASlideBlock from '@/components/QASlideBlock'
-import InfoGraphicBlock from '@/components/InfoGraphicBlock'
 import HeroImageBlock from '@/components/hero/HeroImageBlock'
 import HeroSlideBlock from '@/components/hero/HeroSlideBlock'
 import HeroInfoBlock from '@/components/hero/HeroInfoBlock'
@@ -12,6 +9,7 @@ import HeroParticleBlock from '@/components/hero/HeroParticleBlock'
 import HeroLanternBlock from '@/components/hero/HeroLanternBlock'
 import HeroLampBlock from '@/components/hero/HeroLampBlock'
 import HeroMorphGridBlock from '@/components/hero/HeroMorphGridBlock'
+import BlockRenderer from '@/components/blocks/BlockRenderer'
 
 export const revalidate = 300
 
@@ -42,11 +40,6 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   // 활성 히어로 블록 타입 자동 감지 (H-01 ~ H-07)
   const heroBlockType = (['H-01','H-02','H-03','H-04','H-05','H-06','H-07','H-08','H-09','H-10'] as const).find(t => has(blocks, t)) || 'H-01'
   const h01 = cfg(blocks, heroBlockType)   // hero config (어떤 H-* 타입이든 동일하게 읽음)
-  const e01 = cfg(blocks, 'E-01')
-  const p01 = cfg(blocks, 'P-01')
-  const w01 = cfg(blocks, 'W-01')
-  const do01 = cfg(blocks, 'DO-01')
-  const v01 = cfg(blocks, 'V-01')
 
   const name = temple.name
   const nameEn = temple.nameEn || ''
@@ -54,11 +47,6 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   const heroHanja = h01.heroHanja || ''
   const ticker: string[] = Array.isArray(h01.ticker) ? h01.ticker : [`☸ ${name}`, `✦ ${temple.denomination || '대한불교조계종'}`]
   const stats: Array<{ value: string; label: string }> = Array.isArray(h01.stats) ? h01.stats : []
-  const events: Cfg[] = Array.isArray(e01.events) ? e01.events : []
-  const pillars: Cfg[] = Array.isArray(p01.pillars) ? p01.pillars : []
-  const orgs: Cfg[] = Array.isArray(w01.orgs) ? w01.orgs : []
-  const visitAddress = v01.address || temple.address || ''
-  const mapLines: string[] = Array.isArray(v01.mapLines) ? v01.mapLines : []
 
   // Nav links: only show sections that exist
   const navLinks = [
@@ -177,56 +165,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── 공지사항 슬라이드 (I-01, E-01 바로 위) ── */}
-      <KvBlocks templeCode={slug} templeName={name} blocks={blocks} only="notice" />
-
-      {/* ── EVENTS (E-01) ── */}
-      {has(blocks, 'E-01') && events.length > 0 && (
-        <section className="section" id="events">
-          <div className="section-inner">
-            <p className="section-label">{e01.sectionLabel || 'Events & Dharma Services'}</p>
-            <h2 className="section-title">{e01.sectionTitle || '법회 · 기도 · 행사'}</h2>
-            {e01.sectionDesc && <p className="section-desc">{e01.sectionDesc}</p>}
-            <div className="events-grid" id="eventsGrid">
-              {events.map((ev: Cfg, i: number) => (
-                <div
-                  key={i} className="event-card fade-in"
-                  data-schedule={ev.schedule}
-                  data-lunar-days={ev.lunarDays}
-                  data-solar-days={ev.solarDays}
-                  data-lunar-month={ev.lunarMonth}
-                  data-lunar-start={ev.lunarStart}
-                  data-lunar-end={ev.lunarEnd}
-                  data-multi-month={ev.multiMonth}
-                  data-solar-month={ev.solarMonth}
-                  data-solar-start={ev.solarStart}
-                  data-solar-end={ev.solarEnd}
-                  data-weeks={ev.weeks}
-                >
-                  <div className="event-icon">{ev.icon}</div>
-                  <span className="event-tag">{ev.tag}</span>
-                  <h3>{ev.title}</h3>
-                  <p style={{ whiteSpace: 'pre-line' }}>{ev.desc}</p>
-                  <div className="event-meta">{ev.meta}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── KV BLOCKS (D-01 · G-01) ── */}
-      <KvBlocks templeCode={slug} templeName={name} blocks={blocks} only="rest" />
-
-      {/* ── QA SLIDE (QA-01) ── */}
-      {has(blocks, 'QA-01') && (
-        <QASlideBlock config={cfg(blocks, 'QA-01')} />
-      )}
-
-      {/* ── INFOGRAPHIC (IG-01) ── */}
-      {has(blocks, 'IG-01') && (
-        <InfoGraphicBlock config={cfg(blocks, 'IG-01')} />
-      )}
+      {/* ── TOP BLOCKS (I-01 · E-01 · D-01 · G-01 · QA-01 · IG-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} except={['P-01', 'W-01', 'DO-01', 'V-01']} />
 
       {/* ── ABOUT ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>
@@ -272,162 +212,8 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── PILLARS (P-01) ── */}
-      {has(blocks, 'P-01') && pillars.length > 0 && (
-        <section className="section" id="pillars">
-          <div className="section-inner">
-            <p className="section-label">{p01.sectionLabel || 'Mission'}</p>
-            <h2 className="section-title">{p01.sectionTitle || '핵심 실천 가치'}</h2>
-            {p01.sectionDesc && <p className="section-desc">{p01.sectionDesc}</p>}
-            <div className="pillar-grid">
-              {pillars.map((p: Cfg, i: number) => (
-                <div key={i} className={`pillar-card ${p.cls || `p${i + 1}`} fade-in`}>
-                  <div className="pillar-icon">{p.icon}</div>
-                  <h3>{p.title}</h3>
-                  <div className="pillar-sub">{p.sub}</div>
-                  <p>{p.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── WELFARE (W-01) ── */}
-      {has(blocks, 'W-01') && orgs.length > 0 && (
-        <section className="section" id="welfare" style={{ background: 'var(--color-bg-alt)' }}>
-          <div className="section-inner">
-            <p className="section-label">{w01.sectionLabel || 'Affiliated Organizations'}</p>
-            <h2 className="section-title">{w01.sectionTitle || '산하기관 바로가기'}</h2>
-            {w01.sectionDesc && <p className="section-desc">{w01.sectionDesc}</p>}
-            <div className="welfare-grid">
-              {orgs.map((org: Cfg, i: number) => (
-                <div key={i} className="welfare-card fade-in">
-                  <div className="welfare-card-top">
-                    <div className={`welfare-icon ${org.cls || ''}`}>{org.icon}</div>
-                    <h3>{org.name}</h3>
-                  </div>
-                  <p>{org.desc}</p>
-                  {org.href && (
-                    <a href={org.href} target="_blank" rel="noopener" className="welfare-link">홈페이지 방문 →</a>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── DONATE (DO-01) ── */}
-      {has(blocks, 'DO-01') && (
-        <section className="section" id="donate">
-          <div className="section-inner">
-            <p className="section-label">Support &amp; Donation</p>
-            <h2 className="section-title">나눔에 동참하세요</h2>
-            <p className="section-desc">여러분의 소중한 후원이 사찰과 지역사회 발전의 원동력이 됩니다</p>
-            <div className="donate-grid">
-              {Array.isArray(do01.accounts) && do01.accounts.length > 0 ? (
-                (do01.accounts as Array<{ title?: string; bank?: string; accountNumber?: string; accountHolder?: string; phone?: string }>)
-                  .map((acc, i) => (
-                    <div key={i} className="donate-card fade-in">
-                      <h3>{acc.title || '🏦 후원 계좌'}</h3>
-                      <div className="bank-info">
-                        {[
-                          ['은행', acc.bank || '-'],
-                          ['예금주', acc.accountHolder || '-'],
-                          ['계좌번호', acc.accountNumber || '-'],
-                          ['후원문의', acc.phone || '-'],
-                        ].map(([k, v]) => (
-                          <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
-                        ))}
-                      </div>
-                    </div>
-                  ))
-              ) : (
-                <>
-                  <div className="donate-card fade-in">
-                    <h3>🏦 후원 계좌</h3>
-                    <div className="bank-info">
-                      {[
-                        ['은행', do01.bankName || '-'],
-                        ['예금주', do01.accountHolder || name],
-                        ['계좌번호', do01.accountNumber || '-'],
-                      ].map(([k, v]) => (
-                        <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="donate-card fade-in">
-                    <h3>📞 후원 문의</h3>
-                    <div className="bank-info">
-                      {[
-                        ['대표 전화', do01.phone || temple.phone || '-'],
-                        ['이메일', do01.email || temple.email || '-'],
-                        ['운영시간', do01.hours || '평일 09:00~18:00'],
-                      ].map(([k, v]) => (
-                        <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── VISIT (V-01) ── */}
-      {(has(blocks, 'V-01') || visitAddress) && (
-        <section className="section" id="visit" style={{ background: 'var(--color-bg-alt)' }}>
-          <div className="section-inner">
-            <p className="section-label">Location &amp; Access</p>
-            <h2 className="section-title">오시는 길</h2>
-            {visitAddress && <p className="section-desc">{visitAddress}</p>}
-            {has(blocks, 'V-01') && (
-              <div className="visit-info-grid">
-                <div className="fade-in">
-                  <dl className="about-info">
-                    {[
-                      ['주소', v01.address || visitAddress],
-                      v01.transport ? ['대중교통', v01.transport] : null,
-                      v01.bus ? ['버스', v01.bus] : null,
-                      v01.parking ? ['주차', v01.parking] : null,
-                    ].filter(Boolean).map((row) => {
-                      const [k, v] = row as [string, string]
-                      return <div key={k} className="about-info-item"><dt>{k}</dt><dd>{v}</dd></div>
-                    })}
-                  </dl>
-                  {v01.naverMapUrl && (
-                    <a
-                      href={v01.naverMapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '6px',
-                        marginTop: '16px', padding: '10px 20px',
-                        background: '#03C75A', color: '#fff',
-                        borderRadius: '8px', fontSize: '.88rem', fontWeight: 600,
-                        textDecoration: 'none',
-                      }}
-                    >
-                      🗺️ 네이버 지도로 보기
-                    </a>
-                  )}
-                </div>
-                {mapLines.length > 0 && (
-                  <div className="fade-in" style={{ background: 'var(--color-card)', borderRadius: 'var(--radius-lg)', padding: '24px', border: '1px solid var(--color-border)' }}>
-                    <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', color: 'var(--color-text-light)', lineHeight: '1.85' }}>
-                      {mapLines.map((line: string, i: number) => (
-                        <span key={i}>{line}<br /></span>
-                      ))}
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
+      {/* ── BOTTOM BLOCKS (P-01 · W-01 · DO-01 · V-01) ── */}
+      <BlockRenderer temple={temple} blocks={blocks} only={['P-01', 'W-01', 'DO-01', 'V-01']} />
 
       {/* ── FOOTER ── */}
       <footer className="footer">
@@ -447,7 +233,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             {has(blocks, 'P-01') && <a href="#pillars">핵심 실천</a>}
             {has(blocks, 'W-01') && <a href="#welfare">산하기관</a>}
             {has(blocks, 'DO-01') && <a href="#donate">나눔동참</a>}
-            {(has(blocks, 'V-01') || visitAddress) && <a href="#visit">오시는길</a>}
+            {(has(blocks, 'V-01') || !!temple.address) && <a href="#visit">오시는길</a>}
           </div>
           <div className="footer-col">
             <h4>연락처</h4>
