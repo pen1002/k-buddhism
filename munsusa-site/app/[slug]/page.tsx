@@ -326,30 +326,51 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
             <h2 className="section-title">나눔에 동참하세요</h2>
             <p className="section-desc">여러분의 소중한 후원이 사찰과 지역사회 발전의 원동력이 됩니다</p>
             <div className="donate-grid">
-              <div className="donate-card fade-in">
-                <h3>🏦 후원 계좌</h3>
-                <div className="bank-info">
-                  {[
-                    ['은행', do01.bankName || '-'],
-                    ['예금주', do01.accountHolder || name],
-                    ['계좌번호', do01.accountNumber || '-'],
-                  ].map(([k, v]) => (
-                    <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
-                  ))}
-                </div>
-              </div>
-              <div className="donate-card fade-in">
-                <h3>📞 후원 문의</h3>
-                <div className="bank-info">
-                  {[
-                    ['대표 전화', do01.phone || temple.phone || '-'],
-                    ['이메일', do01.email || temple.email || '-'],
-                    ['운영시간', do01.hours || '평일 09:00~18:00'],
-                  ].map(([k, v]) => (
-                    <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
-                  ))}
-                </div>
-              </div>
+              {Array.isArray(do01.accounts) && do01.accounts.length > 0 ? (
+                (do01.accounts as Array<{ title?: string; bank?: string; accountNumber?: string; accountHolder?: string; phone?: string }>)
+                  .map((acc, i) => (
+                    <div key={i} className="donate-card fade-in">
+                      <h3>{acc.title || '🏦 후원 계좌'}</h3>
+                      <div className="bank-info">
+                        {[
+                          ['은행', acc.bank || '-'],
+                          ['예금주', acc.accountHolder || '-'],
+                          ['계좌번호', acc.accountNumber || '-'],
+                          ['후원문의', acc.phone || '-'],
+                        ].map(([k, v]) => (
+                          <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+              ) : (
+                <>
+                  <div className="donate-card fade-in">
+                    <h3>🏦 후원 계좌</h3>
+                    <div className="bank-info">
+                      {[
+                        ['은행', do01.bankName || '-'],
+                        ['예금주', do01.accountHolder || name],
+                        ['계좌번호', do01.accountNumber || '-'],
+                      ].map(([k, v]) => (
+                        <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="donate-card fade-in">
+                    <h3>📞 후원 문의</h3>
+                    <div className="bank-info">
+                      {[
+                        ['대표 전화', do01.phone || temple.phone || '-'],
+                        ['이메일', do01.email || temple.email || '-'],
+                        ['운영시간', do01.hours || '평일 09:00~18:00'],
+                      ].map(([k, v]) => (
+                        <div key={k} className="bank-row"><span>{k}</span><span>{v}</span></div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </section>

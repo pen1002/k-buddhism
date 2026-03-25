@@ -17,7 +17,7 @@ interface Config {
 }
 
 const DEFAULT_STATS: StatItem[] = [
-  { value: 1996, suffix: '년', label: '복지재단 설립', icon: '🏛' },
+  { value: 2003, suffix: '년', label: '사회복지법인 부산광역시 설립허가(제2018-01호)', icon: '🏛' },
   { value: 6, suffix: '개', label: '복지시설 운영', icon: '🏥' },
   { value: 2003, suffix: '년', label: '위드아시아 설립', icon: '🌏' },
   { value: 10, suffix: '개국', label: '해외 지원 국가', icon: '✈️' },
@@ -60,7 +60,7 @@ function StatCard({ stat, active }: { stat: StatItem; active: boolean }) {
     >
       {stat.icon && <div style={{ fontSize: '2rem', marginBottom: '12px' }}>{stat.icon}</div>}
       <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2.2rem', fontWeight: 800, color: 'var(--color-accent)', lineHeight: 1 }}>
-        {count.toLocaleString()}<span style={{ fontSize: '1rem', fontWeight: 600 }}>{stat.suffix}</span>
+        {count.toString()}<span style={{ fontSize: '1rem', fontWeight: 600 }}>{stat.suffix}</span>
       </div>
       <div style={{ marginTop: '8px', fontSize: '0.88rem', color: 'var(--color-text-light)', fontWeight: 500 }}>
         {stat.label}

@@ -56,25 +56,30 @@ export default function KvBlocks({ templeCode, templeName, blocks, only }: Props
       {only !== 'rest' && has('I-01') && data && noticeSlides.length > 0 && (
         <div style={{ maxWidth: 'var(--max-w, 960px)', margin: '0 auto', padding: '32px 24px 0' }}>
           <section id="notice" style={{
-            background: 'var(--color-card)',
+            background: 'linear-gradient(135deg, #FFF8E7, #FDF0CC)',
             borderRadius: 'var(--radius-lg)',
             padding: '32px 28px',
-            border: '1px solid var(--color-border)',
+            border: '1px solid #D4AF37',
             position: 'relative', overflow: 'hidden',
           }}>
             <div style={{ marginBottom: '16px' }}>
-              <span className="event-tag">📢 공지사항</span>
+              <span style={{
+                display: 'inline-block',
+                background: '#D4AF37', color: '#fff',
+                padding: '5px 14px', borderRadius: '20px',
+                fontSize: '.82rem', fontWeight: 700, letterSpacing: '.04em',
+              }}>📢 공지사항</span>
             </div>
 
             {/* 슬라이드 */}
             {noticeSlides.map((s, i) => (
               <div key={i} style={{ display: i === currentNotice ? 'block' : 'none' }}>
-                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '10px', color: 'var(--color-dark)' }}>{s.title}</h3>
+                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', fontWeight: 700, marginBottom: '10px', color: '#8B6914' }}>{s.title}</h3>
                 {s.content && (
-                  <p style={{ fontSize: '.88rem', color: 'var(--color-text-light)', lineHeight: 1.7, whiteSpace: 'pre-line', marginBottom: '12px' }}>{s.content}</p>
+                  <p style={{ fontSize: '15px', color: '#555', lineHeight: 1.8, whiteSpace: 'pre-line', marginBottom: '12px' }}>{s.content}</p>
                 )}
                 {s.date && (
-                  <span style={{ fontSize: '.78rem', color: 'var(--color-text-light)', opacity: .7 }}>{s.date}</span>
+                  <span style={{ fontSize: '.78rem', color: '#8B6914', opacity: .7 }}>{s.date}</span>
                 )}
               </div>
             ))}
@@ -89,7 +94,7 @@ export default function KvBlocks({ templeCode, templeName, blocks, only }: Props
                     style={{
                       width: i === currentNotice ? '22px' : '8px', height: '8px',
                       borderRadius: '4px', border: 'none', cursor: 'pointer', padding: 0,
-                      background: i === currentNotice ? 'var(--color-accent)' : 'rgba(0,0,0,.18)',
+                      background: i === currentNotice ? '#D4AF37' : '#ccc',
                       transition: 'all .3s',
                     }}
                     aria-label={`공지 ${i + 1}`}
