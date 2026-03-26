@@ -1,6 +1,5 @@
-// 블록 자동 조립 엔진 v3
+// 블록 자동 조립 엔진 v4 — 6차 공정 전면 실체화
 // H-* 히어로 블록은 page.tsx에서 별도 처리 (제외)
-// SEC* 신규 블록은 이 파일에서 처리
 import { TempleData } from './types'
 import EventBlock from './EventBlock'
 import PrayerBlock from './PrayerBlock'
@@ -36,6 +35,45 @@ import TeaChatBookingBlock from './TeaChatBookingBlock'
 import WishTreeBlock from './WishTreeBlock'
 import CMSBlock from './CMSBlock'
 import TaxReceiptBlock from './TaxReceiptBlock'
+// ── 신규 블록 (6차 공정) ────────────────────────────────────────────────────
+import PressBlock from './PressBlock'
+import OfficialNoticeBlock from './OfficialNoticeBlock'
+import AdminNoticeBlock from './AdminNoticeBlock'
+import VolunteerNoticeBlock from './VolunteerNoticeBlock'
+import ConstructionNoticeBlock from './ConstructionNoticeBlock'
+import DharmaVideoBlock from './DharmaVideoBlock'
+import DharmaPopupBlock from './DharmaPopupBlock'
+import DharmaMultiLangBlock from './DharmaMultiLangBlock'
+import InteractiveMapBlock from './InteractiveMapBlock'
+import MuseumBlock from './MuseumBlock'
+import StampTourBlock from './StampTourBlock'
+import SeniorMonkBlock from './SeniorMonkBlock'
+import AbbotLineageBlock from './AbbotLineageBlock'
+import AbbotBooksBlock from './AbbotBooksBlock'
+import AlbumArchiveBlock from './AlbumArchiveBlock'
+import ActivityPhotoBlock from './ActivityPhotoBlock'
+import SeasonGalleryBlock from './SeasonGalleryBlock'
+import VideoGalleryBlock from './VideoGalleryBlock'
+import CommunityPhotoBlock from './CommunityPhotoBlock'
+import PaymentBlock from './PaymentBlock'
+import ARSDonationBlock from './ARSDonationBlock'
+import EtiquetteBlock from './EtiquetteBlock'
+import GlossaryBlock from './GlossaryBlock'
+import RitualGuideBlock from './RitualGuideBlock'
+import ChantDownloadBlock from './ChantDownloadBlock'
+import MonkDayBlock from './MonkDayBlock'
+import TransportBlock from './TransportBlock'
+import FoundedTimerBlock from './FoundedTimerBlock'
+import LanternCounterBlock from './LanternCounterBlock'
+import HeritageCountBlock from './HeritageCountBlock'
+import VolunteerStatsBlock from './VolunteerStatsBlock'
+import VisitorCountBlock from './VisitorCountBlock'
+import PillarBlock from './PillarBlock'
+import CharityBlock from './CharityBlock'
+import ScholarshipBlock from './ScholarshipBlock'
+import VolunteerFormBlock from './VolunteerFormBlock'
+import ShopBlock from './ShopBlock'
+import CommunityBlock from './CommunityBlock'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Cfg = Record<string, any>
@@ -89,11 +127,17 @@ export default function BlockRenderer({ temple, blocks, only, except }: Props) {
           case 'SEC02-02':
             return <SpecialNoticeBlock key={idx} blockData={config} temple={temple} />
           case 'SEC02-03':
-          case 'SEC06-05': // 저서 → PDF 재활용
-          case 'SEC10-05': // 다라니 자료 → PDF 재활용
             return <PublicationBlock key={idx} blockData={config} temple={temple} />
-          case 'SEC02-04': case 'SEC02-05': case 'SEC02-06': case 'SEC02-07':
-            return <EventCardBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC02-04':
+            return <PressBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC02-05':
+            return <OfficialNoticeBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC02-06':
+            return <AdminNoticeBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC02-07':
+            return <VolunteerNoticeBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC02-08':
+            return <ConstructionNoticeBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제3전각: 법회·기도·행사 ──────────────────────────────────────
           case 'SEC03-01':
@@ -110,58 +154,85 @@ export default function BlockRenderer({ temple, blocks, only, except }: Props) {
           // ── 제4전각: 법문 ─────────────────────────────────────────────────
           case 'SEC04-01':
             return null // page.tsx에서 getTodayDharma()로 서버사이드 처리
+          case 'SEC04-02':
+            return <DharmaVideoBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC04-03':
+            return <DharmaPopupBlock key={idx} temple={temple} blockData={config} />
           case 'SEC04-04':
             return <SutraReaderBlock key={idx} />
           case 'SEC04-05':
             return <DharmaAudioBlock key={idx} blockData={config} temple={temple} />
           case 'SEC04-06':
-            return null // 다국어 법문 — 4차 공정에서 lang 파라미터 추가 예정
+            return <DharmaMultiLangBlock key={idx} temple={temple} blockData={config} />
           case 'SEC04-07':
             return <DharmaCardNewsBlock key={idx} blockData={config} temple={temple} />
 
           // ── 제5전각: 사찰소개 ─────────────────────────────────────────────
           case 'SEC05-01':
             return <TempleHistoryBlock key={idx} temple={temple} blockData={config} />
-          case 'SEC05-02': case 'SEC05-03': case 'SEC05-04':
+          case 'SEC05-02':
+            return <HallEncyclopediaBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC05-03':
+            return <InteractiveMapBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC05-04':
+            return <MuseumBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC05-05':
+            return <TrailBlock key={idx} blockData={config} temple={temple} />
+          case 'SEC05-06':
+            return <StampTourBlock key={idx} temple={temple} blockData={config} />
           case 'SEC05-07': case 'SEC05-08': case 'SEC05-09':
           case 'SEC05-10': case 'SEC05-11': case 'SEC05-12': case 'SEC05-13':
           case 'SEC05-14': case 'SEC05-15': case 'SEC05-16': case 'SEC05-17':
           case 'SEC05-18': case 'SEC05-19': case 'SEC05-20': case 'SEC05-21':
           case 'SEC05-22': case 'SEC05-23': case 'SEC05-24': case 'SEC05-25':
             return <HallEncyclopediaBlock key={idx} temple={temple} blockData={config} />
-          case 'SEC05-05':
-            return <TrailBlock key={idx} blockData={config} temple={temple} />
-          case 'SEC05-06':
-            return <EventCardBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제6전각: 주지스님 인사말 ─────────────────────────────────────
           case 'SEC06-01':
             return <AbbotGreetingBlock key={idx} temple={temple} blockData={config} />
-          case 'SEC06-02': // 조실법어 → 인사말 컴포넌트 재활용
+          case 'SEC06-02':
             return <AbbotGreetingBlock key={idx} temple={temple} blockData={config} />
-          case 'SEC06-03': // 역대주지 → 범용카드
-            return <EventCardBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC06-03':
+            return <AbbotLineageBlock key={idx} temple={temple} blockData={config} />
           case 'SEC06-04':
             return <TeaChatBookingBlock key={idx} blockData={config} temple={temple} />
+          case 'SEC06-05':
+            return <SeniorMonkBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC06-06':
+            return <AbbotLineageBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC06-07':
+            return <AbbotBooksBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제7전각: 갤러리 ───────────────────────────────────────────────
-          case 'SEC07-01': case 'SEC07-02': case 'SEC07-03':
-          case 'SEC07-04': case 'SEC07-05': case 'SEC07-06':
+          case 'SEC07-01': case 'SEC07-02':
             return <GalleryBlock key={idx} templeCode={temple.code} templeName={temple.name} blockData={config} />
+          case 'SEC07-03':
+            return <AlbumArchiveBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC07-04':
+            return <ActivityPhotoBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC07-05':
+            return <SeasonGalleryBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC07-06':
+            return <VideoGalleryBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC07-07':
+            return <CommunityPhotoBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제8전각: 기도·불사동참 ───────────────────────────────────────
-          // SEC08-12는 WishTreeBlock (OfferingBlock과 분리)
-          case 'SEC08-01': case 'SEC08-02': case 'SEC08-03': case 'SEC08-04':
+          case 'SEC08-01': case 'SEC08-02':
           case 'SEC08-05': case 'SEC08-06': case 'SEC08-07': case 'SEC08-08':
           case 'SEC08-09': case 'SEC08-10': case 'SEC08-11':
             return <OfferingBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC08-03':
+            return <PaymentBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC08-04':
+            return <ARSDonationBlock key={idx} temple={temple} blockData={config} />
           case 'SEC08-12':
             return <WishTreeBlock key={idx} />
 
           // ── 제9전각: 결제·보시 ────────────────────────────────────────────
           case 'SEC09-01':
-            return null // PG 실제 연동은 4차 공정 예정
-          case 'SEC09-02': case 'SEC09-03': // ARS → 계좌안내 재활용
+            return null // PG 실제 연동은 별도 공정 예정
+          case 'SEC09-02': case 'SEC09-03':
             return <BankTransferBlock key={idx} temple={temple} blockData={config} />
           case 'SEC09-04':
             return <CMSBlock key={idx} blockData={config} temple={temple} />
@@ -169,20 +240,50 @@ export default function BlockRenderer({ temple, blocks, only, except }: Props) {
             return <TaxReceiptBlock key={idx} blockData={config} temple={temple} />
 
           // ── 제10전각: 자료관 ──────────────────────────────────────────────
-          case 'SEC10-01': case 'SEC10-03': case 'SEC10-04': // 용어사전·제사안내 → FAQ 재활용
+          case 'SEC10-01':
             return <QASlideBlock key={idx} config={config} />
+          case 'SEC10-02':
+            return <EtiquetteBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC10-03':
+            return <GlossaryBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC10-04':
+            return <RitualGuideBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC10-05':
+            return <ChantDownloadBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC10-06':
+            return <MonkDayBlock key={idx} temple={temple} blockData={config} />
           case 'SEC10-07':
             return <VisitBlock key={idx} blockData={config} temple={temple} />
+          case 'SEC10-08':
+            return <TransportBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제11전각: 인포그래픽 ──────────────────────────────────────────
-          case 'SEC11-04': case 'SEC11-05': // 봉사통계·방문객 → 기존 재활용
-            return <InfoGraphicBlock key={idx} config={config} />
+          case 'SEC11-01':
+            return <FoundedTimerBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC11-02':
+            return <LanternCounterBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC11-03':
+            return <HeritageCountBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC11-04':
+            return <VolunteerStatsBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC11-05':
+            return <VisitorCountBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제12전각: 실천 네트워크 ──────────────────────────────────────
           case 'SEC12-01':
-            return <PrayerBlock key={idx} blockData={config} />
-          case 'SEC12-04': case 'SEC12-07': // 장학재단·지역교류 → 범용카드
-            return <EventCardBlock key={idx} temple={temple} blockData={config} />
+            return <PillarBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC12-02':
+            return <CharityBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC12-03':
+            return <WelfareBlock key={idx} blockData={config} />
+          case 'SEC12-04':
+            return <ScholarshipBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC12-05':
+            return <VolunteerFormBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC12-06':
+            return <ShopBlock key={idx} temple={temple} blockData={config} />
+          case 'SEC12-07':
+            return <CommunityBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제13전각: 템플스테이 ──────────────────────────────────────────
           case 'SEC13-01':
