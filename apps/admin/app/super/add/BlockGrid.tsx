@@ -3,10 +3,12 @@ import { useState } from 'react'
 
 // ── 타입 ──────────────────────────────────────────────────────────────────────
 interface BlockItem { code: string; name: string; desc: string }
-type CatKey = 'H' | 'T' | 'L' | 'P' | 'E' | 'B' | 'G' | 'C' | 'I' | 'X'
+interface ThemeItem { code: string; name: string; desc: string; primaryColor: string; accentColor: string }
+type CatKey = 'THEME' | 'H' | 'T' | 'L' | 'P' | 'E' | 'B' | 'G' | 'C' | 'I' | 'X'
 
 // ── 카테고리 정의 ─────────────────────────────────────────────────────────────
 const CATEGORIES: { key: CatKey; icon: string; label: string; color: string }[] = [
+  { key: 'THEME', icon: '🎨', label: '테마',        color: '#6B21A8' },
   { key: 'H', icon: '🏯',  label: '히어로',      color: '#1B3A6B' },
   { key: 'T', icon: '🏛️', label: '사찰소개',     color: '#5C3A00' },
   { key: 'L', icon: '📿',  label: '법회',         color: '#6B4226' },
@@ -19,8 +21,23 @@ const CATEGORIES: { key: CatKey; icon: string; label: string; color: string }[] 
   { key: 'X', icon: '📚',  label: 'Q&A·자료관',  color: '#5B2D8E' },
 ]
 
+// ── 10대 테마 카탈로그 ─────────────────────────────────────────────────────────
+export const THEME_CATALOG: ThemeItem[] = [
+  { code: 'theme-1',  name: '삼천사 전통 권위형',   desc: '진홍+먹색 — 전통 사찰 권위와 격식',          primaryColor: '#8B1A1A', accentColor: '#C5A030' },
+  { code: 'theme-2',  name: '문수사 청해 선형',      desc: '청록+금색 — 선(禪)의 고요함 (기본값)',       primaryColor: '#2B6B7F', accentColor: '#B8893E' },
+  { code: 'theme-3',  name: '봉은사 도심 현대형',    desc: '차콜+오렌지 — 도심 속 현대 사찰 감각',       primaryColor: '#D0580A', accentColor: '#B89050' },
+  { code: 'theme-4',  name: '해인사 법보 황금형',    desc: '다크+황금 — 법보종찰의 깊고 화려한 위엄',    primaryColor: '#D4A825', accentColor: '#8B5A00' },
+  { code: 'theme-5',  name: '통도사 자연 생태형',    desc: '녹색+흙색 — 자연과 생태의 힐링 도량',        primaryColor: '#3A7A3A', accentColor: '#A09040' },
+  { code: 'theme-6',  name: '송광사 수묵 선비형',    desc: '먹+회색 — 수묵화 같은 선비 품격',            primaryColor: '#404850', accentColor: '#9A8A60' },
+  { code: 'theme-7',  name: '선암사 은빛 미니멀형',  desc: '화이트+실버 — 여백의 미, 미니멀 모던',       primaryColor: '#505050', accentColor: '#909090' },
+  { code: 'theme-8',  name: '백양사 봄벚꽃 낭만형',  desc: '핑크+자주 — 봄벚꽃 같은 낭만과 온기',       primaryColor: '#C0407A', accentColor: '#D49050' },
+  { code: 'theme-9',  name: '화엄사 붉은 단풍형',    desc: '단풍+가을 — 화엄의 붉은 가을 정취',          primaryColor: '#C03010', accentColor: '#C88020' },
+  { code: 'theme-10', name: '테크 프로페셔널형',     desc: '네이비+청색 — 디지털 시대 전문 사찰',        primaryColor: '#1A4A9C', accentColor: '#4A8AC0' },
+]
+
 // ── 65개 부품 카탈로그 ────────────────────────────────────────────────────────
 export const BLOCK_CATALOG: Record<CatKey, BlockItem[]> = {
+  THEME: [], // 테마는 별도 ThemeCard로 렌더링
   H: [
     { code: 'H-01', name: '파티클+연등형',        desc: '금빛 파티클 + 연등 동시 효과 (문수사 원형)' },
     { code: 'H-02', name: '정지 이미지형',        desc: '대표 사진 + 사찰명 오버레이 + CTA 버튼' },
@@ -127,10 +144,60 @@ export function getBlockName(code: string): string {
 interface Props {
   selected: string[]
   onChange: (ids: string[]) => void
+  selectedTheme?: string
+  onThemeChange?: (themeCode: string) => void
 }
 
-export default function BlockGrid({ selected, onChange }: Props) {
-  const [activeTab, setActiveTab] = useState<CatKey>('H')
+// ── ThemeCard ─────────────────────────────────────────────────────────────────
+function ThemeCard({ theme, isSelected, onSelect }: {
+  theme: ThemeItem
+  isSelected: boolean
+  onSelect: () => void
+}) {
+  return (
+    <button
+      onClick={onSelect}
+      className={`relative rounded-xl border-2 overflow-hidden text-left transition-all active:scale-95 flex flex-col ${
+        isSelected ? 'border-purple-500 shadow-md' : 'border-gray-200 bg-white'
+      }`}
+    >
+      {/* 테마 컬러 프리뷰 바 */}
+      <div className="w-full h-8 flex">
+        <div className="flex-1" style={{ backgroundColor: theme.primaryColor }} />
+        <div className="flex-1" style={{ backgroundColor: theme.accentColor }} />
+      </div>
+
+      {/* 카드 본문 */}
+      <div className={`flex-1 px-3 py-2.5 ${isSelected ? 'bg-purple-50' : 'bg-white'}`}>
+        <code
+          className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded mb-1.5 inline-block"
+          style={{
+            backgroundColor: isSelected ? '#6B21A820' : '#F3E8FF',
+            color: '#6B21A8',
+          }}
+        >
+          {theme.code}
+        </code>
+        <p className={`text-sm font-bold leading-tight mb-1 ${isSelected ? 'text-purple-900' : 'text-gray-700'}`}>
+          {theme.name}
+        </p>
+        <p className="text-[10px] text-gray-400 leading-tight line-clamp-2">
+          {theme.desc}
+        </p>
+      </div>
+
+      {/* 선택 뱃지 */}
+      {isSelected && (
+        <div className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center shadow-sm bg-purple-600">
+          <span className="text-white text-[10px] font-bold">✓</span>
+        </div>
+      )}
+    </button>
+  )
+}
+
+export default function BlockGrid({ selected, onChange, selectedTheme = 'theme-2', onThemeChange }: Props) {
+  const [activeTab, setActiveTab] = useState<CatKey>('THEME')
 
   const toggle = (code: string) => {
     onChange(selected.includes(code) ? selected.filter(c => c !== code) : [...selected, code])
@@ -153,7 +220,7 @@ export default function BlockGrid({ selected, onChange }: Props) {
       <div className="flex gap-2 overflow-x-auto pb-2 mb-4 scrollbar-hide">
         {CATEGORIES.map(cat => {
           const isActive = cat.key === activeTab
-          const selCount = BLOCK_CATALOG[cat.key].filter(b => selected.includes(b.code)).length
+          const selCount = cat.key === 'THEME' ? 0 : BLOCK_CATALOG[cat.key].filter(b => selected.includes(b.code)).length
           return (
             <button
               key={cat.key}
@@ -170,7 +237,7 @@ export default function BlockGrid({ selected, onChange }: Props) {
               {selCount > 0 && (
                 <span
                   className="w-5 h-5 rounded-full text-xs flex items-center justify-center font-bold"
-                  style={{ backgroundColor: isActive ? 'rgba(255,255,255,0.3)' : cat.color, color: isActive ? '#fff' : '#fff' }}
+                  style={{ backgroundColor: isActive ? 'rgba(255,255,255,0.3)' : cat.color, color: '#fff' }}
                 >
                   {selCount}
                 </span>
@@ -180,7 +247,22 @@ export default function BlockGrid({ selected, onChange }: Props) {
         })}
       </div>
 
+      {/* 테마 선택 그리드 */}
+      {activeTab === 'THEME' && (
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-6">
+          {THEME_CATALOG.map(theme => (
+            <ThemeCard
+              key={theme.code}
+              theme={theme}
+              isSelected={selectedTheme === theme.code}
+              onSelect={() => onThemeChange?.(theme.code)}
+            />
+          ))}
+        </div>
+      )}
+
       {/* 블록 카드 그리드 */}
+      {activeTab !== 'THEME' && (
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mb-6">
         {activeBlocks.map(block => {
           const isSelected = selected.includes(block.code)
@@ -230,6 +312,7 @@ export default function BlockGrid({ selected, onChange }: Props) {
           )
         })}
       </div>
+      )}
 
       {/* 필수 항목 (항상 포함) */}
       <div className="rounded-2xl overflow-hidden border-2 border-yellow-300">

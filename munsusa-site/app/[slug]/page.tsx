@@ -63,10 +63,12 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
     { href: '#visit', label: '오시는길', emoji: '🗺', show: has(blocks, 'V-01') || !!temple.address },
   ].filter(l => l.show)
 
+  const themeClass = temple.themeType || 'theme-2'
+
   return (
-    <>
-      {/* 사찰별 컬러 테마 */}
-      <style>{`:root{--color-accent:${temple.primaryColor};--color-gold:${temple.secondaryColor};}`}</style>
+    <div data-theme={themeClass}>
+      {/* 사찰별 컬러 테마 (primaryColor/secondaryColor override) */}
+      <style>{`:root{--temple-primary:${temple.primaryColor};--temple-secondary:${temple.secondaryColor};}`}</style>
 
       {/* ── NAV ── */}
       <nav className="nav" id="nav">
@@ -299,7 +301,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
 
       {/* ── CLIENT SCRIPTS ── */}
       <MunsusaClient />
-    </>
+    </div>
   )
 }
 

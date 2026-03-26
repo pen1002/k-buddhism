@@ -22,6 +22,7 @@ model Temple {
   primaryColor   String   @default("#8B2500")
   secondaryColor String   @default("#C5A572")
   fontFamily     String   @default("Pretendard")
+  themeType      String   @default("theme-2")
   customDomain   String?  @unique
   subdomain      String?  @unique
   denomination   String?

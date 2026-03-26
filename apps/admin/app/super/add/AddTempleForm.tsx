@@ -8,6 +8,7 @@ interface Result { ok?: boolean; code?: string; name?: string; blockCount?: numb
 export default function AddTempleForm() {
   const router = useRouter()
   const [selectedBlocks, setSelectedBlocks] = useState<string[]>(['H-01', 'D-01', 'I-01', 'V-01'])
+  const [selectedTheme, setSelectedTheme] = useState('theme-2')
 
   const [form, setForm] = useState({
     code: '', name: '', nameEn: '', description: '', address: '',
@@ -39,6 +40,7 @@ export default function AddTempleForm() {
         primaryColor: form.primaryColor,
         secondaryColor: form.secondaryColor,
         tier: Number(form.tier),
+        themeType: selectedTheme,
       },
       blocks: selectedBlocks.map((id, i) => {
         const config: Record<string, unknown> = id === 'H-01' ? {
@@ -74,6 +76,7 @@ export default function AddTempleForm() {
   const resetForm = () => {
     setResult(null)
     setSelectedBlocks(['H-01', 'D-01', 'I-01', 'V-01'])
+    setSelectedTheme('theme-2')
     setForm({ code:'', name:'', nameEn:'', description:'', address:'', phone:'', denomination:'대한불교 조계종', abbotName:'', primaryColor:'#8B5E3C', secondaryColor:'#D4A017', tier:'2', pin:'' })
     setError('')
   }
@@ -200,7 +203,7 @@ export default function AddTempleForm() {
         <section>
           <h2 className="text-temple-brown font-bold text-lg mb-1">② 블록 구성 선택</h2>
           <p className="text-gray-400 text-sm mb-4">사찰 홈페이지에 표시할 섹션을 선택하세요</p>
-          <BlockGrid selected={selectedBlocks} onChange={setSelectedBlocks} />
+          <BlockGrid selected={selectedBlocks} onChange={setSelectedBlocks} selectedTheme={selectedTheme} onThemeChange={setSelectedTheme} />
         </section>
 
         {/* ③ JSON 미리보기 (읽기 전용) ────────────────────────────────────── */}
