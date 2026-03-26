@@ -274,6 +274,13 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       {/* ── 부가: 오시는길 V-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['V-01']} />
 
+      {/* ── SEC* 신규 전각 블록 (2차·3차 공정) — 레거시와 중복 없이 렌더링 ── */}
+      <BlockRenderer
+        temple={temple}
+        blocks={blocks}
+        except={['I-01','D-01','G-01','E-01','P-01','W-01','DO-01','V-01','QA-01','IG-01']}
+      />
+
       {/* ── FOOTER ── */}
       <footer className="footer">
         <div className="footer-inner">
