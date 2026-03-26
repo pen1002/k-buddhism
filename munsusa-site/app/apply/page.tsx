@@ -217,30 +217,34 @@ export default function ApplyPage() {
       {/* 헤더 */}
       <div style={{ background: '#8B2500', padding: '20px 16px', color: '#fff' }}>
         <p style={{ fontSize: '15px', opacity: 0.8, marginBottom: '4px' }}>108사찰 플랫폼</p>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, margin: 0 }}>사찰 홈페이지 입주 신청</h1>
+        <h1 style={{ fontSize: '24px', fontWeight: 700, margin: 0 }}>1080불사 홈페이지 신청서</h1>
       </div>
 
       {/* 단계 표시 */}
-      <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '14px 16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', maxWidth: '600px', margin: '0 auto' }}>
-          {[1, 2, 3].map(n => (
-            <div key={n} style={{ display: 'flex', alignItems: 'center', flex: n < 3 ? 1 : undefined }}>
+      <div style={{ background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '14px 16px', overflowX: 'hidden' }}>
+        <div style={{ display: 'flex', alignItems: 'center', maxWidth: '600px', margin: '0 auto', width: '100%' }}>
+          {[
+            { n: 1, label: '사찰' },
+            { n: 2, label: '주지스님' },
+            { n: 3, label: '테마' },
+          ].map(({ n, label }) => (
+            <div key={n} style={{ display: 'flex', alignItems: 'center', flex: n < 3 ? 1 : undefined, minWidth: 0 }}>
               <div style={{
-                width: '36px', height: '36px', borderRadius: '50%', flexShrink: 0,
+                width: '34px', height: '34px', borderRadius: '50%', flexShrink: 0,
                 background: step >= n ? '#8B2500' : '#e5e7eb',
                 color: step >= n ? '#fff' : '#9ca3af',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontWeight: 700, fontSize: '16px',
+                fontWeight: 700, fontSize: '15px',
               }}>{n}</div>
               <span style={{
-                marginLeft: '6px', fontSize: '14px',
+                marginLeft: '5px', fontSize: '13px',
                 color: step === n ? '#8B2500' : '#9ca3af',
                 fontWeight: step === n ? 700 : 400,
-                whiteSpace: 'nowrap',
+                whiteSpace: 'nowrap', overflow: 'hidden',
               }}>
-                {n === 1 ? '사찰 정보' : n === 2 ? '주지 정보' : '테마 선택'}
+                {label}
               </span>
-              {n < 3 && <div style={{ flex: 1, height: '2px', background: step > n ? '#8B2500' : '#e5e7eb', margin: '0 8px', minWidth: '16px' }} />}
+              {n < 3 && <div style={{ flex: 1, height: '2px', background: step > n ? '#8B2500' : '#e5e7eb', margin: '0 6px', minWidth: '12px' }} />}
             </div>
           ))}
         </div>
