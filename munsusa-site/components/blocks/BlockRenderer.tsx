@@ -16,6 +16,7 @@ import InfoGraphicBlock from '@/components/InfoGraphicBlock'
 import RegularServiceBlock from './RegularServiceBlock'
 import EventCardBlock from './EventCardBlock'
 import AnnualCalendarBlock from './AnnualCalendarBlock'
+import SmartCalendarBlock from './SmartCalendarBlock'
 import TempleHistoryBlock from './TempleHistoryBlock'
 import HallEncyclopediaBlock from './HallEncyclopediaBlock'
 import AbbotGreetingBlock from './AbbotGreetingBlock'
@@ -104,7 +105,7 @@ export default function BlockRenderer({ temple, blocks, only, except }: Props) {
           case 'SEC03-18': case 'SEC03-19':
             return <EventCardBlock key={idx} temple={temple} blockData={config} />
           case 'SEC03-20':
-            return <AnnualCalendarBlock key={idx} temple={temple} blockData={config} />
+            return <SmartCalendarBlock key={idx} temple={temple} blockData={config} />
 
           // ── 제4전각: 법문 ─────────────────────────────────────────────────
           case 'SEC04-01':

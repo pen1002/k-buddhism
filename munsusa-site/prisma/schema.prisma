@@ -29,6 +29,8 @@ model Temple {
   foundedYear    Int?
   abbotName      String?
   tier           Int      @default(1) // 1=기본, 2=표준, 3=프리미엄
+  status         String   @default("active") // active | pending | suspended
+  pin            String   @default("0000")   // 사찰 관리자 PIN
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
