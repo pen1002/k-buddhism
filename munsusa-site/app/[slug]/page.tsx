@@ -170,6 +170,13 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
+      {/* ────────────────────────────────────────────────────────────────────
+       * 12대 전각 배치 표준 (1080사찰 영구 법도)
+       * 1.H-*  2.I-01  3.E-01  4.D-01  5.T-01(About)  6.T-02(Quote)
+       * 7.G-01  8.OF-01(기도불사동참·신규)  9.PAY-01(결제·미래)
+       * 10.QA-01  11.IG-01  12.P-01  + W-01·V-01(부가)
+       * ─────────────────────────────────────────────────────────────── */}
+
       {/* ── 2. 공지사항 (I-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['I-01']} />
 
@@ -179,7 +186,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       {/* ── 4. 오늘의 법문 (D-01) ── */}
       {dharma && <DharmaBlock blockData={{ dharma }} />}
 
-      {/* ── 5. 사찰소개 About Temple ── */}
+      {/* ── 5. 사찰소개 T-01 — About Temple ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>
         <div className="section-inner">
           <p className="section-label">About Temple</p>
@@ -215,7 +222,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
-      {/* ── 6. 주지스님 인사말 (QUOTE) ── */}
+      {/* ── 6. 주지스님 인사말 T-02 — Greeting ── */}
       {h01.quoteText && (
         <div className="quote-banner">
           <h2 style={{ whiteSpace: 'pre-line' }}>&ldquo;{h01.quoteText}&rdquo;</h2>
@@ -223,25 +230,28 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── 7. 갤러리 (G-01) ── */}
+      {/* ── 7. 갤러리 G-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['G-01']} />
 
-      {/* ── 8. 자료관 (QA-01) ── */}
+      {/* ── 8. 기도불사동참 OF-01 (신규 공정 예정) ── */}
+      {/* <BlockRenderer temple={temple} blocks={blocks} only={['OF-01']} /> */}
+
+      {/* ── 10. 자료관 QA-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['QA-01']} />
 
-      {/* ── 9. 숫자로 보는 사찰 (IG-01) ── */}
+      {/* ── 11. 숫자로 보는 사찰 IG-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['IG-01']} />
 
-      {/* ── 10. 자비의 3대 실천 (P-01) ── */}
+      {/* ── 12. 자비의 실천 네트워크 P-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['P-01']} />
 
-      {/* ── 11. 산하기관 (W-01) ── */}
+      {/* ── 부가: 산하기관 W-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['W-01']} />
 
-      {/* ── 12. 나눔동참 (DO-01) ── */}
+      {/* ── 부가: 나눔동참 DO-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['DO-01']} />
 
-      {/* ── 13. 오시는길 (V-01) ── */}
+      {/* ── 부가: 오시는길 V-01 ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['V-01']} />
 
       {/* ── FOOTER ── */}

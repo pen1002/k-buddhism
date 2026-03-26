@@ -901,4 +901,30 @@ document.addEventListener('DOMContentLoaded', function() {
   var firstFaq = document.querySelector('.faq-item');
   if(firstFaq) firstFaq.classList.add('open');
 });
-</script> </body> </html>
+</script>
+
+<!-- 3대 어드민 혈맥 동적 연동 (보림사 전용 · 원본 디자인 유지) -->
+<script>
+(async function() {
+  try {
+    var res = await fetch('/api/temple/borimsa');
+    if (!res.ok) return;
+    var data = await res.json();
+    if (data.notices && data.notices.length > 0) {
+      var noticeEl = document.querySelector('[data-admin="notice"]');
+      if (noticeEl) noticeEl.innerHTML = data.notices[0].content || '';
+    }
+    if (data.dharma && data.dharma.text) {
+      var dharmaEl = document.querySelector('[data-admin="dharma"]');
+      if (dharmaEl) dharmaEl.textContent = data.dharma.text;
+      var srcEl = document.querySelector('[data-admin="dharma-source"]');
+      if (srcEl) srcEl.textContent = '— ' + data.dharma.source;
+    }
+    if (data.gallery && data.gallery.length > 0) {
+      var galleryEl = document.querySelector('[data-admin="gallery"]');
+      if (galleryEl) galleryEl.innerHTML = data.gallery.map(function(img){return '<img src="'+img.url+'" alt="'+(img.alt||'보림사')+'" loading="lazy" />';}).join('');
+    }
+  } catch(e) { console.log('[보림사] Admin API unavailable, using static content'); }
+})();
+</script>
+ </body> </html>
