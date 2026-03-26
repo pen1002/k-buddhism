@@ -25,6 +25,11 @@ export default function TempleGrid({
   const [pinMsg, setPinMsg] = useState('')
   const [actionMsg, setActionMsg] = useState<Record<string, string>>({})
   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>({})
+  const [deleteTarget, setDeleteTarget] = useState<{ code: string; name: string } | null>(null)
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [deleteMsg, setDeleteMsg] = useState('')
+
+  const PROTECTED = ['munsusa']
 
   const handlePinSave = async (code: string) => {
     if (newPin.length < 4) { setPinMsg('4자리 이상 입력하세요'); return }
@@ -44,6 +49,26 @@ export default function TempleGrid({
       }
     } catch { setPinMsg('네트워크 오류') }
     finally { setPinLoading(false) }
+  }
+
+  const handleDelete = async () => {
+    if (!deleteTarget) return
+    setDeleteLoading(true)
+    setDeleteMsg('')
+    try {
+      const res = await fetch(`/api/super/temples/${deleteTarget.code}/delete`, { method: 'DELETE' })
+      const d = await res.json() as { message?: string; error?: string }
+      if (res.ok) {
+        setDeleteMsg(`✅ ${d.message}`)
+        setTimeout(() => { setDeleteTarget(null); setDeleteMsg(''); window.location.reload() }, 1500)
+      } else {
+        setDeleteMsg(`⚠️ ${d.error}`)
+        setDeleteLoading(false)
+      }
+    } catch {
+      setDeleteMsg('네트워크 오류')
+      setDeleteLoading(false)
+    }
   }
 
   const handleAction = async (code: string, action: 'approve' | 'reject') => {
@@ -162,6 +187,18 @@ export default function TempleGrid({
                       >
                         🔑 PIN 변경
                       </button>
+                      <button
+                        onClick={() => !PROTECTED.includes(t.code) && setDeleteTarget({ code: t.code, name: t.name })}
+                        disabled={PROTECTED.includes(t.code)}
+                        className={`font-semibold px-3 py-2 rounded-xl text-base border transition-opacity ${
+                          PROTECTED.includes(t.code)
+                            ? 'bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed opacity-50'
+                            : 'bg-red-50 text-red-600 border-red-200 active:opacity-70'
+                        }`}
+                        title={PROTECTED.includes(t.code) ? '보호된 사찰 — 삭제 불가' : '사찰 삭제'}
+                      >
+                        🗑 삭제
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -247,6 +284,50 @@ export default function TempleGrid({
           <span className="text-2xl">+</span> 새 사찰 등록
         </a>
       </div>
+
+      {/* 삭제 확인 모달 */}
+      {deleteTarget && (
+        <div
+          className="fixed inset-0 z-50 flex items-end justify-center"
+          style={{ background: 'rgba(0,0,0,0.55)' }}
+          onClick={e => { if (e.target === e.currentTarget && !deleteLoading) { setDeleteTarget(null); setDeleteMsg('') } }}
+        >
+          <div className="bg-temple-cream rounded-t-3xl w-full max-w-lg px-6 pt-6 pb-10">
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-3xl">⚠️</span>
+              <h3 className="text-xl font-bold text-red-700">사찰 삭제</h3>
+            </div>
+            <p className="text-gray-700 text-base mb-1">
+              정말 삭제하시겠습니까?
+            </p>
+            <p className="text-gray-500 text-base mb-5">
+              <code className="bg-gray-100 px-1.5 py-0.5 rounded font-bold text-red-600">{deleteTarget.name}</code>
+              {' '}및 관련 데이터가 영구 삭제됩니다. 이 작업은 되돌릴 수 없습니다.
+            </p>
+            {deleteMsg && (
+              <p className={`text-base mb-4 font-semibold ${deleteMsg.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>
+                {deleteMsg}
+              </p>
+            )}
+            <div className="flex gap-3">
+              <button
+                onClick={handleDelete}
+                disabled={deleteLoading || !!deleteMsg}
+                className="flex-1 bg-red-600 text-white font-bold py-3 rounded-xl text-base disabled:opacity-40"
+              >
+                {deleteLoading ? '삭제 중...' : '🗑 삭제 확인'}
+              </button>
+              <button
+                onClick={() => { if (!deleteLoading) { setDeleteTarget(null); setDeleteMsg('') } }}
+                disabled={deleteLoading}
+                className="flex-1 bg-gray-200 text-gray-700 font-bold py-3 rounded-xl text-base disabled:opacity-40"
+              >
+                취소
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* PIN 변경 모달 */}
       {pinModal && (
