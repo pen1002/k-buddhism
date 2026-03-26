@@ -9,6 +9,9 @@ import HeroParticleBlock from '@/components/hero/HeroParticleBlock'
 import HeroLanternBlock from '@/components/hero/HeroLanternBlock'
 import HeroLampBlock from '@/components/hero/HeroLampBlock'
 import HeroMorphGridBlock from '@/components/hero/HeroMorphGridBlock'
+import HeroVideoBlock from '@/components/blocks/hero/HeroVideoBlock'
+import HeroSeasonBlock from '@/components/blocks/hero/HeroSeasonBlock'
+import HeroMinimalBlock from '@/components/blocks/hero/HeroMinimalBlock'
 import BlockRenderer from '@/components/blocks/BlockRenderer'
 import DharmaBlock from '@/components/blocks/DharmaBlock'
 import { getTodayDharma } from '@/lib/dharma-rotation'
@@ -150,6 +153,21 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       {/* ── HERO (H-07: 원형→그리드 변환형) ── */}
       {has(blocks, 'H-07') && (
         <HeroMorphGridBlock config={h01} temple={temple} />
+      )}
+
+      {/* ── HERO (H-08: 드론 영상형) ── */}
+      {has(blocks, 'H-08') && (
+        <HeroVideoBlock temple={temple} blockData={h01} />
+      )}
+
+      {/* ── HERO (H-09: 명상 미니멀 타이포) ── */}
+      {has(blocks, 'H-09') && (
+        <HeroMinimalBlock temple={temple} blockData={h01} />
+      )}
+
+      {/* ── HERO (H-10: 사계절 자동 전환) ── */}
+      {has(blocks, 'H-10') && (
+        <HeroSeasonBlock temple={temple} blockData={h01} />
       )}
 
       {/* ── TICKER ── */}
