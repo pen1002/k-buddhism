@@ -66,6 +66,9 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
     { href: '#visit', label: '오시는길', emoji: '🗺', show: has(blocks, 'V-01') || !!temple.address },
   ].filter(l => l.show)
 
+  const tier = temple.tier ?? 1
+  const showAdvanced = tier >= 2
+
   const themeClass = temple.themeType || 'theme-2'
 
   return (
@@ -100,7 +103,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       </div>
 
       {/* ── HERO (H-01: 파티클 연등형) ── */}
-      {has(blocks, 'H-01') && (
+      {heroBlockType === 'H-01' && (
         <section className="hero" id="hero">
           <div className="hero-bg" />
           <canvas id="lanternCanvas" />
@@ -126,47 +129,47 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* ── HERO (H-02: 정지 이미지형) ── */}
-      {has(blocks, 'H-02') && (
+      {heroBlockType === 'H-02' && (
         <HeroImageBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-03: 슬라이드형) ── */}
-      {has(blocks, 'H-03') && (
+      {heroBlockType === 'H-03' && (
         <HeroSlideBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-04: 파티클 전용) ── */}
-      {has(blocks, 'H-04') && (
+      {heroBlockType === 'H-04' && (
         <HeroParticleBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-05: 연등 전용) ── */}
-      {has(blocks, 'H-05') && (
+      {heroBlockType === 'H-05' && (
         <HeroLanternBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-06: Lamp 광명형) ── */}
-      {has(blocks, 'H-06') && (
+      {heroBlockType === 'H-06' && (
         <HeroLampBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-07: 원형→그리드 변환형) ── */}
-      {has(blocks, 'H-07') && (
+      {heroBlockType === 'H-07' && (
         <HeroMorphGridBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-08: 드론 영상형) ── */}
-      {has(blocks, 'H-08') && (
+      {heroBlockType === 'H-08' && (
         <HeroVideoBlock temple={temple} blockData={h01} />
       )}
 
       {/* ── HERO (H-09: 명상 미니멀 타이포) ── */}
-      {has(blocks, 'H-09') && (
+      {heroBlockType === 'H-09' && (
         <HeroMinimalBlock temple={temple} blockData={h01} />
       )}
 
       {/* ── HERO (H-10: 사계절 자동 전환) ── */}
-      {has(blocks, 'H-10') && (
+      {heroBlockType === 'H-10' && (
         <HeroSeasonBlock temple={temple} blockData={h01} />
       )}
 
