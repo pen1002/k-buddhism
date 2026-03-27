@@ -16,7 +16,7 @@ import BlockRenderer from '@/components/blocks/BlockRenderer'
 import DharmaBlock from '@/components/blocks/DharmaBlock'
 import { getTodayDharma } from '@/lib/dharma-rotation'
 
-export const revalidate = 86400
+export const revalidate = 3600
 
 // ── 타입 ───────────────────────────────────────────────────────────────────
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
