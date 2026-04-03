@@ -1,0 +1,10 @@
+{
+  "framework": "astro",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "borimsa.k-buddhism.kr" }],
+      "destination": "https://k-buddhism.vercel.app/borimsa"
+    }
+  ]
+}
