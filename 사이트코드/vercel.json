@@ -1,10 +1,12 @@
 {
   "framework": "astro",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
+      "src": "/(.*)",
       "has": [{ "type": "host", "value": "borimsa.k-buddhism.kr" }],
-      "destination": "https://k-buddhism.vercel.app/borimsa"
-    }
+      "dest": "https://k-buddhism.vercel.app/borimsa"
+    },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "status": 404 }
   ]
 }
