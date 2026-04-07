@@ -1,0 +1,28 @@
+---
+// src/pages/[slug].astro — layout 분기 버전
+// 독립 HTML 페이지: src/pages/borimsa.html, src/pages/chunkwansa.html
+import { getCollection, getEntry, render } from 'astro:content';
+import TemplateLayout from '../layouts/TemplateLayout.astro';
+import CustomLayout   from '../layouts/CustomLayout.astro';
+
+export async function getStaticPaths() {
+  const STANDALONE_PAGES = new Set(['borimsa', 'chunkwansa', 'munsusa']);
+  const all = await getCollection('temples', e => e.data.active !== false);
+  return all
+    .filter(e => !STANDALONE_PAGES.has(e.id))
+    .map(e => ({ params: { slug: e.id } }));
+}
+
+const { slug } = Astro.params as { slug: string };
+
+const entry = await getEntry('temples', slug);
+if (!entry) return Astro.redirect('/404');
+
+const { Content } = await render(entry);
+const d = entry.data as any;
+---
+
+{d.page_type === 'custom'
+  ? <CustomLayout   data={d} Content={Content} />
+  : <TemplateLayout data={d} Content={Content} />
+}

@@ -9,14 +9,9 @@ import HeroParticleBlock from '@/components/hero/HeroParticleBlock'
 import HeroLanternBlock from '@/components/hero/HeroLanternBlock'
 import HeroLampBlock from '@/components/hero/HeroLampBlock'
 import HeroMorphGridBlock from '@/components/hero/HeroMorphGridBlock'
-import HeroVideoBlock from '@/components/blocks/hero/HeroVideoBlock'
-import HeroSeasonBlock from '@/components/blocks/hero/HeroSeasonBlock'
-import HeroMinimalBlock from '@/components/blocks/hero/HeroMinimalBlock'
 import BlockRenderer from '@/components/blocks/BlockRenderer'
-import DharmaBlock from '@/components/blocks/DharmaBlock'
-import { getTodayDharma } from '@/lib/dharma-rotation'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 // ── 타입 ───────────────────────────────────────────────────────────────────
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,9 +37,6 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
   if (!temple) notFound()
 
   const blocks = temple.blockConfigs as BlockDef[]
-
-  // 법륜 로직: 오늘의 법문 서버사이드 조회
-  const dharma = has(blocks, 'D-01') ? await getTodayDharma(temple.code) : null
   // 활성 히어로 블록 타입 자동 감지 (H-01 ~ H-07)
   const heroBlockType = (['H-01','H-02','H-03','H-04','H-05','H-06','H-07','H-08','H-09','H-10'] as const).find(t => has(blocks, t)) || 'H-01'
   const h01 = cfg(blocks, heroBlockType)   // hero config (어떤 H-* 타입이든 동일하게 읽음)
@@ -66,15 +58,10 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
     { href: '#visit', label: '오시는길', emoji: '🗺', show: has(blocks, 'V-01') || !!temple.address },
   ].filter(l => l.show)
 
-  const tier = temple.tier ?? 1
-  const showAdvanced = tier >= 2
-
-  const themeClass = temple.themeType || 'theme-2'
-
   return (
-    <div data-theme={themeClass}>
-      {/* 사찰별 컬러 테마 (primaryColor/secondaryColor override) */}
-      <style>{`:root{--temple-primary:${temple.primaryColor};--temple-secondary:${temple.secondaryColor};}`}</style>
+    <>
+      {/* 사찰별 컬러 테마 */}
+      <style>{`:root{--color-accent:${temple.primaryColor};--color-gold:${temple.secondaryColor};}`}</style>
 
       {/* ── NAV ── */}
       <nav className="nav" id="nav">
@@ -103,7 +90,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       </div>
 
       {/* ── HERO (H-01: 파티클 연등형) ── */}
-      {heroBlockType === 'H-01' && (
+      {has(blocks, 'H-01') && (
         <section className="hero" id="hero">
           <div className="hero-bg" />
           <canvas id="lanternCanvas" />
@@ -129,48 +116,33 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       )}
 
       {/* ── HERO (H-02: 정지 이미지형) ── */}
-      {heroBlockType === 'H-02' && (
+      {has(blocks, 'H-02') && (
         <HeroImageBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-03: 슬라이드형) ── */}
-      {heroBlockType === 'H-03' && (
+      {has(blocks, 'H-03') && (
         <HeroSlideBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-04: 파티클 전용) ── */}
-      {heroBlockType === 'H-04' && (
+      {has(blocks, 'H-04') && (
         <HeroParticleBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-05: 연등 전용) ── */}
-      {heroBlockType === 'H-05' && (
+      {has(blocks, 'H-05') && (
         <HeroLanternBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-06: Lamp 광명형) ── */}
-      {heroBlockType === 'H-06' && (
+      {has(blocks, 'H-06') && (
         <HeroLampBlock config={h01} temple={temple} />
       )}
 
       {/* ── HERO (H-07: 원형→그리드 변환형) ── */}
-      {heroBlockType === 'H-07' && (
+      {has(blocks, 'H-07') && (
         <HeroMorphGridBlock config={h01} temple={temple} />
-      )}
-
-      {/* ── HERO (H-08: 드론 영상형) ── */}
-      {heroBlockType === 'H-08' && (
-        <HeroVideoBlock temple={temple} blockData={h01} />
-      )}
-
-      {/* ── HERO (H-09: 명상 미니멀 타이포) ── */}
-      {heroBlockType === 'H-09' && (
-        <HeroMinimalBlock temple={temple} blockData={h01} />
-      )}
-
-      {/* ── HERO (H-10: 사계절 자동 전환) ── */}
-      {heroBlockType === 'H-10' && (
-        <HeroSeasonBlock temple={temple} blockData={h01} />
       )}
 
       {/* ── TICKER ── */}
@@ -193,13 +165,6 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ────────────────────────────────────────────────────────────────────
-       * 12대 전각 배치 표준 (1080사찰 영구 법도)
-       * 1.H-*  2.I-01  3.E-01  4.D-01  5.T-01(About)  6.T-02(Quote)
-       * 7.G-01  8.OF-01(기도불사동참·신규)  9.PAY-01(결제·미래)
-       * 10.QA-01  11.IG-01  12.P-01  + W-01·V-01(부가)
-       * ─────────────────────────────────────────────────────────────── */}
-
       {/* ── 2. 공지사항 (I-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['I-01']} />
 
@@ -207,9 +172,9 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
       <BlockRenderer temple={temple} blocks={blocks} only={['E-01']} />
 
       {/* ── 4. 오늘의 법문 (D-01) ── */}
-      {dharma && <DharmaBlock blockData={{ dharma }} />}
+      <BlockRenderer temple={temple} blocks={blocks} only={['D-01']} />
 
-      {/* ── 5. 사찰소개 T-01 — About Temple ── */}
+      {/* ── 5. 사찰소개 About Temple ── */}
       <section className="section" id="intro" style={{ background: 'var(--color-bg-alt)' }}>
         <div className="section-inner">
           <p className="section-label">About Temple</p>
@@ -245,7 +210,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       </section>
 
-      {/* ── 6. 주지스님 인사말 T-02 — Greeting ── */}
+      {/* ── 6. 주지스님 인사말 (QUOTE) ── */}
       {h01.quoteText && (
         <div className="quote-banner">
           <h2 style={{ whiteSpace: 'pre-line' }}>&ldquo;{h01.quoteText}&rdquo;</h2>
@@ -253,36 +218,26 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      {/* ── 7. 갤러리 G-01 ── */}
+      {/* ── 7. 갤러리 (G-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['G-01']} />
 
-      {/* ── 8. 기도불사동참 OF-01 (신규 공정 예정) ── */}
-      {/* <BlockRenderer temple={temple} blocks={blocks} only={['OF-01']} /> */}
-
-      {/* ── 10. 자료관 QA-01 ── */}
+      {/* ── 8. 자료관 (QA-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['QA-01']} />
 
-      {/* ── 11. 숫자로 보는 사찰 IG-01 ── */}
+      {/* ── 9. 숫자로 보는 사찰 (IG-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['IG-01']} />
 
-      {/* ── 12. 자비의 실천 네트워크 P-01 ── */}
+      {/* ── 10. 자비의 3대 실천 (P-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['P-01']} />
 
-      {/* ── 부가: 산하기관 W-01 ── */}
+      {/* ── 11. 산하기관 (W-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['W-01']} />
 
-      {/* ── 부가: 나눔동참 DO-01 ── */}
+      {/* ── 12. 나눔동참 (DO-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['DO-01']} />
 
-      {/* ── 부가: 오시는길 V-01 ── */}
+      {/* ── 13. 오시는길 (V-01) ── */}
       <BlockRenderer temple={temple} blocks={blocks} only={['V-01']} />
-
-      {/* ── SEC* 신규 전각 블록 (2차·3차 공정) — 레거시와 중복 없이 렌더링 ── */}
-      <BlockRenderer
-        temple={temple}
-        blocks={blocks}
-        except={['I-01','D-01','G-01','E-01','P-01','W-01','DO-01','V-01','QA-01','IG-01']}
-      />
 
       {/* ── FOOTER ── */}
       <footer className="footer">
@@ -329,7 +284,7 @@ export default async function SlugPage({ params }: { params: Promise<{ slug: str
 
       {/* ── CLIENT SCRIPTS ── */}
       <MunsusaClient />
-    </div>
+    </>
   )
 }
 

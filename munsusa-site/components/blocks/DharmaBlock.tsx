@@ -1,13 +1,30 @@
-// D-01 오늘의 법문 — 서버에서 전달받은 법문 데이터 표시
-import { DharmaData } from '@/lib/dharma-rotation'
+'use client'
+// D-01 오늘의 법문
+import { useEffect, useState } from 'react'
 
 interface Props {
-  blockData: { dharma?: DharmaData }
+  templeCode: string
 }
 
-export default function DharmaBlock({ blockData }: Props) {
-  const dharma = blockData?.dharma
-  if (!dharma) return null
+export default function DharmaBlock({ templeCode }: Props) {
+  const [dharmaText, setDharmaText] = useState<string | null>(null)
+  const [dharmaSource, setDharmaSource] = useState<string | null>(null)
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    fetch(`https://temple-admin-zeta.vercel.app/api/temple/${templeCode}/public`)
+      .then(r => r.json())
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then((data: any) => {
+        setDharmaText(data?.dharmaText || null)
+        setDharmaSource(data?.dharmaSource || null)
+        setLoaded(true)
+      })
+      .catch(() => setLoaded(true))
+  }, [templeCode])
+
+  // 로드 완료 후 법문 없으면 섹션 자체를 숨김
+  if (loaded && !dharmaText) return null
 
   return (
     <section className="section" id="dharma" style={{ background: 'var(--color-bg-alt)' }}>
@@ -16,12 +33,16 @@ export default function DharmaBlock({ blockData }: Props) {
         <h2 className="section-title">오늘의 법문</h2>
         <p className="section-desc">스님의 가르침으로 하루를 여세요</p>
         <div className="dharma-box">
-          <div className="fade-in visible">
-            <blockquote className="dharma-quote">{dharma.text}</blockquote>
-            {dharma.source && (
-              <p className="dharma-source">— {dharma.source}</p>
-            )}
-          </div>
+          {!loaded ? (
+            <p className="dharma-empty">법문을 불러오는 중입니다…</p>
+          ) : (
+            <div className="fade-in visible">
+              <blockquote className="dharma-quote">{dharmaText}</blockquote>
+              {dharmaSource && (
+                <p className="dharma-source">— {dharmaSource}</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </section>

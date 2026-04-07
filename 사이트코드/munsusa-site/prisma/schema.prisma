@@ -1,0 +1,228 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Temple {
+  id             String   @id @default(cuid())
+  code           String   @unique
+  name           String
+  nameEn         String?
+  description    String?  @db.Text
+  logoUrl        String?
+  heroImageUrl   String?
+  address        String?
+  phone          String?
+  email          String?
+  primaryColor   String   @default("#8B2500")
+  secondaryColor String   @default("#C5A572")
+  fontFamily     String   @default("Pretendard")
+  themeType      String   @default("theme-2")
+  customDomain   String?  @unique
+  subdomain      String?  @unique
+  denomination   String?
+  foundedYear    Int?
+  abbotName      String?
+  tier           Int      @default(1) // 1=기본, 2=표준, 3=프리미엄
+  status         String   @default("active") // active | pending | suspended
+  pin            String   @default("0000")   // 사찰 관리자 PIN
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  posts        Post[]
+  galleries    Gallery[]
+  events       Event[]
+  members      TempleMember[]
+  domainMaps   DomainMap[]
+  blockConfigs BlockConfig[]
+
+  @@index([code])
+  @@index([customDomain])
+}
+
+model DomainMap {
+  id        String   @id @default(cuid())
+  domain    String   @unique
+  templeId  String
+  temple    Temple   @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  @@index([domain])
+}
+
+model Post {
+  id          String       @id @default(cuid())
+  templeId    String
+  temple      Temple       @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String
+  content     String       @db.Text
+  excerpt     String?      @db.Text
+  coverImage  String?
+  category    PostCategory @default(NOTICE)
+  isPublished Boolean      @default(false)
+  publishedAt DateTime?
+  authorId    String?
+  author      User?        @relation(fields: [authorId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@unique([templeId, slug])
+  @@index([templeId, category])
+}
+
+enum PostCategory {
+  NOTICE
+  DHARMA_TALK
+  NEWS
+  COLUMN
+}
+
+model Gallery {
+  id          String         @id @default(cuid())
+  templeId    String
+  temple      Temple         @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  title       String
+  description String?        @db.Text
+  images      GalleryImage[]
+  isPublished Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  @@index([templeId])
+}
+
+model GalleryImage {
+  id        String  @id @default(cuid())
+  galleryId String
+  gallery   Gallery @relation(fields: [galleryId], references: [id], onDelete: Cascade)
+  url       String
+  alt       String?
+  width     Int?
+  height    Int?
+  order     Int     @default(0)
+  @@index([galleryId])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  templeId    String
+  temple      Temple   @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  title       String
+  description String?  @db.Text
+  location    String?
+  startDate   DateTime
+  endDate     DateTime?
+  isRecurring Boolean  @default(false)
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  @@index([templeId, startDate])
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole       @default(MEMBER)
+  accounts      Account[]
+  sessions      Session[]
+  posts         Post[]
+  templeMembers TempleMember[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  TEMPLE_ADMIN
+  EDITOR
+  MEMBER
+}
+
+model TempleMember {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  templeId  String
+  temple    Temple           @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  role      TempleMemberRole @default(VIEWER)
+  createdAt DateTime         @default(now())
+  @@unique([userId, templeId])
+  @@index([templeId])
+}
+
+enum TempleMemberRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  @@unique([identifier, token])
+}
+
+// ── 일일 법문 자동 순환 (법륜 로직) ──────────────────────
+model DharmaQuote {
+  id          Int      @id @default(autoincrement())
+  dayIndex    Int      @unique  // 1~365 (Day of Year), 901+ 기념일 전용
+  text        String   @db.Text
+  source      String?
+  category    String?  // compassion/wisdom/practice/devotion/karma/generosity/gratitude
+  isSpecial   Boolean  @default(false)
+  specialDate String?  // MM-DD 형식 (양력), 불교 기념일 전용
+  createdAt   DateTime @default(now())
+}
+
+// ── 모듈형 블록 빌더 ──────────────────────────────
+// 각 사찰 홈페이지를 구성하는 블록(섹션)의 설정을 JSON으로 저장.
+// blockType: "hero" | "notice" | "gallery" | "dharma" | "schedule" | "map" | "donation" 등
+model BlockConfig {
+  id        String   @id @default(cuid())
+  templeId  String
+  temple    Temple   @relation(fields: [templeId], references: [id], onDelete: Cascade)
+  blockType String   // 블록 종류 식별자
+  label     String?  // 관리자용 표시 이름 (예: "메인 갤러리")
+  order     Int      @default(0)   // 페이지 내 노출 순서
+  isVisible Boolean  @default(true)
+  config    Json     @default("{}")  // 블록별 세부 설정 (색상, 텍스트, 이미지 URL 등)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([templeId, order])
+  @@index([templeId, blockType])
+}

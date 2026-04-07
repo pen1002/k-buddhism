@@ -20,7 +20,7 @@ function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!slug.trim() || pin.length < 4) return
+    if (!slug.trim() || pin.length !== 4) return
 
     setLoading(true)
     setError('')
@@ -105,22 +105,22 @@ function LoginForm() {
           {/* PIN 입력 */}
           <div>
             <label className="block text-temple-brown font-bold text-lg mb-2">
-              비밀번호
+              비밀번호 (4자리)
             </label>
             <input
               ref={pinRef}
               type="password"
               inputMode="numeric"
               pattern="[0-9]*"
-              maxLength={8}
+              maxLength={4}
               value={pin}
-              onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 8))}
+              onChange={e => setPin(e.target.value.replace(/\D/g, '').slice(0, 4))}
               placeholder="• • • •"
               className="input-field text-center text-2xl tracking-[0.5em]"
               required
               autoComplete="current-password"
             />
-            <p className="text-gray-500 text-base mt-1">숫자 4~8자리를 입력하세요</p>
+            <p className="text-gray-500 text-base mt-1">숫자 4자리를 입력하세요</p>
           </div>
 
           {/* PIN 숫자 패드 */}
@@ -133,7 +133,7 @@ function LoginForm() {
                 onClick={() => {
                   if (key === '⌫') {
                     setPin(p => p.slice(0, -1))
-                  } else if (key && pin.length < 8) {
+                  } else if (key && pin.length < 4) {
                     setPin(p => p + key)
                   }
                 }}
@@ -150,11 +150,11 @@ function LoginForm() {
           </div>
 
           {/* PIN 인디케이터 */}
-          <div className="flex justify-center gap-3 py-1">
-            {Array.from({ length: pin.length || 4 }).map((_, i) => (
+          <div className="flex justify-center gap-4 py-1">
+            {[0, 1, 2, 3].map(i => (
               <div
                 key={i}
-                className={`w-3.5 h-3.5 rounded-full border-2 transition-all ${
+                className={`w-4 h-4 rounded-full border-2 transition-all ${
                   pin.length > i
                     ? 'bg-temple-gold border-temple-gold'
                     : 'bg-transparent border-gray-400'
@@ -165,7 +165,7 @@ function LoginForm() {
 
           <button
             type="submit"
-            disabled={!slug.trim() || pin.length < 4}
+            disabled={!slug.trim() || pin.length !== 4}
             className="btn-primary text-xl py-5 disabled:opacity-40"
           >
             🔓 로그인

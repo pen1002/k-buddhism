@@ -1,0 +1,256 @@
+{
+  "temple": {
+    "code": "tongdosa",
+    "name": "통도사",
+    "nameEn": "Tongdosa Temple",
+    "denomination": "대한불교 조계종 제15교구 본사",
+    "description": "신라 선덕여왕 15년(646년) 자장율사가 창건. 부처님 진신사리와 가사를 봉안한 불보종찰. 대웅전에 불상 없이 금강계단을 예배 대상으로 모시는 한국 유일의 사찰. 2018년 유네스코 세계문화유산 등재.",
+    "address": "경상남도 양산시 하북면 통도사로 108",
+    "phone": "055-382-7182",
+    "abbotName": "현덕 스님",
+    "foundedYear": 646,
+    "primaryColor": "#1B3A6B",
+    "secondaryColor": "#D4AF37",
+    "tier": 3
+  },
+  "blocks": [
+    {
+      "blockType": "H-03",
+      "label": "슬라이드형 히어로",
+      "order": 1,
+      "isVisible": true,
+      "config": {
+        "heroTitle": "통도사",
+        "heroHanja": "通 度 寺",
+        "badge": "☸ 불보종찰 · 유네스코 세계문화유산",
+        "heroDesc": "진신사리를 모신 금강계단, 적멸보궁의 성지",
+        "ticker": ["☸ 불보종찰 통도사", "✦ 신라 646년 자장율사 창건", "✦ 유네스코 세계문화유산 2018"],
+        "slides": ["상로전", "중로전", "하로전", "금강계단"],
+        "stats": [
+          { "value": "646년", "label": "창건" },
+          { "value": "65동", "label": "전각" },
+          { "value": "세계유산", "label": "UNESCO" }
+        ],
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "T-01",
+      "label": "전각 배치도",
+      "order": 2,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "경내 전각 배치도",
+        "zones": ["상로전", "중로전", "하로전"],
+        "halls": [
+          "대웅전(적멸보궁·금강계단)", "관음전", "용화전",
+          "대광명전", "명부전", "응진전", "삼성각",
+          "구룡지", "일주문", "천왕문", "불이문"
+        ],
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "T-02",
+      "label": "전각 상세 카드",
+      "order": 3,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "주요 전각 안내",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "T-03",
+      "label": "문화재 갤러리",
+      "order": 4,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "국보 · 보물 문화재",
+        "heritage": [
+          {
+            "grade": "국보",
+            "number": "제290호",
+            "name": "대웅전 및 금강계단",
+            "desc": "불상 없이 진신사리를 모신 한국 유일의 대웅전"
+          },
+          {
+            "grade": "보물",
+            "number": "21건",
+            "name": "각종 불교문화재",
+            "desc": "봉발탑·은입사동제향완·삼층석탑 등 보물 21건 소장"
+          }
+        ],
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "T-04",
+      "label": "사찰 연혁",
+      "order": 5,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "통도사 연혁",
+        "milestones": [
+          { "year": "646",  "text": "자장율사 창건 · 금강계단 봉안" },
+          { "year": "1085", "text": "고려 선종 2년 중창" },
+          { "year": "1601", "text": "임진왜란 후 사명대사 중건" },
+          { "year": "2018", "text": "유네스코 세계문화유산 등재" }
+        ],
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "L-01",
+      "label": "음력 달력",
+      "order": 6,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "법회 일정",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "L-04",
+      "label": "재일 기도",
+      "order": 7,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "관음재일 · 지장재일",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "L-05",
+      "label": "D-Day 카운트",
+      "order": 8,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "특별 법회 D-Day",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-01",
+      "label": "백일기도",
+      "order": 9,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "기도 · 불공 안내",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-03",
+      "label": "천일기도",
+      "order": 10,
+      "isVisible": true,
+      "config": {
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-07",
+      "label": "인등 접수",
+      "order": 11,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "인등 · 등공양 접수",
+        "desc": "진신사리 봉안 성지, 등공양 동참 안내",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-09",
+      "label": "초하루 불공",
+      "order": 12,
+      "isVisible": true,
+      "config": {
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "P-10",
+      "label": "보름 불공",
+      "order": 13,
+      "isVisible": true,
+      "config": {
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "E-01",
+      "label": "행사 안내",
+      "order": 14,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "법회 · 행사 안내",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "E-04",
+      "label": "템플스테이",
+      "order": 15,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "영축총림 템플스테이",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "B-01",
+      "label": "불사 목표 그래프",
+      "order": 16,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "불사 동참",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "G-01",
+      "label": "갤러리",
+      "order": 17,
+      "isVisible": true,
+      "config": {
+        "title": "영축산 통도사",
+        "columns": 3,
+        "limit": 9,
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "G-03",
+      "label": "유튜브 법문",
+      "order": 18,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "현덕 스님 법문",
+        "channelName": "통도사",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "C-02",
+      "label": "카카오페이",
+      "order": 19,
+      "isVisible": true,
+      "config": {
+        "sectionTitle": "시주 · 동참",
+        "source": "kv"
+      }
+    },
+    {
+      "blockType": "C-04",
+      "label": "무통장 안내",
+      "order": 20,
+      "isVisible": true,
+      "config": {
+        "bankName": "농협",
+        "accountHolder": "통도사",
+        "source": "kv"
+      }
+    }
+  ]
+}

@@ -22,7 +22,7 @@ export default async function SuperDashboard() {
     include: { _count: { select: { blockConfigs: true } } },
   })
 
-  const toRow = (t: typeof temples[number]) => ({
+  const rows = temples.map(t => ({
     id: t.id,
     code: t.code,
     name: t.name,
@@ -31,7 +31,6 @@ export default async function SuperDashboard() {
     tierLabel: TIER_LABEL[t.tier] ?? `Tier ${t.tier}`,
     tierColor: TIER_COLOR[t.tier] ?? '#6B7280',
     isActive: t.isActive,
-    status: t.status,
     address: t.address ?? '',
     phone: t.phone ?? '',
     denomination: t.denomination ?? '',
@@ -39,10 +38,7 @@ export default async function SuperDashboard() {
     primaryColor: t.primaryColor,
     blockCount: t._count.blockConfigs,
     createdAt: t.createdAt.toLocaleDateString('ko-KR'),
-  })
-
-  const activeRows = temples.filter(t => t.status !== 'pending').map(toRow)
-  const pendingRows = temples.filter(t => t.status === 'pending').map(toRow)
+  }))
 
   return (
     <div className="min-h-screen" style={{ background: '#1a0f08' }}>
@@ -51,14 +47,7 @@ export default async function SuperDashboard() {
         <div>
           <p className="text-temple-gold text-base">108사찰 플랫폼</p>
           <h1 className="text-2xl font-bold text-white mt-1">통합 관제 시스템</h1>
-          <p className="text-gray-400 text-base mt-0.5">
-            등록 {activeRows.length}개
-            {pendingRows.length > 0 && (
-              <span className="ml-2 bg-red-600 text-white text-sm font-bold px-2 py-0.5 rounded-full">
-                신규 {pendingRows.length}
-              </span>
-            )}
-          </p>
+          <p className="text-gray-400 text-base mt-0.5">등록 사찰 {temples.length}개</p>
         </div>
         <div className="flex flex-col gap-2 items-end">
           <a
@@ -71,9 +60,10 @@ export default async function SuperDashboard() {
         </div>
       </div>
 
-      {/* 사찰 그리드 (탭 포함) */}
+      {/* 사찰 그리드 */}
       <div className="bg-temple-cream rounded-t-3xl px-4 pt-6 pb-20 min-h-[70vh]">
-        <TempleGrid temples={activeRows} pendingTemples={pendingRows} />
+        <p className="text-gray-500 text-base mb-4 text-center">사찰을 선택해 관리하세요</p>
+        <TempleGrid temples={rows} />
       </div>
     </div>
   )

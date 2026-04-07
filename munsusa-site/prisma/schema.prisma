@@ -22,15 +22,12 @@ model Temple {
   primaryColor   String   @default("#8B2500")
   secondaryColor String   @default("#C5A572")
   fontFamily     String   @default("Pretendard")
-  themeType      String   @default("theme-2")
   customDomain   String?  @unique
   subdomain      String?  @unique
   denomination   String?
   foundedYear    Int?
   abbotName      String?
   tier           Int      @default(1) // 1=기본, 2=표준, 3=프리미엄
-  status         String   @default("active") // active | pending | suspended
-  pin            String   @default("0000")   // 사찰 관리자 PIN
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -194,18 +191,6 @@ model VerificationToken {
   token      String   @unique
   expires    DateTime
   @@unique([identifier, token])
-}
-
-// ── 일일 법문 자동 순환 (법륜 로직) ──────────────────────
-model DharmaQuote {
-  id          Int      @id @default(autoincrement())
-  dayIndex    Int      @unique  // 1~365 (Day of Year), 901+ 기념일 전용
-  text        String   @db.Text
-  source      String?
-  category    String?  // compassion/wisdom/practice/devotion/karma/generosity/gratitude
-  isSpecial   Boolean  @default(false)
-  specialDate String?  // MM-DD 형식 (양력), 불교 기념일 전용
-  createdAt   DateTime @default(now())
 }
 
 // ── 모듈형 블록 빌더 ──────────────────────────────
