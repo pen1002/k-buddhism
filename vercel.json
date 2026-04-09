@@ -1,3 +1,25 @@
 {
-  "framework": "astro"
+  "framework": "astro",
+  "redirects": [
+    { "source": "/borimsa",      "destination": "https://borimsa.k-buddhism.kr",      "permanent": true },
+    { "source": "/cheongwansa",  "destination": "https://cheongwansa.k-buddhism.kr",  "permanent": true },
+    { "source": "/haeinsa",      "destination": "https://haeinsa.k-buddhism.kr",      "permanent": true },
+    { "source": "/tongdosa",     "destination": "https://tongdosa.k-buddhism.kr",     "permanent": true },
+    { "source": "/songgwangsa",  "destination": "https://songgwangsa.k-buddhism.kr",  "permanent": true },
+    { "source": "/beopjusa",     "destination": "https://beopjusa.k-buddhism.kr",     "permanent": true },
+    { "source": "/busoksa",      "destination": "https://busoksa.k-buddhism.kr",      "permanent": true },
+    { "source": "/seonunsa",     "destination": "https://seonunsa.k-buddhism.kr",     "permanent": true },
+    { "source": "/daeheungsa",   "destination": "https://daeheungsa.k-buddhism.kr",   "permanent": true },
+    { "source": "/jikjisa",      "destination": "https://jikjisa.k-buddhism.kr",      "permanent": true },
+    { "source": "/guinsa",       "destination": "https://guinsa.k-buddhism.kr",       "permanent": true },
+    { "source": "/seonamsa",     "destination": "https://seonamsa.k-buddhism.kr",     "permanent": true },
+    { "source": "/bongeunsa",    "destination": "https://bongeunsa.k-buddhism.kr",    "permanent": true },
+    { "source": "/mihwangsa",    "destination": "https://mihwangsa.k-buddhism.kr",    "permanent": true },
+    { "source": "/wonggaksa",    "destination": "https://wonggaksa.k-buddhism.kr",    "permanent": true },
+    { "source": "/woljeongsa",   "destination": "https://woljeongsa.k-buddhism.kr",   "permanent": true },
+    { "source": "/baengnyangsa", "destination": "https://baengnyangsa.k-buddhism.kr", "permanent": true },
+    { "source": "/golgulsa",     "destination": "https://golgulsa.k-buddhism.kr",     "permanent": true },
+    { "source": "/bulgwangsa",   "destination": "https://bulgwangsa.k-buddhism.kr",   "permanent": true },
+    { "source": "/gwansimsa",    "destination": "https://gwansimsa.k-buddhism.kr",    "permanent": true }
+  ]
 }
