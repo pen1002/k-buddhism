@@ -15,6 +15,65 @@ import HeroMinimalBlock from '@/components/blocks/hero/HeroMinimalBlock'
 import BlockRenderer from '@/components/blocks/BlockRenderer'
 import DharmaBlock from '@/components/blocks/DharmaBlock'
 import { getTodayDharma } from '@/lib/dharma-rotation'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params
+
+  const temple = await db.temple.findUnique({
+    where: { code: slug, isActive: true },
+    select: {
+      name: true,
+      denomination: true,
+      address: true,
+      description: true,
+      heroImageUrl: true,
+      customDomain: true,
+    },
+  })
+
+  if (!temple) {
+    return {
+      title: '사찰 정보 없음',
+      robots: { index: false, follow: false },
+    }
+  }
+
+  const region = temple.address?.split(' ').slice(0, 2).join(' ') ?? ''
+  const titleSuffix = [region, temple.denomination].filter(Boolean).join(' ')
+  const title = titleSuffix ? `${temple.name} | ${titleSuffix}` : temple.name
+
+  const description = temple.description?.trim()
+    || (temple.address && temple.denomination
+        ? `${temple.address}에 위치한 ${temple.denomination} ${temple.name}입니다.`
+        : `${temple.name} 공식 홈페이지입니다.`)
+
+  const canonicalUrl = temple.customDomain
+    ? `https://${temple.customDomain}`
+    : undefined
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title: temple.name,
+      description,
+      images: temple.heroImageUrl ? [{ url: temple.heroImageUrl }] : [],
+      type: 'website',
+      locale: 'ko_KR',
+      ...(canonicalUrl && { url: canonicalUrl }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: temple.name,
+      description,
+    },
+    robots: { index: true, follow: true },
+    ...(canonicalUrl && { alternates: { canonical: canonicalUrl } }),
+  }
+}
 
 export const revalidate = 3600
 
