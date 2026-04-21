@@ -75,6 +75,7 @@ export async function generateMetadata(
   }
 }
 
+export const dynamic = 'force-dynamic'
 export const revalidate = 3600
 
 // ── 타입 ───────────────────────────────────────────────────────────────────
