@@ -69,6 +69,7 @@ function generateCode(name: string): string {
 async function uploadImage(file: File): Promise<string> {
   let compressed: File | Blob = file
   try {
+    // @ts-ignore - browser-image-compression types 이슈
     const mod = await import('browser-image-compression')
     const compress = mod.default ?? mod
     compressed = await compress(file, { maxSizeMB: 1, maxWidthOrHeight: 1920, useWebWorker: true })
