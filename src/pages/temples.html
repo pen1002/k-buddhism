@@ -23,8 +23,8 @@ a { color:inherit; text-decoration:none; }
   border-bottom:1px solid var(--border); padding:0 24px; height:56px;
   display:flex; align-items:center; justify-content:space-between;
 }
-.nav-logo { font-family:var(--font-serif); font-size:1rem; font-weight:700; color:#fff; }
-.nav-logo span { color:var(--accent); margin-left:6px; font-size:.8rem; font-weight:400; }
+.nav-logo { display:flex; align-items:center; }
+.nav-logo img { height:32px; width:auto; }
 .nav-back { font-size:.82rem; color:var(--text-dim); padding:8px 16px; border:1px solid var(--border); border-radius:20px; transition:.3s; }
 .nav-back:hover { border-color:var(--accent); color:var(--accent); }
 .main { max-width:800px; margin:0 auto; padding:100px 24px 60px; }
@@ -60,7 +60,7 @@ a { color:inherit; text-decoration:none; }
 </head>
 <body>
 <nav class="nav">
-  <a href="/" class="nav-logo">K-Buddhism <span>사찰 네트워크</span></a>
+  <a href="/" class="nav-logo"><img src="/images/logo.png" alt="절로" /></a>
   <a href="/" class="nav-back">← 메인으로</a>
 </nav>
 <div class="main">
